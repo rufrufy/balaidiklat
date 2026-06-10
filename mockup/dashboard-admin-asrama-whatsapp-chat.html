@@ -1,0 +1,1573 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Admin — Asrama BKPP + WhatsApp Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Ubuntu+Mono:wght@400;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #072C2C;
+      --secondary: #FF5F03;
+      --success: #16A34A;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --surface: #EDEADE;
+      --surface-2: #F8F6EF;
+      --text: #111827;
+      --muted: #667085;
+      --border: rgba(7, 44, 44, .16);
+      --white: #ffffff;
+      --font-display: "Oswald", system-ui, sans-serif;
+      --font-body: "Ubuntu", system-ui, sans-serif;
+      --font-mono: "Ubuntu Mono", ui-monospace, monospace;
+      --radius: 20px;
+      --shadow: 0 18px 50px rgba(7, 44, 44, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface-2);
+    }
+
+    h1, h2, h3, h4, h5, .display-font {
+      font-family: var(--font-display);
+      color: var(--primary);
+      letter-spacing: -.015em;
+    }
+
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 292px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--primary);
+      color: #fff;
+      padding: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+      margin-bottom: 22px;
+    }
+
+    .brand-mark {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid rgba(255,255,255,.24);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      line-height: 1.05;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .brand-subtitle {
+      color: rgba(255,255,255,.66);
+      font-size: .8rem;
+    }
+
+    .sidebar .nav-link {
+      color: rgba(255,255,255,.8);
+      border-radius: 14px;
+      padding: .86rem 1rem;
+      margin-bottom: 7px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      text-align: left;
+      width: 100%;
+      background: transparent;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      color: #fff;
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .sidebar-foot {
+      margin-top: 28px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.78);
+    }
+
+    .main {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .topbar {
+      background: rgba(237, 234, 222, .9);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 34px rgba(7,44,44,.06);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: .84rem;
+    }
+
+    .btn-primary-enterprise {
+      --bs-btn-bg: var(--primary);
+      --bs-btn-border-color: var(--primary);
+      --bs-btn-hover-bg: #0B3A3A;
+      --bs-btn-hover-border-color: #0B3A3A;
+      --bs-btn-color: #fff;
+      --bs-btn-border-radius: 999px;
+      font-weight: 800;
+      padding: .78rem 1.1rem;
+    }
+
+    .btn-secondary-enterprise {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 800;
+      padding: .78rem 1.1rem;
+    }
+
+    .btn-secondary-enterprise:hover {
+      background: #E25200;
+      border-color: #E25200;
+      color: #fff;
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.72);
+      color: var(--primary);
+      border-radius: 999px;
+      font-weight: 800;
+      padding: .78rem 1.1rem;
+    }
+
+    .btn-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--primary);
+      display: inline-grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .card-enterprise {
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 34px rgba(7,44,44,.08);
+    }
+
+    .stat-card {
+      height: 100%;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 10px 28px rgba(7,44,44,.06);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: .92rem;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      color: var(--primary);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      margin: 8px 0 12px;
+    }
+
+    .badge-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: .45rem .72rem;
+      font-weight: 800;
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .badge-success-soft { color: #08612A; background: rgba(22,163,74,.12); }
+    .badge-warning-soft { color: #7A4204; background: rgba(217,119,6,.14); }
+    .badge-danger-soft { color: #8C1616; background: rgba(220,38,38,.12); }
+    .badge-primary-soft { color: var(--primary); background: rgba(7,44,44,.1); }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(7,44,44,.12);
+    }
+
+    .progress-bar {
+      background: var(--secondary);
+      border-radius: 999px;
+    }
+
+    .table {
+      --bs-table-bg: transparent;
+      vertical-align: middle;
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .78rem;
+      color: var(--muted);
+      border-bottom-color: var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      border-bottom-color: rgba(7,44,44,.08);
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: .78rem .92rem;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 .22rem rgba(7,44,44,.15);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    .room-tile {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: #fff;
+      height: 100%;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .room-tile:hover {
+      transform: translateY(-2px);
+      border-color: rgba(7,44,44,.32);
+    }
+
+    .room-code {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: var(--primary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .chat-list {
+      max-height: 720px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .chat-contact {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .chat-contact:hover,
+    .chat-contact.active {
+      border-color: var(--primary);
+      box-shadow: 0 10px 28px rgba(7,44,44,.08);
+    }
+
+    .chat-window {
+      min-height: 720px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255,95,3,.08), transparent 30%),
+        rgba(237,234,222,.42);
+      overflow: auto;
+    }
+
+    .message-row {
+      display: flex;
+      margin-bottom: 12px;
+    }
+
+    .message-row.inbound { justify-content: flex-start; }
+    .message-row.outbound { justify-content: flex-end; }
+
+    .bubble {
+      max-width: min(620px, 88%);
+      border-radius: 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+    }
+
+    .inbound .bubble {
+      background: #fff;
+      color: var(--text);
+      border-top-left-radius: 6px;
+    }
+
+    .outbound .bubble {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      border-top-right-radius: 6px;
+    }
+
+    .bubble-meta {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      opacity: .72;
+      margin-top: 6px;
+    }
+
+    .chat-compose {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+    }
+
+    .state-chip {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+      height: 100%;
+    }
+
+    .state-node {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      height: 100%;
+    }
+
+    .state-arrow {
+      color: var(--secondary);
+      font-family: var(--font-mono);
+      font-weight: 800;
+    }
+
+    .json-box {
+      background: #071F1F;
+      color: #D8FFF1;
+      border-radius: 16px;
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: .84rem;
+      overflow: auto;
+      max-height: 260px;
+      white-space: pre;
+    }
+
+    .mobile-sidebar-toggle { display: none; }
+
+    @media (max-width: 1199.98px) {
+      .chat-layout { grid-template-columns: 1fr; }
+      .chat-window { min-height: 620px; }
+    }
+
+    @media (max-width: 991.98px) {
+      .admin-shell { grid-template-columns: 1fr; }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 292px;
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform .22s ease;
+      }
+
+      .sidebar.open { transform: translateX(0); }
+
+      .mobile-sidebar-toggle { display: inline-grid; }
+
+      .main { padding: 18px; }
+    }
+
+    @media (max-width: 575.98px) {
+      .topbar { border-radius: 18px; }
+      .table-responsive { border-radius: 16px; }
+      .bubble { max-width: 94%; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-row">
+      <span class="brand-mark">
+        <img src="mq5yol28-images.png" alt="Logo Pemkot Semarang">
+      </span>
+      <div>
+        <div class="brand-title">Admin Asrama BKPP</div>
+        <div class="brand-subtitle">Kota Semarang</div>
+      </div>
+    </div>
+
+    <nav class="nav flex-column">
+      <button class="nav-link active" type="button" data-section="dashboard">Dashboard</button>
+      <button class="nav-link" type="button" data-section="kamar">Manajemen Kamar</button>
+      <button class="nav-link" type="button" data-section="reservasi">Manajemen Reservasi</button>
+      <button class="nav-link" type="button" data-section="whatsapp">Manajemen WhatsApp Chat</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="mono small mb-2">Laravel 12/13</div>
+      <strong class="d-block text-white">resources/views/admin</strong>
+      <div class="small mt-2">Logo: `asset('design-files/mq5yol28-images.png')`.</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn-icon mobile-sidebar-toggle" id="openSidebar" type="button">☰</button>
+        <div>
+          <div class="eyebrow">Dashboard pengelola</div>
+          <h1 class="h2 mb-0">Asrama Balai Diklat BKPP Kota Semarang</h1>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-sm-row gap-2">
+        <button class="btn btn-ghost" type="button" id="copyReport">Salin Laporan</button>
+        <button class="btn btn-secondary-enterprise" type="button" data-bs-toggle="modal" data-bs-target="#reservationModal">Tambah Reservasi</button>
+      </div>
+    </div>
+
+    <section id="dashboard" class="page-section active">
+      <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Reservasi masuk</div>
+            <div class="stat-value" id="statReservations">18</div>
+            <span class="badge-soft badge-warning-soft">8 menunggu</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Okupansi</div>
+            <div class="stat-value">86%</div>
+            <div class="progress"><div class="progress-bar" style="width:86%"></div></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Kamar aktif</div>
+            <div class="stat-value" id="statRooms">32</div>
+            <span class="badge-soft badge-success-soft">Siap pakai</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Chat aktif</div>
+            <div class="stat-value" id="statChats">4</div>
+            <span class="badge-soft badge-primary-soft">KirimChat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-xl-8">
+          <div class="card-enterprise p-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+              <div>
+                <h2 class="h3 mb-1">Reservasi terbaru</h2>
+                <p class="text-muted mb-0">Permohonan dari WhatsApp, dicatat admin.</p>
+              </div>
+              <button class="btn btn-primary-enterprise" type="button" data-section-shortcut="reservasi">Kelola Reservasi</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Kegiatan</th>
+                    <th>Instansi</th>
+                    <th>Peserta</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <div class="card-enterprise p-4 h-100">
+            <h2 class="h3 mb-3">KirimChat status</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span>Webhook inbound</span>
+              <span class="badge-soft badge-success-soft">Aktif</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span>API send</span>
+              <span class="badge-soft badge-success-soft">Ready</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span>24-hour window</span>
+              <span class="badge-soft badge-warning-soft">3 chat</span>
+            </div>
+            <button class="btn btn-ghost w-100" type="button" data-section-shortcut="whatsapp">Buka WhatsApp Chat</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kamar" class="page-section">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+        <div>
+          <div class="eyebrow">Manajemen kamar</div>
+          <h2 class="display-5 mb-0">Kamar, kapasitas, status hunian.</h2>
+        </div>
+        <button class="btn btn-secondary-enterprise" type="button" data-bs-toggle="modal" data-bs-target="#roomModal">Tambah Kamar</button>
+      </div>
+
+      <div class="card-enterprise p-4 mb-4">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label fw-bold">Cari kamar</label>
+            <input id="roomSearch" class="form-control" placeholder="Kode / nama / gedung">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold">Status</label>
+            <select id="roomStatusFilter" class="form-select">
+              <option value="all">Semua status</option>
+              <option value="available">Tersedia</option>
+              <option value="limited">Terbatas</option>
+              <option value="full">Penuh</option>
+              <option value="maintenance">Perawatan</option>
+            </select>
+          </div>
+          <div class="col-md-4 d-flex align-items-end justify-content-md-end">
+            <span class="badge-soft badge-primary-soft" id="roomCount">0 kamar</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="roomGrid" class="row g-3 mb-4"></div>
+
+      <div class="card-enterprise p-4">
+        <h3 class="mb-3">Tabel kamar</h3>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Nama</th>
+                <th>Gedung</th>
+                <th>Jenis</th>
+                <th>Kapasitas</th>
+                <th>Tersedia</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="roomTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="reservasi" class="page-section">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+        <div>
+          <div class="eyebrow">Manajemen reservasi</div>
+          <h2 class="display-5 mb-0">Verifikasi booking dari WhatsApp.</h2>
+        </div>
+        <a class="btn btn-secondary-enterprise" id="waReplyLink" href="#" target="_blank" rel="noopener">Balas WhatsApp</a>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-xl-8">
+          <div class="card-enterprise p-4">
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Cari reservasi</label>
+                <input id="reservationSearch" class="form-control" placeholder="Kode / kegiatan / instansi">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold">Status</label>
+                <select id="reservationStatusFilter" class="form-select">
+                  <option value="all">Semua status</option>
+                  <option value="pending">Menunggu</option>
+                  <option value="approved">Disetujui</option>
+                  <option value="rejected">Ditolak</option>
+                </select>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-ghost w-100" id="exportCsv" type="button">CSV</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Kegiatan</th>
+                    <th>Instansi</th>
+                    <th>Tanggal</th>
+                    <th>Peserta</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="reservationTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <div class="card-enterprise p-4">
+            <div class="mono text-muted" id="detailCode">BKPP-2026-0018</div>
+            <h3 id="detailTitle">Diklat Manajemen ASN</h3>
+            <p class="text-muted mb-3" id="detailMeta">Badan Kepegawaian Daerah • 12 peserta</p>
+
+            <label class="form-label fw-bold">Alokasi kamar</label>
+            <select id="allocationRoom" class="form-select mb-3"></select>
+
+            <label class="form-label fw-bold">Catatan admin</label>
+            <textarea id="adminNote" class="form-control mb-3" rows="4" placeholder="Contoh: Disetujui. Kamar A-203. Check-in pukul 14.00 WIB."></textarea>
+
+            <div class="d-grid gap-2">
+              <button id="approveReservation" class="btn btn-primary-enterprise" type="button">Setujui</button>
+              <button id="rejectReservation" class="btn btn-ghost" type="button">Tolak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="whatsapp" class="page-section">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+        <div>
+          <div class="eyebrow">Manajemen WhatsApp Chat</div>
+          <h2 class="display-5 mb-0">Session, pesan, menu bot KirimChat.</h2>
+        </div>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+          <button class="btn btn-ghost" id="copyWebhook" type="button">Salin Webhook URL</button>
+          <button class="btn btn-secondary-enterprise" type="button" data-bs-toggle="modal" data-bs-target="#sendChatModal">Kirim Pesan</button>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Whatsapp sessions</div>
+            <div class="stat-value" id="waSessionCount">4</div>
+            <span class="badge-soft badge-primary-soft">whatsapp_sessions</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Pesan hari ini</div>
+            <div class="stat-value" id="waMessageCount">12</div>
+            <span class="badge-soft badge-success-soft">inbound/outbound</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">State aktif</div>
+            <div class="stat-value">5</div>
+            <span class="badge-soft badge-warning-soft">main_menu+</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-label">Fallback error</div>
+            <div class="stat-value">2</div>
+            <span class="badge-soft badge-danger-soft">Input salah</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-layout mb-4">
+        <div class="card-enterprise p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="h4 mb-0">Session chat</h3>
+            <span class="badge-soft badge-primary-soft">DB</span>
+          </div>
+          <input id="chatSearch" class="form-control mb-3" placeholder="Cari nomor / state">
+          <div id="chatList" class="chat-list"></div>
+        </div>
+
+        <div class="card-enterprise chat-window">
+          <div class="chat-header">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+              <div>
+                <div class="mono text-muted" id="chatPhone">628123456789</div>
+                <h3 class="mb-1" id="chatName">Peserta Diklat</h3>
+                <div id="chatStateBadge" class="badge-soft badge-primary-soft">main_menu</div>
+              </div>
+              <div class="text-md-end">
+                <div class="small text-muted">Last message</div>
+                <strong id="chatLast">10 Jun 2026 09:24</strong>
+              </div>
+            </div>
+          </div>
+
+          <div id="chatBody" class="chat-body"></div>
+
+          <div class="chat-compose">
+            <div class="row g-2 align-items-end">
+              <div class="col-lg-4">
+                <label class="form-label fw-bold">Quick reply</label>
+                <select id="quickReply" class="form-select">
+                  <option value="main_menu">Menu utama</option>
+                  <option value="harga_kamar">Harga kamar</option>
+                  <option value="cek_booking">Cek booking</option>
+                  <option value="custom">Custom</option>
+                </select>
+              </div>
+              <div class="col-lg-6">
+                <label class="form-label fw-bold">Pesan outbound</label>
+                <textarea id="outboundText" class="form-control" rows="2">Halo, silakan pilih layanan:
+
+1. Layanan pesan
+2. Harga kamar
+3. Cek booking
+
+Ketik angka pilihan Anda.</textarea>
+              </div>
+              <div class="col-lg-2">
+                <button id="sendOutbound" class="btn btn-primary-enterprise w-100" type="button">Kirim</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-xl-7">
+          <div class="card-enterprise p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <h3 class="mb-1">Flow menu bertingkat</h3>
+                <p class="text-muted mb-0">Sesuai struktur state di `WhatsappSession`.</p>
+              </div>
+              <span class="badge-soft badge-success-soft">Text menu MVP</span>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="state-node">
+                  <div class="mono text-muted">state</div>
+                  <h4>main_menu</h4>
+                  <p class="small text-muted mb-2">Input: menu, start, mulai, halo</p>
+                  <div class="small">1. Layanan pesan<br>2. Harga kamar<br>3. Cek booking</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="state-node">
+                  <div class="mono text-muted">state</div>
+                  <h4>harga_kamar</h4>
+                  <p class="small text-muted mb-2">Input: 2 / harga_kamar</p>
+                  <div class="small">1. Kamar kecil<br>2. Kamar besar<br>3. Ruang aula<br>0. Kembali</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="state-node">
+                  <div class="mono text-muted">state</div>
+                  <h4>cek_booking</h4>
+                  <p class="small text-muted mb-2">Input: 3 / cek_booking</p>
+                  <div class="small">User kirim kode booking: <span class="mono">BK-20260610-001</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-warning mt-4 mb-0">
+              Interactive button/list KirimChat bisa diaktifkan setelah payload akun valid. Text menu tetap fallback aman.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-5">
+          <div class="card-enterprise p-4 h-100">
+            <h3 class="mb-3">Konfigurasi Laravel</h3>
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="state-chip">
+                  <div class="small text-muted">Webhook URL</div>
+                  <strong class="mono">/api/webhooks/kirimchat</strong>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="state-chip">
+                  <div class="small text-muted">Endpoint KirimChat</div>
+                  <strong class="mono">POST /messages/send</strong>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="state-chip">
+                  <div class="small text-muted">Tables</div>
+                  <strong class="mono">whatsapp_sessions, whatsapp_messages</strong>
+                </div>
+              </div>
+            </div>
+
+            <pre class="json-box mt-3">{
+  "phone_number": "628123456789",
+  "channel": "whatsapp",
+  "message_type": "text",
+  "content": "Halo, silakan pilih layanan..."
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-enterprise p-4 mt-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+          <div>
+            <h3 class="mb-1">Log pesan WhatsApp</h3>
+            <p class="text-muted mb-0">Mock tabel `whatsapp_messages` untuk inbound/outbound.</p>
+          </div>
+          <select id="messageDirectionFilter" class="form-select" style="max-width: 220px;">
+            <option value="all">Semua direction</option>
+            <option value="inbound">Inbound</option>
+            <option value="outbound">Outbound</option>
+          </select>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Nomor</th>
+                <th>Direction</th>
+                <th>Type</th>
+                <th>Isi pesan</th>
+                <th>Payload</th>
+              </tr>
+            </thead>
+            <tbody id="messageLogTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="roomForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roomModalLabel">Tambah kamar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Kode kamar</label>
+          <input id="newRoomCode" class="form-control" placeholder="Contoh: A-205" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nama kamar</label>
+          <input id="newRoomName" class="form-control" placeholder="Kamar Standar A-205" required>
+        </div>
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label fw-bold">Gedung</label>
+            <input id="newRoomBuilding" class="form-control" placeholder="Gedung A" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">Jenis</label>
+            <select id="newRoomType" class="form-select">
+              <option value="standar">Standar</option>
+              <option value="keluarga">Keluarga</option>
+              <option value="vip">VIP</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">Kapasitas</label>
+            <input id="newRoomBeds" type="number" min="1" class="form-control" value="4" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">Tersedia</label>
+            <input id="newRoomAvailable" type="number" min="0" class="form-control" value="4" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary-enterprise">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="reservationForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">Tambah reservasi dari WhatsApp</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nama kegiatan</label>
+          <input id="newReservationTitle" class="form-control" placeholder="Contoh: Diklat Kepemimpinan" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Instansi</label>
+          <input id="newReservationAgency" class="form-control" placeholder="Contoh: BKPP Kota Semarang" required>
+        </div>
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label fw-bold">Tanggal masuk</label>
+            <input id="newReservationCheckin" type="date" class="form-control" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">Tanggal keluar</label>
+            <input id="newReservationCheckout" type="date" class="form-control" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">Peserta</label>
+            <input id="newReservationGuests" type="number" min="1" class="form-control" value="1" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">WhatsApp PIC</label>
+            <input id="newReservationPhone" class="form-control" placeholder="081234567890">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary-enterprise">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="sendChatModal" tabindex="-1" aria-labelledby="sendChatModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="sendChatForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sendChatModalLabel">Kirim pesan KirimChat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nomor WhatsApp</label>
+          <input id="sendChatPhone" class="form-control" value="628123456789" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Message type</label>
+          <select id="sendChatType" class="form-select">
+            <option value="text">text</option>
+            <option value="interactive">interactive</option>
+            <option value="template">template</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label fw-bold">Content</label>
+          <textarea id="sendChatContent" class="form-control" rows="5">Halo, silakan pilih layanan:
+
+1. Layanan pesan
+2. Harga kamar
+3. Cek booking</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary-enterprise">Kirim</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="appToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Notifikasi</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Tutup"></button>
+    </div>
+    <div class="toast-body" id="toastBody">Berhasil.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const WHATSAPP_NUMBER = "6281200000000";
+
+  const statusMap = {
+    pending: { label: "Menunggu", cls: "badge-warning-soft" },
+    approved: { label: "Disetujui", cls: "badge-success-soft" },
+    rejected: { label: "Ditolak", cls: "badge-danger-soft" },
+    available: { label: "Tersedia", cls: "badge-success-soft" },
+    limited: { label: "Terbatas", cls: "badge-warning-soft" },
+    full: { label: "Penuh", cls: "badge-danger-soft" },
+    maintenance: { label: "Perawatan", cls: "badge-primary-soft" },
+    inbound: { label: "Inbound", cls: "badge-primary-soft" },
+    outbound: { label: "Outbound", cls: "badge-success-soft" }
+  };
+
+  const rooms = [
+    { id: "A-101", name: "Kamar Standar A-101", building: "Gedung A", type: "standar", beds: 4, available: 3, status: "available" },
+    { id: "A-203", name: "Kamar Standar A-203", building: "Gedung A", type: "standar", beds: 6, available: 6, status: "available" },
+    { id: "B-102", name: "Kamar Keluarga B-102", building: "Gedung B", type: "keluarga", beds: 3, available: 1, status: "limited" },
+    { id: "C-101", name: "Kamar VIP C-101", building: "Gedung C", type: "vip", beds: 2, available: 0, status: "full" },
+    { id: "B-205", name: "Kamar Standar B-205", building: "Gedung B", type: "standar", beds: 4, available: 0, status: "maintenance" }
+  ];
+
+  const reservations = [
+    { code: "BKPP-2026-0018", title: "Diklat Manajemen ASN", agency: "Badan Kepegawaian Daerah", checkin: "12 Feb 2026", checkout: "15 Feb 2026", guests: 12, phone: "081234567890", status: "pending", room: "" },
+    { code: "BKPP-2026-0021", title: "Pelatihan Arsip Digital", agency: "Dinas Kearsipan", checkin: "20 Feb 2026", checkout: "22 Feb 2026", guests: 8, phone: "081222333444", status: "approved", room: "A-203" },
+    { code: "BKPP-2026-0022", title: "Bimtek Layanan Publik", agency: "Kecamatan Tembalang", checkin: "24 Feb 2026", checkout: "26 Feb 2026", guests: 6, phone: "081987654321", status: "pending", room: "" },
+    { code: "BKPP-2026-0023", title: "Workshop SPBE", agency: "Diskominfo", checkin: "27 Feb 2026", checkout: "28 Feb 2026", guests: 10, phone: "081555666777", status: "rejected", room: "" }
+  ];
+
+  const chatSessions = [
+    { phone_number: "628123456789", name: "Peserta Diklat", state: "main_menu", context: {}, last_message_at: "10 Jun 2026 09:24" },
+    { phone_number: "628987654321", name: "Dinas Kearsipan", state: "harga_kamar", context: {}, last_message_at: "10 Jun 2026 09:17" },
+    { phone_number: "628111222333", name: "BKD Provinsi", state: "booking_input_tanggal", context: { room_type: "kamar_kecil" }, last_message_at: "10 Jun 2026 08:51" },
+    { phone_number: "628555666777", name: "Diskominfo", state: "cek_booking", context: {}, last_message_at: "09 Jun 2026 16:42" }
+  ];
+
+  const chatMessages = [
+    { phone_number: "628123456789", direction: "inbound", message_type: "text", message_text: "menu", created_at: "09:21", payload: { message: "menu" } },
+    { phone_number: "628123456789", direction: "outbound", message_type: "text", message_text: "Halo, silakan pilih layanan:\n\n1. Layanan pesan\n2. Harga kamar\n3. Cek booking\n\nKetik angka pilihan Anda.", created_at: "09:21", payload: { endpoint: "/messages/send" } },
+    { phone_number: "628123456789", direction: "inbound", message_type: "text", message_text: "2", created_at: "09:24", payload: { message: "2" } },
+    { phone_number: "628123456789", direction: "outbound", message_type: "text", message_text: "Harga kamar:\n\n1. Kamar kecil\n2. Kamar besar\n3. Ruang aula\n0. Kembali ke menu utama", created_at: "09:24", payload: { state: "harga_kamar" } },
+    { phone_number: "628987654321", direction: "inbound", message_type: "text", message_text: "1", created_at: "09:17", payload: { message: "1" } },
+    { phone_number: "628987654321", direction: "outbound", message_type: "text", message_text: "Kamar kecil:\nHarga: Rp250.000 / malam\nFasilitas: kasur, AC, kamar mandi.\n\nKetik 1 untuk booking atau 0 untuk kembali.", created_at: "09:17", payload: { context: { room_type: "kamar_kecil" } } },
+    { phone_number: "628555666777", direction: "inbound", message_type: "text", message_text: "BK-20260610-001", created_at: "16:42", payload: { message: "BK-20260610-001" } },
+    { phone_number: "628555666777", direction: "outbound", message_type: "text", message_text: "Status booking BK-20260610-001: CONFIRMED.\n\nKetik menu untuk kembali ke menu utama.", created_at: "16:42", payload: { booking_status: "confirmed" } }
+  ];
+
+  let selectedReservation = reservations[0];
+  let selectedChat = chatSessions[0];
+
+  function showToast(message) {
+    document.getElementById("toastBody").textContent = message;
+    bootstrap.Toast.getOrCreateInstance(document.getElementById("appToast")).show();
+  }
+
+  function badge(status) {
+    const item = statusMap[status] || { label: status, cls: "badge-primary-soft" };
+    return `<span class="badge-soft ${item.cls}">${item.label}</span>`;
+  }
+
+  function activateSection(id) {
+    document.querySelectorAll(".page-section").forEach(section => section.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".sidebar .nav-link").forEach(link => {
+      link.classList.toggle("active", link.dataset.section === id);
+    });
+
+    document.getElementById("sidebar").classList.remove("open");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.querySelectorAll("[data-section]").forEach(button => {
+    button.addEventListener("click", () => activateSection(button.dataset.section));
+  });
+
+  document.querySelectorAll("[data-section-shortcut]").forEach(button => {
+    button.addEventListener("click", () => activateSection(button.dataset.sectionShortcut));
+  });
+
+  document.getElementById("openSidebar").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.add("open");
+  });
+
+  document.addEventListener("click", event => {
+    const sidebar = document.getElementById("sidebar");
+    const openButton = document.getElementById("openSidebar");
+    if (window.innerWidth <= 991 && sidebar.classList.contains("open") && !sidebar.contains(event.target) && !openButton.contains(event.target)) {
+      sidebar.classList.remove("open");
+    }
+  });
+
+  function renderStats() {
+    document.getElementById("statReservations").textContent = reservations.length;
+    document.getElementById("statRooms").textContent = rooms.length;
+    document.getElementById("statChats").textContent = chatSessions.length;
+    document.getElementById("waSessionCount").textContent = chatSessions.length;
+    document.getElementById("waMessageCount").textContent = chatMessages.length;
+  }
+
+  function renderRecent() {
+    document.getElementById("recentTable").innerHTML = reservations.slice(0, 5).map(item => `
+      <tr>
+        <td class="mono">${item.code}</td>
+        <td><strong>${item.title}</strong></td>
+        <td>${item.agency}</td>
+        <td>${item.guests}</td>
+        <td>${badge(item.status)}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderRooms() {
+    const query = document.getElementById("roomSearch").value.toLowerCase();
+    const filter = document.getElementById("roomStatusFilter").value;
+
+    const filtered = rooms.filter(room => {
+      const matchesQuery = [room.id, room.name, room.building, room.type].join(" ").toLowerCase().includes(query);
+      const matchesFilter = filter === "all" || room.status === filter;
+      return matchesQuery && matchesFilter;
+    });
+
+    document.getElementById("roomCount").textContent = `${filtered.length} kamar`;
+
+    document.getElementById("roomGrid").innerHTML = filtered.map(room => `
+      <div class="col-md-6 col-xl-4">
+        <article class="room-tile">
+          <div class="d-flex gap-3 align-items-start">
+            <div class="room-code">${room.id.split("-")[0]}</div>
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between gap-2">
+                <h3 class="h5 mb-1">${room.name}</h3>
+                ${badge(room.status)}
+              </div>
+              <p class="text-muted mb-2">${room.building} • ${room.type}</p>
+              <div class="progress mb-2">
+                <div class="progress-bar" style="width:${room.beds ? ((room.beds - room.available) / room.beds) * 100 : 0}%"></div>
+              </div>
+              <div class="d-flex justify-content-between small">
+                <span>${room.available} tersedia</span>
+                <span>${room.beds} kapasitas</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    `).join("");
+
+    document.getElementById("roomTable").innerHTML = filtered.map(room => `
+      <tr>
+        <td class="mono">${room.id}</td>
+        <td><strong>${room.name}</strong></td>
+        <td>${room.building}</td>
+        <td class="text-capitalize">${room.type}</td>
+        <td>${room.beds}</td>
+        <td>${room.available}</td>
+        <td>${badge(room.status)}</td>
+        <td>
+          <button class="btn btn-sm btn-ghost py-2" type="button" onclick="markRoomMaintenance('${room.id}')">Toggle Perawatan</button>
+        </td>
+      </tr>
+    `).join("");
+
+    renderAllocationOptions();
+  }
+
+  function markRoomMaintenance(id) {
+    const room = rooms.find(item => item.id === id);
+    if (!room) return;
+    room.status = room.status === "maintenance" ? (room.available === 0 ? "full" : "available") : "maintenance";
+    renderRooms();
+    renderStats();
+    showToast(`Status ${id} diperbarui.`);
+  }
+
+  function renderReservations() {
+    const query = document.getElementById("reservationSearch").value.toLowerCase();
+    const filter = document.getElementById("reservationStatusFilter").value;
+
+    const filtered = reservations.filter(item => {
+      const matchesQuery = [item.code, item.title, item.agency].join(" ").toLowerCase().includes(query);
+      const matchesFilter = filter === "all" || item.status === filter;
+      return matchesQuery && matchesFilter;
+    });
+
+    document.getElementById("reservationTable").innerHTML = filtered.map(item => `
+      <tr>
+        <td class="mono">${item.code}</td>
+        <td><strong>${item.title}</strong></td>
+        <td>${item.agency}</td>
+        <td>${item.checkin}–${item.checkout}</td>
+        <td>${item.guests}</td>
+        <td>${badge(item.status)}</td>
+        <td>
+          <button class="btn btn-sm btn-primary-enterprise py-2" type="button" onclick="selectReservation('${item.code}')">Detail</button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function renderAllocationOptions() {
+    const availableRooms = rooms.filter(room => room.status !== "maintenance" && room.status !== "full");
+    document.getElementById("allocationRoom").innerHTML = availableRooms.map(room => `
+      <option value="${room.id}">${room.id} — ${room.available} bed tersedia</option>
+    `).join("");
+  }
+
+  function updateWaReply() {
+    const note = document.getElementById("adminNote").value || "Reservasi Anda sedang kami proses.";
+    const text = encodeURIComponent(`Halo, terkait reservasi ${selectedReservation.code} (${selectedReservation.title}). ${note}`);
+    document.getElementById("waReplyLink").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+  }
+
+  function selectReservation(code) {
+    selectedReservation = reservations.find(item => item.code === code) || reservations[0];
+    document.getElementById("detailCode").textContent = selectedReservation.code;
+    document.getElementById("detailTitle").textContent = selectedReservation.title;
+    document.getElementById("detailMeta").textContent = `${selectedReservation.agency} • ${selectedReservation.guests} peserta`;
+    document.getElementById("allocationRoom").value = selectedReservation.room || document.getElementById("allocationRoom").value;
+    document.getElementById("adminNote").value = selectedReservation.status === "approved"
+      ? `Disetujui. Alokasi kamar ${selectedReservation.room || "-"}.`
+      : selectedReservation.status === "rejected"
+        ? "Mohon maaf, reservasi belum dapat disetujui."
+        : "Permohonan sedang diverifikasi. Mohon menunggu konfirmasi admin.";
+    updateWaReply();
+    activateSection("reservasi");
+  }
+
+  document.getElementById("approveReservation").addEventListener("click", () => {
+    selectedReservation.status = "approved";
+    selectedReservation.room = document.getElementById("allocationRoom").value;
+    document.getElementById("adminNote").value = `Disetujui. Alokasi kamar ${selectedReservation.room}. Check-in pukul 14.00 WIB.`;
+    renderReservations();
+    renderRecent();
+    updateWaReply();
+    showToast(`Reservasi ${selectedReservation.code} disetujui.`);
+  });
+
+  document.getElementById("rejectReservation").addEventListener("click", () => {
+    selectedReservation.status = "rejected";
+    selectedReservation.room = "";
+    document.getElementById("adminNote").value = "Mohon maaf, reservasi belum dapat disetujui karena ketersediaan kamar tidak mencukupi.";
+    renderReservations();
+    renderRecent();
+    updateWaReply();
+    showToast(`Reservasi ${selectedReservation.code} ditolak.`);
+  });
+
+  document.getElementById("adminNote").addEventListener("input", updateWaReply);
+
+  document.getElementById("roomSearch").addEventListener("input", renderRooms);
+  document.getElementById("roomStatusFilter").addEventListener("change", renderRooms);
+  document.getElementById("reservationSearch").addEventListener("input", renderReservations);
+  document.getElementById("reservationStatusFilter").addEventListener("change", renderReservations);
+
+  document.getElementById("roomForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const beds = Number(document.getElementById("newRoomBeds").value || 1);
+    const available = Number(document.getElementById("newRoomAvailable").value || 0);
+
+    rooms.push({
+      id: document.getElementById("newRoomCode").value,
+      name: document.getElementById("newRoomName").value,
+      building: document.getElementById("newRoomBuilding").value,
+      type: document.getElementById("newRoomType").value,
+      beds,
+      available,
+      status: available === 0 ? "full" : available <= 1 ? "limited" : "available"
+    });
+
+    bootstrap.Modal.getInstance(document.getElementById("roomModal")).hide();
+    event.currentTarget.reset();
+    renderRooms();
+    renderStats();
+    showToast("Kamar ditambahkan.");
+  });
+
+  document.getElementById("reservationForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const nextNumber = String(reservations.length + 24).padStart(4, "0");
+    reservations.unshift({
+      code: `BKPP-2026-${nextNumber}`,
+      title: document.getElementById("newReservationTitle").value,
+      agency: document.getElementById("newReservationAgency").value,
+      checkin: document.getElementById("newReservationCheckin").value || "-",
+      checkout: document.getElementById("newReservationCheckout").value || "-",
+      guests: Number(document.getElementById("newReservationGuests").value || 1),
+      phone: document.getElementById("newReservationPhone").value,
+      status: "pending",
+      room: ""
+    });
+
+    bootstrap.Modal.getInstance(document.getElementById("reservationModal")).hide();
+    event.currentTarget.reset();
+    renderReservations();
+    renderRecent();
+    renderStats();
+    showToast("Reservasi dari WhatsApp ditambahkan.");
+  });
+
+  document.getElementById("exportCsv").addEventListener("click", async () => {
+    const rows = [
+      ["kode", "kegiatan", "instansi", "tanggal_masuk", "tanggal_keluar", "peserta", "status", "kamar"],
+      ...reservations.map(item => [item.code, item.title, item.agency, item.checkin, item.checkout, item.guests, item.status, item.room])
+    ];
+    const csv = rows.map(row => row.map(cell => `"${String(cell).replaceAll('"', '""')}"`).join(",")).join("\n");
+    await navigator.clipboard.writeText(csv);
+    showToast("CSV reservasi disalin.");
+  });
+
+  function renderChatList() {
+    const query = document.getElementById("chatSearch").value.toLowerCase();
+    const filtered = chatSessions.filter(session => {
+      return [session.phone_number, session.name, session.state].join(" ").toLowerCase().includes(query);
+    });
+
+    document.getElementById("chatList").innerHTML = filtered.map(session => `
+      <div class="chat-contact ${selectedChat.phone_number === session.phone_number ? "active" : ""}" onclick="selectChat('${session.phone_number}')">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <div>
+            <strong>${session.name}</strong>
+            <div class="mono small text-muted">${session.phone_number}</div>
+          </div>
+          <span class="badge-soft badge-primary-soft">${session.state}</span>
+        </div>
+        <div class="small text-muted mt-2">Last: ${session.last_message_at}</div>
+      </div>
+    `).join("");
+  }
+
+  function renderChatWindow() {
+    document.getElementById("chatPhone").textContent = selectedChat.phone_number;
+    document.getElementById("chatName").textContent = selectedChat.name;
+    document.getElementById("chatLast").textContent = selectedChat.last_message_at;
+    document.getElementById("chatStateBadge").textContent = selectedChat.state;
+    document.getElementById("chatStateBadge").className = "badge-soft badge-primary-soft";
+
+    const messages = chatMessages.filter(message => message.phone_number === selectedChat.phone_number);
+
+    document.getElementById("chatBody").innerHTML = messages.map(message => `
+      <div class="message-row ${message.direction}">
+        <div class="bubble">
+          ${escapeHtml(message.message_text)}
+          <div class="bubble-meta">${message.direction} • ${message.message_type} • ${message.created_at}</div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function selectChat(phone) {
+    selectedChat = chatSessions.find(session => session.phone_number === phone) || chatSessions[0];
+    renderChatList();
+    renderChatWindow();
+    renderMessageLog();
+  }
+
+  function renderMessageLog() {
+    const filter = document.getElementById("messageDirectionFilter").value;
+    const filtered = chatMessages.filter(message => filter === "all" || message.direction === filter);
+
+    document.getElementById("messageLogTable").innerHTML = filtered.map(message => `
+      <tr>
+        <td class="mono">${message.created_at}</td>
+        <td class="mono">${message.phone_number}</td>
+        <td>${badge(message.direction)}</td>
+        <td class="mono">${message.message_type}</td>
+        <td style="max-width:420px;">${escapeHtml(message.message_text).slice(0, 160)}</td>
+        <td><button class="btn btn-sm btn-ghost py-2" type="button" onclick='showPayload(${JSON.stringify(JSON.stringify(message.payload))})'>Payload</button></td>
+      </tr>
+    `).join("");
+  }
+
+  function showPayload(payloadString) {
+    showToast(payloadString);
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  const quickReplies = {
+    main_menu: "Halo, silakan pilih layanan:\n\n1. Layanan pesan\n2. Harga kamar\n3. Cek booking\n\nKetik angka pilihan Anda.",
+    harga_kamar: "Harga kamar:\n\n1. Kamar kecil\n2. Kamar besar\n3. Ruang aula\n0. Kembali ke menu utama",
+    cek_booking: "Silakan masukkan kode booking Anda.\nContoh: BK-20260610-001",
+    custom: ""
+  };
+
+  document.getElementById("quickReply").addEventListener("change", event => {
+    if (event.target.value !== "custom") {
+      document.getElementById("outboundText").value = quickReplies[event.target.value];
+    }
+  });
+
+  document.getElementById("sendOutbound").addEventListener("click", () => {
+    const text = document.getElementById("outboundText").value.trim();
+    if (!text) {
+      showToast("Isi pesan dulu.");
+      return;
+    }
+
+    chatMessages.push({
+      phone_number: selectedChat.phone_number,
+      direction: "outbound",
+      message_type: "text",
+      message_text: text,
+      created_at: "sekarang",
+      payload: {
+        phone_number: selectedChat.phone_number,
+        channel: "whatsapp",
+        message_type: "text",
+        content: text
+      }
+    });
+
+    selectedChat.last_message_at = "sekarang";
+    renderChatList();
+    renderChatWindow();
+    renderMessageLog();
+    renderStats();
+    showToast("Pesan outbound mock terkirim via KirimChat.");
+  });
+
+  document.getElementById("sendChatForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const phone = document.getElementById("sendChatPhone").value;
+    const type = document.getElementById("sendChatType").value;
+    const content = document.getElementById("sendChatContent").value;
+
+    let session = chatSessions.find(item => item.phone_number === phone);
+    if (!session) {
+      session = { phone_number: phone, name: "Kontak Baru", state: "main_menu", context: {}, last_message_at: "sekarang" };
+      chatSessions.unshift(session);
+    }
+
+    chatMessages.push({
+      phone_number: phone,
+      direction: "outbound",
+      message_type: type,
+      message_text: content,
+      created_at: "sekarang",
+      payload: { phone_number: phone, channel: "whatsapp", message_type: type, content }
+    });
+
+    selectedChat = session;
+    bootstrap.Modal.getInstance(document.getElementById("sendChatModal")).hide();
+    renderChatList();
+    renderChatWindow();
+    renderMessageLog();
+    renderStats();
+    showToast("Pesan KirimChat mock dikirim.");
+  });
+
+  document.getElementById("chatSearch").addEventListener("input", renderChatList);
+  document.getElementById("messageDirectionFilter").addEventListener("change", renderMessageLog);
+
+  document.getElementById("copyWebhook").addEventListener("click", async () => {
+    await navigator.clipboard.writeText("https://domain-anda.com/api/webhooks/kirimchat");
+    showToast("Webhook URL disalin.");
+  });
+
+  document.getElementById("copyReport").addEventListener("click", async () => {
+    const report = [
+      "Laporan Asrama BKPP Kota Semarang",
+      `Reservasi: ${reservations.length}`,
+      `Kamar aktif: ${rooms.length}`,
+      `WhatsApp sessions: ${chatSessions.length}`,
+      `WhatsApp messages: ${chatMessages.length}`,
+      `Menunggu verifikasi: ${reservations.filter(item => item.status === "pending").length}`
+    ].join("\n");
+    await navigator.clipboard.writeText(report);
+    showToast("Laporan ringkas disalin.");
+  });
+
+  renderStats();
+  renderRecent();
+  renderRooms();
+  renderReservations();
+  renderAllocationOptions();
+  renderChatList();
+  renderChatWindow();
+  renderMessageLog();
+  selectReservation("BKPP-2026-0018");
+</script>
+</body>
+</html>

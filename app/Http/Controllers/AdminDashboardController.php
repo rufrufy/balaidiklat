@@ -14,7 +14,7 @@ class AdminDashboardController extends Controller
     public function __invoke(): View
     {
         $kamars = Kamar::latest()->get();
-        $reservasis = KamarReservasi::with(['kamar', 'items.kamar'])->latest()->get();
+        $reservasis = KamarReservasi::with(['kamar', 'items.kamar', 'retribusiBillings'])->latest()->get();
         $sessions = WhatsappSession::latest('last_message_at')->get();
         $messages = WhatsappMessage::latest()->limit(50)->get()->reverse()->values();
         $rules = ChatbotRule::orderBy('priority')->latest()->get();
@@ -27,7 +27,7 @@ class AdminDashboardController extends Controller
             'rules' => $rules,
             'stats' => [
                 'kamar' => $kamars->count(),
-                'tersedia' => $kamars->sum('tersedia'),
+                'ruang_kelas' => $kamars->where('tipe', 'ruang_kelas')->count(),
                 'reservasi' => $reservasis->count(),
                 'sessions' => $sessions->count(),
                 'messages' => $messages->count(),

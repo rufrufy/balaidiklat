@@ -34,16 +34,18 @@ class AdminChatbotRuleController extends Controller
     {
         $data = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
-            'keyword' => ['required', 'string', 'max:255'],
+            'keyword' => ['nullable', 'string', 'max:255'],
             'match_type' => ['required', Rule::in(['contains', 'exact', 'starts_with', 'any'])],
             'state' => ['nullable', 'string', 'max:100'],
-            'reply_text' => ['required', 'string'],
+            'reply_text' => ['nullable', 'string'],
+            'action' => ['nullable', Rule::in(['main_menu', 'check_availability', 'list_kamar', 'pilih_kamar', 'simpan_reservasi'])],
             'next_state' => ['nullable', 'string', 'max:100'],
             'priority' => ['required', 'integer', 'min:1'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
         $data['is_active'] = $request->boolean('is_active');
+        $data['keyword'] = $data['keyword'] ?? '';
 
         return $data;
     }

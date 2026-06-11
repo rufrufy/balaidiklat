@@ -45,19 +45,35 @@ class AdminReservasiController extends Controller
         return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', 'Reservasi berhasil dihapus.');
     }
 
+    /**
+     * Toggle payment status between unpaid and paid (admin checklist in table).
+     */
+    public function togglePayment(KamarReservasi $reservasi): RedirectResponse
+    {
+        $reservasi->update([
+            'payment_status' => $reservasi->payment_status === 'paid' ? 'unpaid' : 'paid',
+        ]);
+
+        return redirect()->route('admin.dashboard', ['section' => 'reservasi'])
+            ->with('status', 'Status pembayaran diperbarui menjadi '.($reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar').'.');
+    }
+
     private function validatedData(Request $request): array
     {
+        $isInstansi = $request->input('tipe_penyewa') === 'instansi';
+
         return $request->validate([
             'nama_pemesan' => ['required', 'string', 'max:255'],
-            'instansi' => ['nullable', 'string', 'max:255'],
-            'kegiatan' => ['required', 'string', 'max:255'],
+            'tipe_penyewa' => ['required', 'in:perorangan,instansi'],
+            'instansi' => [$isInstansi ? 'required' : 'nullable', 'string', 'max:255'],
+            'kegiatan' => [$isInstansi ? 'required' : 'nullable', 'string', 'max:255'],
             'phone_number' => ['nullable', 'string', 'max:40'],
             'kamar_id' => ['nullable', 'exists:kamars,id'],
             'tanggal_masuk' => ['nullable', 'date'],
             'tanggal_keluar' => ['nullable', 'date', 'after_or_equal:tanggal_masuk'],
-            'jumlah_peserta' => ['required', 'integer', 'min:1'],
+            'jumlah_peserta' => [$isInstansi ? 'required' : 'nullable', 'integer', 'min:1'],
             'status' => ['required', 'in:pending,approved,rejected'],
-            'payment_status' => ['required', 'in:unpaid,partial,paid'],
+            'payment_status' => ['nullable', 'in:unpaid,partial,paid'],
             'catatan' => ['nullable', 'string'],
             'items' => ['nullable', 'array'],
             'items.*.kamar_id' => ['nullable', 'exists:kamars,id'],
@@ -71,22 +87,24 @@ class AdminReservasiController extends Controller
         $duration = $this->duration($data['tanggal_masuk'] ?? null, $data['tanggal_keluar'] ?? null);
         $kamar = $multipleKamar ? null : Kamar::find($data['kamar_id'] ?? null);
         $total = $multipleKamar ? 0 : (($kamar?->harga_per_malam ?? 0) * $duration);
+        $isInstansi = ($data['tipe_penyewa'] ?? 'perorangan') === 'instansi';
 
         return [
             'kode' => $data['kode'],
             'nama_pemesan' => $data['nama_pemesan'],
-            'instansi' => $data['instansi'] ?? null,
-            'kegiatan' => $data['kegiatan'],
+            'tipe_penyewa' => $data['tipe_penyewa'] ?? 'perorangan',
+            'instansi' => $isInstansi ? ($data['instansi'] ?? null) : null,
+            'kegiatan' => $isInstansi ? ($data['kegiatan'] ?? null) : null,
             'phone_number' => $data['phone_number'] ?? null,
             'kamar_id' => $multipleKamar ? null : ($data['kamar_id'] ?? null),
             'multiple_kamar' => $multipleKamar,
             'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
             'tanggal_keluar' => $data['tanggal_keluar'] ?? null,
             'durasi_hari' => $duration,
-            'jumlah_peserta' => $data['jumlah_peserta'],
+            'jumlah_peserta' => $isInstansi ? ($data['jumlah_peserta'] ?? 1) : 1,
             'total_harga' => $total,
             'status' => $data['status'],
-            'payment_status' => $data['payment_status'],
+            'payment_status' => $data['payment_status'] ?? 'unpaid',
             'catatan' => $data['catatan'] ?? null,
         ];
     }

@@ -42,4 +42,10 @@ return [
         'require_webhook_secret' => env('KIRIMCHAT_REQUIRE_WEBHOOK_SECRET', false),
     ],
 
+    'eretribusi' => [
+        'base_url' => env('ERETRIBUSI_BASE_URL'),
+        'api_key' => env('ERETRIBUSI_API_KEY'),
+        'send_path' => env('ERETRIBUSI_SEND_PATH', '/api/billing'),
+    ],
+
 ];

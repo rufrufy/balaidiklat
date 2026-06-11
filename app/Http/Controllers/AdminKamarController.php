@@ -14,13 +14,11 @@ class AdminKamarController extends Controller
         $data = $request->validate([
             'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode'],
             'nama' => ['required', 'string', 'max:255'],
-            'gedung' => ['required', 'string', 'max:255'],
-            'jenis' => ['required', 'string', 'max:100'],
-            'kapasitas' => ['required', 'integer', 'min:1'],
-            'tersedia' => ['required', 'integer', 'min:0'],
+            'tipe' => ['required', 'in:kamar,ruang_kelas'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:2048'],
+            'foto' => ['nullable', 'image', 'max:20480'],
         ]);
 
         if ($request->hasFile('foto')) {
@@ -37,13 +35,11 @@ class AdminKamarController extends Controller
         $data = $request->validate([
             'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode,'.$kamar->id],
             'nama' => ['required', 'string', 'max:255'],
-            'gedung' => ['required', 'string', 'max:255'],
-            'jenis' => ['required', 'string', 'max:100'],
-            'kapasitas' => ['required', 'integer', 'min:1'],
-            'tersedia' => ['required', 'integer', 'min:0'],
+            'tipe' => ['required', 'in:kamar,ruang_kelas'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:2048'],
+            'foto' => ['nullable', 'image', 'max:20480'],
         ]);
 
         if ($request->hasFile('foto')) {

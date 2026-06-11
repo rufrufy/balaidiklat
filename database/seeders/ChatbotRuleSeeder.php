@@ -8,132 +8,70 @@ use Illuminate\Database\Seeder;
 class ChatbotRuleSeeder extends Seeder
 {
     /**
-     * Template menu chatbot berlapis berbasis rule.
+     * Rule SAPA BALAI, sepenuhnya rule-based, mengikuti flowchart resmi.
      *
-     * Konsep kedalaman:
-     * - "state" = posisi user saat ini (kosong = berlaku di semua state).
-     * - "keyword" + "match_type" = pemicu (apa yang user ketik / id tombol).
-     * - "next_state" = state tujuan setelah balasan dikirim (membuat kedalaman).
-     * - "priority" kecil diperiksa lebih dulu; taruh fallback "any" di prioritas besar.
+     * Konsep:
+     * - "state" = posisi user (kosong = berlaku di semua state).
+     * - "keyword" + "match_type" = pemicu (angka, teks, atau id tombol).
+     * - "next_state" = state tujuan setelah balasan (membentuk kedalaman).
+     * - "action" = perilaku khusus: main_menu / check_availability.
+     * - "priority" kecil diperiksa lebih dulu; fallback "any" di prioritas besar.
+     *
+     * Alur flowchart:
+     * main_menu (1-6)
+     *   1/2 -> jenis_sewa (pilih 1-5 jenis sewa: kamar, kelas, gedung, transit, lapangan)
+     *           -> tampil tarif+fasilitas -> pesan_cek_tanggal
+     *              -> check_availability: tersedia -> pesan_isi_data, tidak -> tetap
+     *                 -> isi data -> pesan_tagihan (RINCIAN TAGIHAN/SSRD)
+     *                    -> pilih pembayaran -> pesan_bayar (QRIS / Transfer)
+     *                       -> konfirmasi -> main_menu
+     *   3 Laporan Gangguan / 4 Saran / 5 Survey / 6 Customer Care -> layanan lain -> main_menu
      */
     public function run(): void
     {
+        $menuUtama = "Halo, {{customer_name}} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
+            ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
+            ."Silakan pilih menu layanan dengan mengetik angka 1 sampai 6.\n\n"
+            ."1. Informasi layanan balai diklat\n"
+            ."2. Pemesanan kamar/kelas\n"
+            ."3. Laporan Gangguan\n"
+            ."4. Saran\n"
+            ."5. Survey kepuasan\n"
+            ."6. Customer Care";
+
         $rules = [
-            // Reset global: berlaku di semua state, prioritas paling tinggi.
-            [
-                'nama' => 'Global - Menu utama',
-                'keyword' => 'menu',
-                'match_type' => 'contains',
-                'state' => null,
-                'reply_text' => "Selamat datang di Asrama Balai Diklat BKPP.\n\nSilakan pilih layanan:\n1. Harga kamar\n2. Pesan / booking kamar\n3. Cek status booking\n\nKetik angka pilihan Anda.",
-                'next_state' => 'main_menu',
-                'priority' => 1,
-            ],
-            [
-                'nama' => 'Global - Sapaan',
-                'keyword' => 'halo',
-                'match_type' => 'contains',
-                'state' => null,
-                'reply_text' => "Halo! Ketik *menu* untuk melihat daftar layanan asrama.",
-                'next_state' => 'main_menu',
-                'priority' => 2,
-            ],
+            // ---- Reset global ----
+            ['nama' => 'Global - Menu utama', 'keyword' => 'menu', 'match_type' => 'contains', 'state' => null, 'reply_text' => $menuUtama, 'action' => 'main_menu', 'next_state' => 'main_menu', 'priority' => 1],
+            ['nama' => 'Global - Sapaan', 'keyword' => 'halo', 'match_type' => 'contains', 'state' => null, 'reply_text' => $menuUtama, 'action' => 'main_menu', 'next_state' => 'main_menu', 'priority' => 2],
 
-            // Level 1: dari main_menu.
-            [
-                'nama' => 'Main - 1 Harga kamar',
-                'keyword' => '1',
-                'match_type' => 'exact',
-                'state' => 'main_menu',
-                'reply_text' => "Daftar harga kamar:\n1. Kamar kecil - Rp250.000/malam\n2. Kamar besar - Rp450.000/malam\n3. Ruang aula - Rp1.500.000/hari\n\nKetik nomor untuk detail, atau 0 untuk kembali.",
-                'next_state' => 'harga_kamar',
-                'priority' => 10,
-            ],
-            [
-                'nama' => 'Main - 2 Pesan kamar',
-                'keyword' => '2',
-                'match_type' => 'exact',
-                'state' => 'main_menu',
-                'reply_text' => "Untuk pemesanan, silakan tulis: nama, tanggal masuk, tanggal keluar, dan jumlah peserta.\nContoh: Budi, 15 Juni, 17 Juni, 10 orang.",
-                'next_state' => 'pesan_kamar',
-                'priority' => 11,
-            ],
-            [
-                'nama' => 'Main - 3 Cek booking',
-                'keyword' => '3',
-                'match_type' => 'exact',
-                'state' => 'main_menu',
-                'reply_text' => "Silakan masukkan kode booking Anda.\nContoh: RSV-20260610-001",
-                'next_state' => 'cek_booking',
-                'priority' => 12,
-            ],
+            // ---- Level 1: MENU UTAMA (1-6) ----
+            // 1 Informasi layanan -> tampilkan daftar kamar/kelas dari DB (action list_kamar).
+            ['nama' => 'Main - 1 Informasi layanan', 'keyword' => '1', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => null, 'action' => 'list_kamar', 'next_state' => 'pilih_kamar', 'priority' => 10],
+            // 2 Pemesanan kamar/kelas -> juga tampilkan daftar kamar/kelas dari DB.
+            ['nama' => 'Main - 2 Pemesanan kamar/kelas', 'keyword' => '2', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => null, 'action' => 'list_kamar', 'next_state' => 'pilih_kamar', 'priority' => 11],
+            ['nama' => 'Main - 3 Laporan gangguan', 'keyword' => '3', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Laporan Gangguan.\nSilakan tuliskan gangguan yang Anda alami, tim kami akan menindaklanjuti.", 'action' => null, 'next_state' => 'laporan_gangguan', 'priority' => 12],
+            ['nama' => 'Main - 4 Saran', 'keyword' => '4', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Saran.\nSilakan tuliskan saran Anda untuk pelayanan Balai Diklat.", 'action' => null, 'next_state' => 'saran', 'priority' => 13],
+            ['nama' => 'Main - 5 Survey kepuasan', 'keyword' => '5', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Survey Kepuasan.\nSeberapa puas Anda dengan layanan kami? Balas dengan angka 1 (kurang) sampai 5 (sangat puas).", 'action' => null, 'next_state' => 'survey', 'priority' => 14],
+            ['nama' => 'Main - 6 Customer care', 'keyword' => '6', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Customer Care.\nSilakan hubungi petugas kami di nomor 024-xxxxxxx pada jam kerja, atau tuliskan pertanyaan Anda di sini.", 'action' => null, 'next_state' => 'customer_care', 'priority' => 15],
 
-            // Level 2: kedalaman dari harga_kamar.
-            [
-                'nama' => 'Harga - Kamar kecil',
-                'keyword' => '1',
-                'match_type' => 'exact',
-                'state' => 'harga_kamar',
-                'reply_text' => "Kamar kecil - Rp250.000/malam.\nFasilitas: kasur, AC, kamar mandi dalam.\n\nKetik 2 untuk pesan kamar ini, atau 0 untuk kembali.",
-                'next_state' => 'harga_kamar',
-                'priority' => 20,
-            ],
-            [
-                'nama' => 'Harga - Kamar besar',
-                'keyword' => '2',
-                'match_type' => 'exact',
-                'state' => 'harga_kamar',
-                'reply_text' => "Kamar besar - Rp450.000/malam.\nFasilitas: kasur besar, AC, kamar mandi dalam, TV.\n\nKetik 2 untuk pesan kamar ini, atau 0 untuk kembali.",
-                'next_state' => 'harga_kamar',
-                'priority' => 21,
-            ],
-            [
-                'nama' => 'Harga - Ruang aula',
-                'keyword' => '3',
-                'match_type' => 'exact',
-                'state' => 'harga_kamar',
-                'reply_text' => "Ruang aula - Rp1.500.000/hari.\nFasilitas: sound system, kursi, meja, AC.\n\nKetik 2 untuk pesan, atau 0 untuk kembali.",
-                'next_state' => 'harga_kamar',
-                'priority' => 22,
-            ],
-            [
-                'nama' => 'Harga - Kembali',
-                'keyword' => '0',
-                'match_type' => 'exact',
-                'state' => 'harga_kamar',
-                'reply_text' => "Kembali ke menu utama.\n1. Harga kamar\n2. Pesan / booking kamar\n3. Cek status booking",
-                'next_state' => 'main_menu',
-                'priority' => 23,
-            ],
+            // ---- Level 2: PILIH KAMAR (nomor) -> detail fasilitas dari DB + minta data pesan ----
+            ['nama' => 'Pilih kamar - Detail', 'keyword' => '', 'match_type' => 'any', 'state' => 'pilih_kamar', 'reply_text' => null, 'action' => 'pilih_kamar', 'next_state' => null, 'priority' => 20],
 
-            // Level 2: dari pesan_kamar - fallback "any" menampung detail bebas.
-            [
-                'nama' => 'Pesan - Terima detail',
-                'keyword' => '',
-                'match_type' => 'any',
-                'state' => 'pesan_kamar',
-                'reply_text' => "Terima kasih, permintaan booking Anda sudah kami terima dan akan diproses admin.\n\nKetik *menu* untuk kembali ke menu utama.",
-                'next_state' => 'main_menu',
-                'priority' => 30,
-            ],
+            // ---- Level 3: ISI DATA PEMESANAN -> simpan ke DB + balasan interactive menu ----
+            ['nama' => 'Pesan - Simpan reservasi', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_isi_data', 'reply_text' => null, 'action' => 'simpan_reservasi', 'next_state' => null, 'priority' => 30],
 
-            // Level 2: dari cek_booking - fallback "any" menerima kode booking.
-            [
-                'nama' => 'Cek booking - Terima kode',
-                'keyword' => '',
-                'match_type' => 'any',
-                'state' => 'cek_booking',
-                'reply_text' => "Kami sedang memeriksa kode booking Anda. Admin akan mengonfirmasi status melalui chat ini.\n\nKetik *menu* untuk kembali.",
-                'next_state' => 'main_menu',
-                'priority' => 31,
-            ],
+            // ---- LAYANAN LAIN: tangkap input bebas lalu kembali ke menu utama ----
+            ['nama' => 'Gangguan - Terima', 'keyword' => '', 'match_type' => 'any', 'state' => 'laporan_gangguan', 'reply_text' => "Terima kasih, laporan gangguan Anda sudah kami terima dan akan ditindaklanjuti.\n\nKetik *menu* untuk kembali.", 'action' => null, 'next_state' => 'main_menu', 'priority' => 60],
+            ['nama' => 'Saran - Terima', 'keyword' => '', 'match_type' => 'any', 'state' => 'saran', 'reply_text' => "Terima kasih atas saran Anda. Masukan Anda sangat berarti bagi kami.\n\nKetik *menu* untuk kembali.", 'action' => null, 'next_state' => 'main_menu', 'priority' => 61],
+            ['nama' => 'Survey - Terima', 'keyword' => '', 'match_type' => 'any', 'state' => 'survey', 'reply_text' => "Terima kasih sudah mengisi survey kepuasan kami.\n\nKetik *menu* untuk kembali.", 'action' => null, 'next_state' => 'main_menu', 'priority' => 62],
+            ['nama' => 'Customer care - Terima', 'keyword' => '', 'match_type' => 'any', 'state' => 'customer_care', 'reply_text' => "Pesan Anda sudah kami teruskan ke petugas Customer Care.\n\nKetik *menu* untuk kembali.", 'action' => null, 'next_state' => 'main_menu', 'priority' => 63],
         ];
 
+        // Buat aturan baru, hapus yang lama dulu agar bersih.
+        ChatbotRule::query()->delete();
+
         foreach ($rules as $rule) {
-            ChatbotRule::updateOrCreate(
-                ['nama' => $rule['nama']],
-                array_merge($rule, ['is_active' => true])
-            );
+            ChatbotRule::create(array_merge($rule, ['is_active' => true]));
         }
     }
 }

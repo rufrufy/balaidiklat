@@ -11,6 +11,7 @@ class KamarReservasi extends Model
     protected $fillable = [
         'kode',
         'nama_pemesan',
+        'tipe_penyewa',
         'instansi',
         'kegiatan',
         'phone_number',
@@ -46,5 +47,10 @@ class KamarReservasi extends Model
     public function items(): HasMany
     {
         return $this->hasMany(KamarReservasiItem::class);
+    }
+
+    public function retribusiBillings(): HasMany
+    {
+        return $this->hasMany(RetribusiBilling::class);
     }
 }

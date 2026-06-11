@@ -10,11 +10,9 @@ class Kamar extends Model
     protected $fillable = [
         'kode',
         'nama',
-        'gedung',
-        'jenis',
-        'kapasitas',
-        'tersedia',
+        'tipe',
         'harga_per_malam',
+        'fasilitas',
         'status',
         'foto_path',
     ];
@@ -22,8 +20,6 @@ class Kamar extends Model
     protected function casts(): array
     {
         return [
-            'kapasitas' => 'integer',
-            'tersedia' => 'integer',
             'harga_per_malam' => 'integer',
         ];
     }
@@ -31,5 +27,10 @@ class Kamar extends Model
     public function reservasiItems(): HasMany
     {
         return $this->hasMany(KamarReservasiItem::class);
+    }
+
+    public function tipeLabel(): string
+    {
+        return $this->tipe === 'ruang_kelas' ? 'Ruang Kelas' : 'Kamar';
     }
 }

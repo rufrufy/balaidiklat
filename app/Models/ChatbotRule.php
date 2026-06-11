@@ -12,6 +12,7 @@ class ChatbotRule extends Model
         'match_type',
         'state',
         'reply_text',
+        'action',
         'next_state',
         'priority',
         'is_active',

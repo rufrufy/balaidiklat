@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kamar;
+use App\Services\KamarAvailabilityService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AdminKamarAvailabilityController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request, KamarAvailabilityService $availability): View
     {
         $data = $request->validate([
             'tanggal_masuk' => ['nullable', 'date'],
@@ -18,14 +18,7 @@ class AdminKamarAvailabilityController extends Controller
         $kamars = collect();
 
         if (! empty($data['tanggal_masuk']) && ! empty($data['tanggal_keluar'])) {
-            $kamars = Kamar::query()
-                ->where('status', '!=', 'maintenance')
-                ->whereDoesntHave('reservasiItems', function ($query) use ($data): void {
-                    $query->where('tanggal_masuk', '<', $data['tanggal_keluar'])
-                        ->where('tanggal_keluar', '>', $data['tanggal_masuk']);
-                })
-                ->orderBy('kode')
-                ->get();
+            $kamars = $availability->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
         }
 
         return view('admin.kamar-availability', [

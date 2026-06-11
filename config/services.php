@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'kirimchat' => [
+        'base_url' => env('KIRIMCHAT_BASE_URL', 'https://api-prod.kirim.chat/api/v1/public'),
+        'api_key' => env('KIRIMCHAT_API_KEY'),
+        'webhook_secret' => env('KIRIMCHAT_WEBHOOK_SECRET'),
+        'require_webhook_secret' => env('KIRIMCHAT_REQUIRE_WEBHOOK_SECRET', false),
+    ],
+
 ];

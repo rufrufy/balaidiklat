@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Kamar;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class AdminKamarController extends Controller
+{
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode'],
+            'nama' => ['required', 'string', 'max:255'],
+            'gedung' => ['required', 'string', 'max:255'],
+            'jenis' => ['required', 'string', 'max:100'],
+            'kapasitas' => ['required', 'integer', 'min:1'],
+            'tersedia' => ['required', 'integer', 'min:0'],
+            'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'status' => ['required', 'in:available,limited,full,maintenance'],
+            'foto' => ['nullable', 'image', 'max:2048'],
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $data['foto_path'] = $request->file('foto')->store('kamar', 'public');
+        }
+
+        Kamar::create($data);
+
+        return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, Kamar $kamar): RedirectResponse
+    {
+        $data = $request->validate([
+            'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode,'.$kamar->id],
+            'nama' => ['required', 'string', 'max:255'],
+            'gedung' => ['required', 'string', 'max:255'],
+            'jenis' => ['required', 'string', 'max:100'],
+            'kapasitas' => ['required', 'integer', 'min:1'],
+            'tersedia' => ['required', 'integer', 'min:0'],
+            'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'status' => ['required', 'in:available,limited,full,maintenance'],
+            'foto' => ['nullable', 'image', 'max:2048'],
+        ]);
+
+        if ($request->hasFile('foto')) {
+            if ($kamar->foto_path) {
+                Storage::disk('public')->delete($kamar->foto_path);
+            }
+
+            $data['foto_path'] = $request->file('foto')->store('kamar', 'public');
+        }
+
+        $kamar->update($data);
+
+        return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil diperbarui.');
+    }
+
+    public function destroy(Kamar $kamar): RedirectResponse
+    {
+        if ($kamar->foto_path) {
+            Storage::disk('public')->delete($kamar->foto_path);
+        }
+
+        $kamar->delete();
+
+        return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil dihapus.');
+    }
+
+    public function duplicate(Request $request, Kamar $kamar): RedirectResponse
+    {
+        $data = $request->validate([
+            'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode'],
+        ]);
+
+        $newKamar = $kamar->replicate(['kode']);
+        $newKamar->kode = $data['kode'];
+        $newKamar->nama = $kamar->nama.' Copy';
+        $newKamar->save();
+
+        return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil diduplikat.');
+    }
+}

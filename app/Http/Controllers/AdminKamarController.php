@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kamar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -26,12 +27,7 @@ class AdminKamarController extends Controller
         ]);
 
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            $file = $request->file('foto');
-            $data['foto_path'] = $file->storeAs(
-                'kamar',
-                Str::random(30).'.'.($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg'),
-                'public'
-            );
+            $data['foto_path'] = $this->storeFoto($request->file('foto'));
         }
 
         Kamar::create($data);
@@ -59,17 +55,34 @@ class AdminKamarController extends Controller
                 Storage::disk('public')->delete($kamar->foto_path);
             }
 
-            $file = $request->file('foto');
-            $data['foto_path'] = $file->storeAs(
-                'kamar',
-                Str::random(30).'.'.($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg'),
-                'public'
-            );
+            $data['foto_path'] = $this->storeFoto($request->file('foto'));
         }
 
         $kamar->update($data);
 
         return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil diperbarui.');
+    }
+
+    /**
+     * Store an uploaded photo WITHOUT relying on UploadedFile::getRealPath(),
+     * which returns false on some hosting setups (restricted open_basedir /
+     * temp realpath quirks) and makes Storage::store() throw
+     * "Path cannot be empty". We read the raw temp bytes via getPathname()
+     * and write them with the filesystem driver, which works everywhere.
+     */
+    private function storeFoto(UploadedFile $file): string
+    {
+        $ext = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'jpg');
+        $path = 'kamar/'.Str::random(30).'.'.$ext;
+
+        $stream = fopen($file->getPathname(), 'r');
+        Storage::disk('public')->put($path, $stream);
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        return $path;
     }
 
     public function destroy(Kamar $kamar): RedirectResponse

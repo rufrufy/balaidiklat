@@ -546,4 +546,44 @@ class ExampleTest extends TestCase
         $this->assertCount(1, $rooms);
         $this->assertSame($available->id, $rooms->first()->id);
     }
+
+    public function test_admin_can_upload_kamar_photo(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $this->actingAs(User::factory()->create());
+
+        $response = $this->post(route('admin.kamar.store'), [
+            'kode' => 'KM-FOTO',
+            'nama' => 'Kamar Foto',
+            'tipe' => 'kamar',
+            'harga_per_malam' => 150000,
+            'status' => 'available',
+            'foto' => \Illuminate\Http\UploadedFile::fake()->create('foto.jpg', 500, 'image/jpeg'),
+        ]);
+
+        $response->assertRedirect(route('admin.dashboard', ['section' => 'kamar']));
+
+        $kamar = Kamar::where('kode', 'KM-FOTO')->first();
+        $this->assertNotNull($kamar);
+        $this->assertNotNull($kamar->foto_path);
+        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($kamar->foto_path);
+    }
+
+    public function test_admin_kamar_store_rejects_oversized_photo(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $this->actingAs(User::factory()->create());
+
+        $response = $this->post(route('admin.kamar.store'), [
+            'kode' => 'KM-BIG',
+            'nama' => 'Kamar Besar',
+            'tipe' => 'kamar',
+            'harga_per_malam' => 150000,
+            'status' => 'available',
+            'foto' => \Illuminate\Http\UploadedFile::fake()->create('big.jpg', 3000, 'image/jpeg'),
+        ]);
+
+        $response->assertSessionHasErrors('foto');
+        $this->assertNull(Kamar::where('kode', 'KM-BIG')->first());
+    }
 }

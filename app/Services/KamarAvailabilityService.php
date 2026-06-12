@@ -9,19 +9,24 @@ use Illuminate\Support\Collection;
 class KamarAvailabilityService
 {
     /**
-     * Return rooms that are not under maintenance and have no reservation item
-     * overlapping the requested date range.
+     * A room is bookable on ANY date only when its status is 'available'.
+     * Any other status (limited/full/maintenance) means it can never be booked,
+     * regardless of date. Date range is kept for signature compatibility.
      */
-    public function availableRooms(string $tanggalMasuk, string $tanggalKeluar): Collection
+    public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
     {
         return Kamar::query()
-            ->where('status', '!=', 'maintenance')
-            ->whereDoesntHave('reservasiItems', function ($query) use ($tanggalMasuk, $tanggalKeluar): void {
-                $query->where('tanggal_masuk', '<', $tanggalKeluar)
-                    ->where('tanggal_keluar', '>', $tanggalMasuk);
-            })
+            ->where('status', 'available')
             ->orderBy('kode')
             ->get();
+    }
+
+    /**
+     * Whether a specific room can be booked. Status-only rule.
+     */
+    public function isBookable(Kamar $kamar): bool
+    {
+        return $kamar->status === 'available';
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Kamar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminKamarController extends Controller
 {
@@ -18,11 +19,19 @@ class AdminKamarController extends Controller
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:20480'],
+            'foto' => ['nullable', 'image', 'max:2048'],
+        ], [
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $data['foto_path'] = $request->file('foto')->store('kamar', 'public');
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            $file = $request->file('foto');
+            $data['foto_path'] = $file->storeAs(
+                'kamar',
+                Str::random(30).'.'.($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg'),
+                'public'
+            );
         }
 
         Kamar::create($data);
@@ -39,15 +48,23 @@ class AdminKamarController extends Controller
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:20480'],
+            'foto' => ['nullable', 'image', 'max:2048'],
+        ], [
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
 
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             if ($kamar->foto_path) {
                 Storage::disk('public')->delete($kamar->foto_path);
             }
 
-            $data['foto_path'] = $request->file('foto')->store('kamar', 'public');
+            $file = $request->file('foto');
+            $data['foto_path'] = $file->storeAs(
+                'kamar',
+                Str::random(30).'.'.($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg'),
+                'public'
+            );
         }
 
         $kamar->update($data);

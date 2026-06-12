@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminRekapController;
 use App\Http\Controllers\AdminReservasiController;
 use App\Http\Controllers\AdminWhatsappChatController;
 use App\Http\Controllers\KirimChatWebhookController;
+use App\Http\Controllers\AdminPengaduanController;
 use App\Http\Controllers\RetribusiBillingController;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
@@ -65,4 +66,6 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/admin/whatsapp/messages', [AdminWhatsappChatController::class, 'index'])->name('admin.whatsapp.messages');
     Route::post('/admin/whatsapp/send', [AdminWhatsappChatController::class, 'send'])->name('admin.whatsapp.send');
     Route::get('/admin/rekap-bulanan', [AdminRekapController::class, 'index'])->name('admin.rekap.bulanan');
+    Route::patch('/admin/pengaduan/{pengaduan}', [AdminPengaduanController::class, 'update'])->name('admin.pengaduan.update');
+    Route::delete('/admin/pengaduan/{pengaduan}', [AdminPengaduanController::class, 'destroy'])->name('admin.pengaduan.destroy');
 });

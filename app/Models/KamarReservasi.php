@@ -24,6 +24,7 @@ class KamarReservasi extends Model
         'total_harga',
         'status',
         'payment_status',
+        'bukti_pembayaran',
         'catatan',
     ];
 

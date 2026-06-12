@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChatbotRule;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
+use App\Models\LayananPengaduan;
 use App\Models\WhatsappMessage;
 use App\Models\WhatsappSession;
 use App\Services\KamarAvailabilityService;
@@ -13,7 +14,9 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class KirimChatWebhookController extends Controller
@@ -80,6 +83,17 @@ class KirimChatWebhookController extends Controller
         $session->update(['last_message_at' => now()]);
 
         $customerName = $this->extractCustomerName($payload);
+
+        // Jika user sedang diminta upload bukti pembayaran dan mengirim gambar,
+        // tangani upload-nya lebih dulu (di luar alur rule berbasis teks).
+        if ($session->state === 'pesan_upload_bukti') {
+            $imageUrl = $this->extractImageUrl($payload);
+            if ($imageUrl) {
+                $this->handleBuktiPembayaran($session, $phoneNumber, $imageUrl, $kirimChat);
+
+                return response()->json(['success' => true]);
+            }
+        }
 
         $this->runChatbot($session, $phoneNumber, $input, $rawInput, $customerName, $kirimChat);
 
@@ -153,6 +167,45 @@ class KirimChatWebhookController extends Controller
 
             case 'simpan_reservasi':
                 $this->simpanReservasi($session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+
+                return;
+
+            case 'bayar_pilihan':
+                $this->sendPaymentChoice($phoneNumber, $kirimChat);
+
+                return;
+
+            case 'bayar_qris':
+                $this->sendQris($session, $phoneNumber, $kirimChat);
+
+                return;
+
+            case 'bayar_transfer':
+                $this->sendTransfer($session, $phoneNumber, $kirimChat);
+
+                return;
+
+            case 'simpan_laporan':
+                $this->simpanPengaduan('gangguan', $session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+
+                return;
+
+            case 'simpan_saran':
+                $this->simpanPengaduan('saran', $session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+
+                return;
+
+            case 'cek_booking':
+                $this->cekBooking($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'selesai':
+                $this->sendReturnButtons(
+                    $phoneNumber,
+                    $rule->reply_text ? $this->personalize($rule->reply_text, $customerName) : 'Terima kasih.',
+                    $kirimChat
+                );
 
                 return;
 
@@ -254,7 +307,7 @@ class KirimChatWebhookController extends Controller
      */
     private function sendKamarList(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $kamars = Kamar::where('status', '!=', 'maintenance')->orderBy('kode')->get();
+        $kamars = Kamar::where('status', 'available')->orderBy('kode')->get();
 
         if ($kamars->isEmpty()) {
             $this->sendReturnButtons($phoneNumber, "Mohon maaf, belum ada data kamar/kelas yang tersedia saat ini.", $kirimChat);
@@ -315,19 +368,22 @@ class KirimChatWebhookController extends Controller
     }
 
     /**
-     * Parse the WA order form and create a reservation in DB, then send the
-     * final interactive reply with a Menu Utama button.
+     * Parse the WA order form (key-value multiline) and create a reservation
+     * in DB, then send the final interactive reply with Menu Utama + Bayar.
      */
     private function simpanReservasi(WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
     {
-        $parts = array_map('trim', explode(',', $rawInput));
-        $nama = $parts[0] ?? ($customerName ?: 'Pelanggan WhatsApp');
-        $masukRaw = $parts[1] ?? null;
-        $keluarRaw = $parts[2] ?? null;
-        $waNumber = $parts[3] ?? $phoneNumber;
+        $form = $this->parseReservasiForm($rawInput);
+        $nama = $form['nama'] ?: ($customerName ?: 'Pelanggan WhatsApp');
 
-        $masuk = $masukRaw ? ($this->availability->parseDateInput($masukRaw)[0] ?? null) : null;
-        $keluar = $keluarRaw ? ($this->availability->parseDateInput($keluarRaw)[0] ?? null) : null;
+        // "WA: sama" / kosong -> pakai nomor pengirim.
+        $waRaw = $form['wa'];
+        $waNumber = (! $waRaw || in_array(Str::lower($waRaw), ['sama', 'same', '-'], true))
+            ? $phoneNumber
+            : $waRaw;
+
+        $masuk = $form['masuk'] ? ($this->availability->parseDateInput($form['masuk'])[0] ?? null) : null;
+        $keluar = $form['keluar'] ? ($this->availability->parseDateInput($form['keluar'])[0] ?? null) : null;
 
         $kamarId = data_get($session->context, 'kamar_id');
         $kamar = $kamarId ? Kamar::find($kamarId) : null;
@@ -365,7 +421,11 @@ class KirimChatWebhookController extends Controller
             ]);
         }
 
-        $session->update(['state' => 'main_menu', 'context' => []]);
+        // Simpan kode booking di context untuk langkah pembayaran berikutnya.
+        $session->update([
+            'state' => 'pesan_pembayaran',
+            'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
+        ]);
 
         $hargaText = number_format($total, 0, ',', '.');
         $kirimChat->sendButtons(
@@ -377,8 +437,247 @@ class KirimChatWebhookController extends Controller
             ."Total: Rp{$hargaText}\n"
             ."Status: menunggu konfirmasi & pembayaran.\n\n"
             ."Terima kasih telah memesan di Balai Diklat Kota Semarang.",
-            [['id' => 'menu', 'title' => 'Menu Utama']]
+            [
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+                ['id' => 'bayar', 'title' => 'Bayar'],
+            ]
         );
+    }
+
+    /**
+     * Parse a key-value multiline order form, e.g.
+     *   Nama: Budi Santoso
+     *   Masuk: 20 Juni 2026
+     *   Keluar: 22 Juni 2026
+     *   WA: 08123456789
+     *
+     * @return array{nama:?string,masuk:?string,keluar:?string,wa:?string}
+     */
+    private function parseReservasiForm(string $rawInput): array
+    {
+        $data = [];
+        $hasKeyValue = false;
+
+        foreach (preg_split('/\r\n|\r|\n/', $rawInput) as $line) {
+            if (! str_contains($line, ':')) {
+                continue;
+            }
+
+            $hasKeyValue = true;
+            [$key, $value] = array_map('trim', explode(':', $line, 2));
+            $data[Str::lower($key)] = $value;
+        }
+
+        $result = [
+            'nama' => $data['nama'] ?? null,
+            'masuk' => $data['masuk'] ?? ($data['tanggal masuk'] ?? null),
+            'keluar' => $data['keluar'] ?? ($data['tanggal keluar'] ?? null),
+            'wa' => $data['wa'] ?? ($data['no wa'] ?? ($data['whatsapp'] ?? null)),
+        ];
+
+        // Fallback: comma-separated positional format on a single line,
+        // e.g. "Budi, 15-06-2026, 17-06-2026, 6281234567890".
+        if (! $hasKeyValue && str_contains($rawInput, ',')) {
+            $parts = array_map('trim', explode(',', trim($rawInput)));
+            $result['nama'] = $result['nama'] ?: ($parts[0] ?? null);
+            $result['masuk'] = $result['masuk'] ?: ($parts[1] ?? null);
+            $result['keluar'] = $result['keluar'] ?: ($parts[2] ?? null);
+            $result['wa'] = $result['wa'] ?: ($parts[3] ?? null);
+        }
+
+        return $result;
+    }
+
+    private function sendPaymentChoice(string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $kirimChat->sendButtons(
+            $phoneNumber,
+            "Silakan pilih metode pembayaran:",
+            [
+                ['id' => 'qris', 'title' => 'QRIS'],
+                ['id' => 'transfer', 'title' => 'Transfer Bank'],
+            ]
+        );
+    }
+
+    private function sendQris(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        // Dummy link e-Retribusi (ganti dengan integrasi API asli nanti).
+        $link = 'https://eretribusi.semarangkota.go.id/bayar/'.Str::upper(Str::random(10));
+
+        $session->update(['state' => 'pesan_upload_bukti']);
+
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Pembayaran via QRIS\n\n"
+            ."Silakan lakukan pembayaran melalui link/QR e-Retribusi berikut:\n{$link}\n\n"
+            ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih."
+        );
+    }
+
+    private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        // Dummy rekening (ganti dengan data resmi nanti).
+        $session->update(['state' => 'pesan_upload_bukti']);
+
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Pembayaran via Transfer Bank\n\n"
+            ."Silakan transfer ke salah satu rekening berikut:\n"
+            ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
+            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
+            ."Setelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih."
+        );
+    }
+
+    private function simpanPengaduan(string $jenis, WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
+    {
+        LayananPengaduan::create([
+            'jenis' => $jenis,
+            'nama' => $customerName ?: 'Pelanggan WhatsApp',
+            'phone_number' => $phoneNumber,
+            'isi' => trim($rawInput),
+            'status' => 'baru',
+        ]);
+
+        $session->update(['state' => 'main_menu', 'context' => []]);
+
+        $label = $jenis === 'saran' ? 'Saran' : 'Laporan gangguan';
+        $this->sendReturnButtons(
+            $phoneNumber,
+            "{$label} Anda sudah kami terima dan akan ditindaklanjuti. Terima kasih.",
+            $kirimChat
+        );
+    }
+
+    private function cekBooking(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $kode = trim($rawInput);
+        $reservasi = KamarReservasi::with('kamar')->where('kode', $kode)->first();
+
+        if (! $reservasi) {
+            $this->sendReturnButtons(
+                $phoneNumber,
+                "Kode booking \"{$kode}\" tidak ditemukan. Pastikan kode benar, atau kembali ke menu utama.",
+                $kirimChat
+            );
+
+            return;
+        }
+
+        $hargaText = number_format((int) $reservasi->total_harga, 0, ',', '.');
+        $kamarText = $reservasi->kamar ? $reservasi->kamar->nama : 'Belum dialokasikan';
+        $tanggal = ($reservasi->tanggal_masuk && $reservasi->tanggal_keluar)
+            ? $reservasi->tanggal_masuk->format('d M Y').' s/d '.$reservasi->tanggal_keluar->format('d M Y')
+            : '-';
+        $bayar = $reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar';
+
+        $detail = "Detail booking {$reservasi->kode}:\n\n"
+            ."Pemesan: {$reservasi->nama_pemesan}\n"
+            ."Kamar/kelas: {$kamarText}\n"
+            ."Tanggal: {$tanggal}\n"
+            ."Total: Rp{$hargaText}\n"
+            ."Status reservasi: {$reservasi->status}\n"
+            ."Status pembayaran: {$bayar}";
+
+        // Belum dibayar -> tawarkan tombol Bayar; simpan kode untuk langkah bayar.
+        if ($reservasi->payment_status !== 'paid') {
+            $session->update([
+                'state' => 'pesan_pembayaran',
+                'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
+            ]);
+
+            $kirimChat->sendButtons($phoneNumber, $detail."\n\nSilakan lanjutkan pembayaran.", [
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+                ['id' => 'bayar', 'title' => 'Bayar'],
+            ]);
+
+            return;
+        }
+
+        $this->sendReturnButtons($phoneNumber, $detail, $kirimChat);
+    }
+
+    /**
+     * Download the WA-uploaded payment proof, store it (max 2MB), attach to the
+     * reservation referenced in session context, and mark it paid.
+     */
+    private function handleBuktiPembayaran(WhatsappSession $session, string $phoneNumber, string $imageUrl, KirimChatService $kirimChat): void
+    {
+        $kode = data_get($session->context, 'booking_kode');
+        $reservasi = $kode ? KamarReservasi::where('kode', $kode)->first() : null;
+
+        if (! $reservasi) {
+            $this->sendReturnButtons($phoneNumber, "Maaf, kami tidak menemukan reservasi terkait. Silakan kembali ke menu utama.", $kirimChat);
+
+            return;
+        }
+
+        try {
+            $response = Http::timeout(20)->get($imageUrl);
+        } catch (\Throwable $e) {
+            Log::error('Gagal unduh bukti pembayaran', ['error' => $e->getMessage(), 'url' => $imageUrl]);
+            $response = null;
+        }
+
+        if (! $response || ! $response->successful()) {
+            $kirimChat->sendText($phoneNumber, "Maaf, bukti pembayaran gagal diproses. Silakan kirim ulang fotonya.");
+
+            return;
+        }
+
+        $body = $response->body();
+
+        // Batasi maksimal 2MB.
+        if (strlen($body) > 2 * 1024 * 1024) {
+            $kirimChat->sendText($phoneNumber, "Ukuran foto melebihi 2MB. Silakan kirim foto bukti pembayaran yang lebih kecil.");
+
+            return;
+        }
+
+        $ext = $this->guessImageExtension($response->header('Content-Type'), $imageUrl);
+        $path = 'bukti-pembayaran/'.$reservasi->kode.'-'.Str::random(8).'.'.$ext;
+        Storage::disk('public')->put($path, $body);
+
+        // Hapus bukti lama bila ada.
+        if ($reservasi->bukti_pembayaran) {
+            Storage::disk('public')->delete($reservasi->bukti_pembayaran);
+        }
+
+        $reservasi->update([
+            'bukti_pembayaran' => $path,
+            'payment_status' => 'paid',
+        ]);
+
+        $session->update(['state' => 'main_menu']);
+
+        $this->sendReturnButtons(
+            $phoneNumber,
+            "Terima kasih! Bukti pembayaran untuk booking {$reservasi->kode} sudah kami terima dan status pembayaran kini *Lunas*.",
+            $kirimChat
+        );
+    }
+
+    private function guessImageExtension(?string $contentType, string $url): string
+    {
+        $map = [
+            'image/jpeg' => 'jpg',
+            'image/jpg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+            'image/gif' => 'gif',
+        ];
+
+        if ($contentType) {
+            $ct = strtolower(trim(explode(';', $contentType)[0]));
+            if (isset($map[$ct])) {
+                return $map[$ct];
+            }
+        }
+
+        $ext = strtolower(pathinfo(parse_url($url, PHP_URL_PATH) ?: '', PATHINFO_EXTENSION));
+
+        return in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true) ? ($ext === 'jpeg' ? 'jpg' : $ext) : 'jpg';
     }
 
     private function generateReservationCode(): string
@@ -492,5 +791,27 @@ class KirimChatWebhookController extends Controller
             ?? Arr::get($payload, 'list_reply.id')
             ?? Arr::get($payload, 'data.button_reply.id')
             ?? Arr::get($payload, 'data.list_reply.id');
+    }
+
+    /**
+     * Extract an image/media URL from common KirimChat payload shapes.
+     */
+    private function extractImageUrl(array $payload): ?string
+    {
+        $url = Arr::get($payload, 'data.media_url')
+            ?? Arr::get($payload, 'data.image.url')
+            ?? Arr::get($payload, 'data.image.link')
+            ?? Arr::get($payload, 'data.media.url')
+            ?? Arr::get($payload, 'data.attachment.url')
+            ?? Arr::get($payload, 'media_url')
+            ?? Arr::get($payload, 'image.url')
+            ?? Arr::get($payload, 'image.link')
+            ?? Arr::get($payload, 'attachment.url');
+
+        if (! $url) {
+            return null;
+        }
+
+        return filter_var($url, FILTER_VALIDATE_URL) ? $url : null;
     }
 }

@@ -24,6 +24,7 @@
                                 {{ $reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar' }}
                             </label>
                         </form>
+                        @if($reservasi->bukti_pembayaran)<div class="mt-1"><a href="{{ asset('storage/'.$reservasi->bukti_pembayaran) }}" target="_blank">Lihat bukti</a></div>@endif
                     </div></td>
                     <td>
                         @forelse ($reservasi->retribusiBillings as $billing)

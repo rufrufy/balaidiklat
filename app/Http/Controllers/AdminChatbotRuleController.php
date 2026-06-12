@@ -38,7 +38,7 @@ class AdminChatbotRuleController extends Controller
             'match_type' => ['required', Rule::in(['contains', 'exact', 'starts_with', 'any'])],
             'state' => ['nullable', 'string', 'max:100'],
             'reply_text' => ['nullable', 'string'],
-            'action' => ['nullable', Rule::in(['main_menu', 'check_availability', 'list_kamar', 'pilih_kamar', 'simpan_reservasi'])],
+            'action' => ['nullable', Rule::in(['main_menu', 'check_availability', 'list_kamar', 'pilih_kamar', 'simpan_reservasi', 'bayar_pilihan', 'bayar_qris', 'bayar_transfer', 'simpan_laporan', 'simpan_saran', 'cek_booking', 'selesai'])],
             'next_state' => ['nullable', 'string', 'max:100'],
             'priority' => ['required', 'integer', 'min:1'],
             'is_active' => ['nullable', 'boolean'],

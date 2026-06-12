@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
 use App\Models\ChatbotRule;
+use App\Models\LayananPengaduan;
 use App\Models\WhatsappMessage;
 use App\Models\WhatsappSession;
 use Illuminate\View\View;
@@ -18,6 +19,7 @@ class AdminDashboardController extends Controller
         $sessions = WhatsappSession::latest('last_message_at')->get();
         $messages = WhatsappMessage::latest()->limit(50)->get()->reverse()->values();
         $rules = ChatbotRule::orderBy('priority')->latest()->get();
+        $pengaduans = LayananPengaduan::latest()->get();
 
         return view('admin.dashboard', [
             'kamars' => $kamars,
@@ -25,6 +27,7 @@ class AdminDashboardController extends Controller
             'sessions' => $sessions,
             'messages' => $messages,
             'rules' => $rules,
+            'pengaduans' => $pengaduans,
             'stats' => [
                 'kamar' => $kamars->count(),
                 'ruang_kelas' => $kamars->where('tipe', 'ruang_kelas')->count(),
@@ -32,6 +35,7 @@ class AdminDashboardController extends Controller
                 'sessions' => $sessions->count(),
                 'messages' => $messages->count(),
                 'rules' => $rules->count(),
+                'pengaduan' => $pengaduans->count(),
             ],
         ]);
     }

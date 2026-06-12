@@ -29,6 +29,8 @@ class AdminRekapController extends Controller
                 'approved' => $reservasis->where('status', 'approved')->count(),
                 'pending' => $reservasis->where('status', 'pending')->count(),
                 'peserta' => $reservasis->sum('jumlah_peserta'),
+                'pendapatan' => $reservasis->where('payment_status', 'paid')->sum('total_harga'),
+                'paid_count' => $reservasis->where('payment_status', 'paid')->count(),
             ],
         ]);
     }

@@ -1,0 +1,46 @@
+# Version control & IDE
+.git
+.gitignore
+.gitattributes
+.editorconfig
+.idea
+.vscode
+.fleet
+
+# Dependencies (installed inside the image)
+vendor
+node_modules
+
+# Build artifacts (regenerated in the image)
+public/build
+public/hot
+
+# Local environment & secrets - NEVER ship these into the image
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Local databases & logs
+database/database.sqlite
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+*.log
+
+# Tests & CI tooling
+tests
+phpunit.xml
+.phpunit.result.cache
+.github
+
+# Docs & misc
+README.md
+MIGRASI_DATABASE.md
+mockup
+.omo
+
+# OS files
+.DS_Store
+Thumbs.db

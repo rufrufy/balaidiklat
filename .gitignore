@@ -26,3 +26,7 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+Dockerfile
+docker-compose.yml
+DEPLOY_PORTAINER.md
+.env.production.example

@@ -47,6 +47,55 @@ class KirimChatService
         return $this->post('/messages/send', $payload, $phoneNumber, 'interactive', $bodyText);
     }
 
+    /**
+     * Send an interactive list message. WhatsApp allows up to 10 rows per section.
+     * Each row is ['id' => string, 'title' => string, 'description' => ?string].
+     *
+     * @param string $buttonLabel  Label for the list button (max 20 chars)
+     * @param array<int, array{title:string, rows:array<int, array{id:string,title:string,description?:string}>}> $sections
+     */
+    public function sendList(string $phoneNumber, string $bodyText, string $buttonLabel, array $sections, ?string $headerText = null, ?string $footerText = null): array
+    {
+        $formattedSections = array_map(static function (array $section): array {
+            return [
+                'title' => $section['title'],
+                'rows' => array_map(static function (array $row): array {
+                    $formatted = ['id' => $row['id'], 'title' => $row['title']];
+                    if (! empty($row['description'])) {
+                        $formatted['description'] = $row['description'];
+                    }
+
+                    return $formatted;
+                }, $section['rows']),
+            ];
+        }, $sections);
+
+        $interactive = [
+            'type' => 'list',
+            'body' => ['text' => $bodyText],
+            'action' => [
+                'button' => $buttonLabel,
+                'sections' => $formattedSections,
+            ],
+        ];
+
+        if ($headerText) {
+            $interactive['header'] = ['type' => 'text', 'text' => $headerText];
+        }
+        if ($footerText) {
+            $interactive['footer'] = ['text' => $footerText];
+        }
+
+        $payload = [
+            'phone_number' => $phoneNumber,
+            'channel' => 'whatsapp',
+            'message_type' => 'interactive',
+            'interactive' => $interactive,
+        ];
+
+        return $this->post('/messages/send', $payload, $phoneNumber, 'interactive', $bodyText);
+    }
+
     private function post(string $path, array $payload, string $phoneNumber, string $messageType, string $messageText): array
     {
         $response = Http::withToken(config('services.kirimchat.api_key'))

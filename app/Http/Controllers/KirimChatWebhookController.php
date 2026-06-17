@@ -142,11 +142,7 @@ class KirimChatWebhookController extends Controller
     ): void {
         switch ($rule->action) {
             case 'main_menu':
-                if ($rule->reply_text) {
-                    $kirimChat->sendText($phoneNumber, $this->personalize($rule->reply_text, $customerName));
-                } else {
-                    $this->sendMainMenu($phoneNumber, $customerName, $kirimChat);
-                }
+                $this->sendMainMenu($phoneNumber, $customerName, $kirimChat);
 
                 return;
 
@@ -185,6 +181,11 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
+            case 'input_nomor_kamar_gangguan':
+                $this->inputNomorKamarGangguan($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
             case 'simpan_laporan':
                 $this->simpanPengaduan('gangguan', $session, $phoneNumber, $rawInput, $customerName, $kirimChat);
 
@@ -192,6 +193,16 @@ class KirimChatWebhookController extends Controller
 
             case 'simpan_saran':
                 $this->simpanPengaduan('saran', $session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+
+                return;
+
+            case 'input_rating_survey':
+                $this->inputRatingSurvey($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'simpan_survey':
+                $this->simpanSurvey($session, $phoneNumber, $rawInput, $customerName, $kirimChat);
 
                 return;
 
@@ -216,21 +227,61 @@ class KirimChatWebhookController extends Controller
         }
     }
 
+    /**
+     * Send the main menu as an interactive list message (clickable items).
+     */
     private function sendMainMenu(string $phoneNumber, ?string $customerName, KirimChatService $kirimChat): void
     {
         $name = $customerName ?: 'Sahabat Balai';
 
         $body = "Halo, {$name} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
             ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
-            ."Silakan pilih menu layanan dengan mengetik angka 1 sampai 6.\n\n"
-            ."1. Informasi layanan balai diklat\n"
-            ."2. Pemesanan kamar/kelas\n"
-            ."3. Laporan Gangguan\n"
-            ."4. Saran\n"
-            ."5. Survey kepuasan\n"
-            ."6. Customer Care";
+            ."Silakan pilih menu layanan di bawah ini.";
 
-        $kirimChat->sendText($phoneNumber, $body);
+        $kirimChat->sendList(
+            $phoneNumber,
+            $body,
+            'Pilih Menu',
+            [
+                [
+                    'title' => 'Menu Layanan',
+                    'rows' => [
+                        [
+                            'id' => '1',
+                            'title' => 'Informasi Layanan',
+                            'description' => 'Informasi layanan balai diklat',
+                        ],
+                        [
+                            'id' => '2',
+                            'title' => 'Pemesanan Kamar',
+                            'description' => 'Pemesanan kamar atau kelas',
+                        ],
+                        [
+                            'id' => '3',
+                            'title' => 'Laporan Gangguan',
+                            'description' => 'Laporkan gangguan fasilitas',
+                        ],
+                        [
+                            'id' => '4',
+                            'title' => 'Saran',
+                            'description' => 'Kirim saran dan masukan',
+                        ],
+                        [
+                            'id' => '5',
+                            'title' => 'Survey Kepuasan',
+                            'description' => 'Isi survey kepuasan layanan',
+                        ],
+                        [
+                            'id' => '6',
+                            'title' => 'Customer Care',
+                            'description' => 'Hubungi tim layanan pelanggan',
+                        ],
+                    ],
+                ],
+            ],
+            'SAPA BALAI',
+            'Ketik "menu" kapan saja untuk kembali.'
+        );
     }
 
     private function sendReturnButtons(string $phoneNumber, string $bodyText, KirimChatService $kirimChat): void
@@ -530,13 +581,47 @@ class KirimChatWebhookController extends Controller
         );
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Laporan Gangguan Flow (2 steps: nomor kamar → isi laporan)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Step 1: User sends room number → save to context, ask for the report.
+     */
+    private function inputNomorKamarGangguan(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $nomorKamar = trim($rawInput);
+
+        if (empty($nomorKamar)) {
+            $kirimChat->sendText($phoneNumber, "Mohon kirim nomor kamar yang mengalami gangguan.\nContoh: A-101");
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'gangguan_isi',
+            'context' => array_merge($session->context ?? [], ['nomor_kamar' => $nomorKamar]),
+        ]);
+
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Nomor kamar: *{$nomorKamar}*\n\nSilakan kirimkan detail gangguan yang terjadi."
+        );
+    }
+
+    /**
+     * Save complaint with room number from context.
+     */
     private function simpanPengaduan(string $jenis, WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
     {
+        $nomorKamar = data_get($session->context, 'nomor_kamar');
+
         LayananPengaduan::create([
             'jenis' => $jenis,
             'nama' => $customerName ?: 'Pelanggan WhatsApp',
             'phone_number' => $phoneNumber,
             'isi' => trim($rawInput),
+            'nomor_kamar' => $nomorKamar,
             'status' => 'baru',
         ]);
 
@@ -549,6 +634,70 @@ class KirimChatWebhookController extends Controller
             $kirimChat
         );
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Survey Kepuasan Flow (2 steps: rating → komentar)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Step 1: User sends rating (1-5) → save to context, ask for comment.
+     */
+    private function inputRatingSurvey(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $rating = (int) trim($rawInput);
+
+        if ($rating < 1 || $rating > 5) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Mohon berikan rating antara 1 sampai 5:\n\n"
+                ."1 ⭐ Sangat Tidak Puas\n"
+                ."2 ⭐⭐ Tidak Puas\n"
+                ."3 ⭐⭐⭐ Cukup\n"
+                ."4 ⭐⭐⭐⭐ Puas\n"
+                ."5 ⭐⭐⭐⭐⭐ Sangat Puas"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'survey_komentar',
+            'context' => array_merge($session->context ?? [], ['survey_rating' => $rating]),
+        ]);
+
+        $stars = str_repeat('⭐', $rating);
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Rating Anda: {$stars} ({$rating}/5)\n\nSilakan kirim masukan atau komentar Anda tentang layanan kami."
+        );
+    }
+
+    /**
+     * Step 2: User sends comment → save survey to DB.
+     */
+    private function simpanSurvey(WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
+    {
+        $rating = data_get($session->context, 'survey_rating', 3);
+
+        LayananPengaduan::create([
+            'jenis' => 'survey',
+            'nama' => $customerName ?: 'Pelanggan WhatsApp',
+            'phone_number' => $phoneNumber,
+            'isi' => trim($rawInput),
+            'rating' => $rating,
+            'status' => 'baru',
+        ]);
+
+        $session->update(['state' => 'main_menu', 'context' => []]);
+
+        $this->sendReturnButtons(
+            $phoneNumber,
+            "Terima kasih atas survey kepuasan Anda! Masukan Anda sangat berarti untuk peningkatan layanan kami. 🙏",
+            $kirimChat
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
 
     private function cekBooking(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kamar;
+use App\Models\KamarFoto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -20,17 +21,36 @@ class AdminKamarController extends Controller
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:2048'],
+            'foto' => ['nullable', 'array'],
+            'foto.*' => ['image', 'max:2048'],
         ], [
-            'foto.max' => 'Ukuran foto maksimal 2MB.',
-            'foto.image' => 'File harus berupa gambar (jpg, png, dll).',
+            'foto.*.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
 
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            $data['foto_path'] = $this->storeFoto($request->file('foto'));
+        // Set first uploaded photo as legacy foto_path for backward compatibility
+        if ($request->hasFile('foto') && isset($request->file('foto')[0]) && $request->file('foto')[0]->isValid()) {
+            $data['foto_path'] = $this->storeFoto($request->file('foto')[0]);
         }
 
-        Kamar::create($data);
+        $kamar = Kamar::create($data);
+
+        // Store all photos in kamar_fotos table
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $index => $file) {
+                if ($file->isValid()) {
+                    $path = ($index === 0 && isset($data['foto_path']))
+                        ? $data['foto_path']
+                        : $this->storeFoto($file);
+
+                    KamarFoto::create([
+                        'kamar_id' => $kamar->id,
+                        'foto_path' => $path,
+                        'urutan' => $index,
+                    ]);
+                }
+            }
+        }
 
         return redirect()->route('admin.dashboard', ['section' => 'kamar'])->with('status', 'Kamar berhasil ditambahkan.');
     }
@@ -44,19 +64,48 @@ class AdminKamarController extends Controller
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
             'status' => ['required', 'in:available,limited,full,maintenance'],
-            'foto' => ['nullable', 'image', 'max:2048'],
+            'foto' => ['nullable', 'array'],
+            'foto.*' => ['image', 'max:2048'],
+            'hapus_foto' => ['nullable', 'array'],
+            'hapus_foto.*' => ['integer'],
         ], [
-            'foto.max' => 'Ukuran foto maksimal 2MB.',
-            'foto.image' => 'File harus berupa gambar (jpg, png, dll).',
+            'foto.*.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
 
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            if ($kamar->foto_path) {
-                Storage::disk('public')->delete($kamar->foto_path);
-            }
+        // Delete selected existing photos
+        if ($request->filled('hapus_foto')) {
+            $fotosToDelete = KamarFoto::where('kamar_id', $kamar->id)
+                ->whereIn('id', $request->input('hapus_foto'))
+                ->get();
 
-            $data['foto_path'] = $this->storeFoto($request->file('foto'));
+            foreach ($fotosToDelete as $foto) {
+                Storage::disk('public')->delete($foto->foto_path);
+                $foto->delete();
+            }
         }
+
+        // Add new photos
+        if ($request->hasFile('foto')) {
+            $maxUrutan = KamarFoto::where('kamar_id', $kamar->id)->max('urutan') ?? -1;
+
+            foreach ($request->file('foto') as $index => $file) {
+                if ($file->isValid()) {
+                    $path = $this->storeFoto($file);
+
+                    KamarFoto::create([
+                        'kamar_id' => $kamar->id,
+                        'foto_path' => $path,
+                        'urutan' => $maxUrutan + $index + 1,
+                    ]);
+                }
+            }
+        }
+
+        // Update legacy foto_path to first photo
+        $kamar->load('fotos');
+        $firstFoto = $kamar->fotos->first();
+        $data['foto_path'] = $firstFoto?->foto_path;
 
         $kamar->update($data);
 
@@ -87,6 +136,11 @@ class AdminKamarController extends Controller
 
     public function destroy(Kamar $kamar): RedirectResponse
     {
+        // Delete all photos from storage
+        foreach ($kamar->fotos as $foto) {
+            Storage::disk('public')->delete($foto->foto_path);
+        }
+
         if ($kamar->foto_path) {
             Storage::disk('public')->delete($kamar->foto_path);
         }

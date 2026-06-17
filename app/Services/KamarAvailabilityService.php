@@ -3,30 +3,63 @@
 namespace App\Services;
 
 use App\Models\Kamar;
+use App\Models\KamarReservasiItem;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class KamarAvailabilityService
 {
     /**
-     * A room is bookable on ANY date only when its status is 'available'.
-     * Any other status (limited/full/maintenance) means it can never be booked,
-     * regardless of date. Date range is kept for signature compatibility.
+     * Return rooms that are available (status = 'available') and have no
+     * conflicting reservations on the given date range. If no dates are
+     * provided, returns all rooms with status 'available'.
      */
     public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
     {
-        return Kamar::query()
-            ->where('status', 'available')
-            ->orderBy('kode')
-            ->get();
+        $query = Kamar::query()->where('status', 'available');
+
+        if ($tanggalMasuk && $tanggalKeluar) {
+            // Exclude rooms that have an overlapping reservation (pending or approved)
+            $bookedKamarIds = KamarReservasiItem::query()
+                ->whereHas('reservasi', function ($q) {
+                    $q->whereIn('status', ['pending', 'approved']);
+                })
+                ->where('tanggal_masuk', '<', $tanggalKeluar)
+                ->where('tanggal_keluar', '>', $tanggalMasuk)
+                ->pluck('kamar_id')
+                ->unique();
+
+            if ($bookedKamarIds->isNotEmpty()) {
+                $query->whereNotIn('id', $bookedKamarIds);
+            }
+        }
+
+        return $query->orderBy('kode')->get();
     }
 
     /**
-     * Whether a specific room can be booked. Status-only rule.
+     * Whether a specific room can be booked on a given date range.
      */
-    public function isBookable(Kamar $kamar): bool
+    public function isBookable(Kamar $kamar, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
     {
-        return $kamar->status === 'available';
+        if ($kamar->status !== 'available') {
+            return false;
+        }
+
+        if ($tanggalMasuk && $tanggalKeluar) {
+            $hasConflict = KamarReservasiItem::query()
+                ->where('kamar_id', $kamar->id)
+                ->whereHas('reservasi', function ($q) {
+                    $q->whereIn('status', ['pending', 'approved']);
+                })
+                ->where('tanggal_masuk', '<', $tanggalKeluar)
+                ->where('tanggal_keluar', '>', $tanggalMasuk)
+                ->exists();
+
+            return ! $hasConflict;
+        }
+
+        return true;
     }
 
     /**

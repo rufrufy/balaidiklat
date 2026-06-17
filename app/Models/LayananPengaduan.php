@@ -11,11 +11,24 @@ class LayananPengaduan extends Model
         'nama',
         'phone_number',
         'isi',
+        'nomor_kamar',
+        'rating',
         'status',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'rating' => 'integer',
+        ];
+    }
+
     public function jenisLabel(): string
     {
-        return $this->jenis === 'saran' ? 'Saran' : 'Laporan Gangguan';
+        return match ($this->jenis) {
+            'saran' => 'Saran',
+            'survey' => 'Survey Kepuasan',
+            default => 'Laporan Gangguan',
+        };
     }
 }

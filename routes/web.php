@@ -17,8 +17,40 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('landing', ['kamars' => Kamar::latest()->get()]);
+    return view('landing', ['kamars' => Kamar::with('fotos')->latest()->get()]);
 })->name('landing');
+
+Route::post('/cek-ketersediaan', function () {
+    $data = request()->validate([
+        'tanggal_masuk' => ['required', 'date'],
+        'tanggal_keluar' => ['required', 'date', 'after:tanggal_masuk'],
+    ]);
+
+    $service = app(\App\Services\KamarAvailabilityService::class);
+    $rooms = $service->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
+
+    // Load fotos for the available rooms
+    $rooms->load('fotos');
+
+    return response()->json([
+        'rooms' => $rooms->map(function ($room) {
+            $fotos = $room->allFotoPaths()->map(fn ($path) => asset('storage/'.$path))->values();
+
+            return [
+                'id' => $room->id,
+                'kode' => $room->kode,
+                'nama' => $room->nama,
+                'tipe' => $room->tipeLabel(),
+                'harga' => number_format($room->harga_per_malam, 0, ',', '.'),
+                'fasilitas' => $room->fasilitas,
+                'status' => $room->status,
+                'fotos' => $fotos,
+            ];
+        }),
+        'tanggal_masuk' => $data['tanggal_masuk'],
+        'tanggal_keluar' => $data['tanggal_keluar'],
+    ]);
+})->name('cek.ketersediaan');
 
 Route::post('/lacak-booking', function () {
     $data = request()->validate([
@@ -32,7 +64,7 @@ Route::post('/lacak-booking', function () {
         ->first();
 
     return view('landing', [
-        'kamars' => Kamar::latest()->get(),
+        'kamars' => Kamar::with('fotos')->latest()->get(),
         'trackingResult' => $reservasi,
         'trackingCode' => $data['kode'],
     ]);

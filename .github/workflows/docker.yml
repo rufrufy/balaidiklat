@@ -7,7 +7,6 @@ on:
 
 jobs:
   docker:
-
     runs-on: ubuntu-latest
 
     permissions:
@@ -15,16 +14,33 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-
-      - uses: docker/login-action@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v6
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
+          images: ghcr.io/${{ github.repository_owner }}/balaidiklat
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/balaidiklat:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.run_id }}
+            org.opencontainers.image.version=${{ github.sha }}

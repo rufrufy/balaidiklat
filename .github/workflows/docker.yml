@@ -1,30 +1,53 @@
-name: Build Docker Image
+name: Build & Deploy Docker Image
 
 on:
-  push:
-    branches:
-      - master
+ push:
+   branches:
+     - master
 
 jobs:
-  docker:
+ docker:
 
-    runs-on: ubuntu-latest
+   runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: write
+   permissions:
+     contents: read
+     packages: write
 
-    steps:
+   steps:
 
-      - uses: actions/checkout@v4
+     - uses: actions/checkout@v4
 
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+     - name: Generate image tags
+       id: meta
+       run: |
+         SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+         echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
 
-      - uses: docker/build-push-action@v6
-        with:
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/balaidiklat:latest
+     - uses: docker/login-action@v3
+       with:
+         registry: ghcr.io
+         username: ${{ github.actor }}
+         password: ${{ secrets.GITHUB_TOKEN }}
+
+     - uses: docker/build-push-action@v6
+       with:
+         push: true
+         tags: |
+           ghcr.io/${{ github.repository_owner }}/balaidiklat:latest
+           ghcr.io/${{ github.repository_owner }}/balaidiklat:sha-${{ steps.meta.outputs.short_sha }}
+
+     - name: Trigger Portainer webhook
+       if: ${{ vars.PORTAINER_WEBHOOK_URL != '' }}
+       env:
+         PORTAINER_WEBHOOK_URL: ${{ vars.PORTAINER_WEBHOOK_URL }}
+       run: |
+         echo "Notifying Portainer to pull the new image and redeploy..."
+         STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$PORTAINER_WEBHOOK_URL")
+         echo "Portainer webhook responded with HTTP status: $STATUS"
+         if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+           echo "Portainer update triggered successfully."
+         else
+           echo "Portainer webhook returned non-2xx status ($STATUS). Check the webhook URL/stack config."
+           exit 1
+         fi

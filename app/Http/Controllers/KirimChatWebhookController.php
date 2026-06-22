@@ -119,8 +119,12 @@ class KirimChatWebhookController extends Controller
             ->first(fn (ChatbotRule $rule): bool => $rule->matches($input, $session->state));
 
         if (! $rule) {
-            $this->sendMainMenu($phoneNumber, $customerName, $kirimChat);
-            $session->update(['state' => 'main_menu']);
+            $session->update(['state' => 'main_menu', 'context' => []]);
+            $this->sendReturnButtons(
+                $phoneNumber,
+                "Maaf, pilihan tidak dikenali.\nSilakan ketik *menu* atau tekan tombol di bawah untuk kembali ke menu utama.",
+                $kirimChat
+            );
 
             return;
         }
@@ -211,6 +215,32 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
+            case 'input_nama':
+                $this->inputNama($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'input_tanggal_masuk':
+                $this->inputTanggalMasuk($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'input_tanggal_keluar':
+                $this->inputTanggalKeluar($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'input_no_hp':
+                $this->inputNoHp($session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+
+                return;
+
+            case 'kembali_menu':
+                $session->update(['state' => 'main_menu', 'context' => []]);
+                $this->sendMainMenu($phoneNumber, $customerName, $kirimChat);
+
+                return;
+
             case 'selesai':
                 $this->sendReturnButtons(
                     $phoneNumber,
@@ -248,13 +278,8 @@ class KirimChatWebhookController extends Controller
                     'rows' => [
                         [
                             'id' => '1',
-                            'title' => 'Informasi Layanan',
-                            'description' => 'Informasi layanan balai diklat',
-                        ],
-                        [
-                            'id' => '2',
-                            'title' => 'Pemesanan Kamar',
-                            'description' => 'Pemesanan kamar atau kelas',
+                            'title' => 'Informasi Layanan & Pemesanan',
+                            'description' => 'Lihat info layanan dan pesan kamar/kelas',
                         ],
                         [
                             'id' => '3',
@@ -381,12 +406,17 @@ class KirimChatWebhookController extends Controller
 
         $kirimChat->sendText(
             $phoneNumber,
-            "Pilihan kamar/kelas yang tersedia:\n\n".implode("\n", $lines)."\n\nKetik nomor untuk melihat detail/fasilitas."
+            "INFORMASI LAYANAN BALAI DIKLAT KOTA SEMARANG\n\n"
+            ."Balai Diklat menyediakan layanan sewa kamar dan ruang kelas untuk kegiatan diklat, rapat, maupun kegiatan resmi lainnya.\n\n"
+            ."Berikut adalah pilihan kamar/kelas yang tersedia:\n\n"
+            .implode("\n", $lines)
+            ."\n\nKetik nomor untuk melihat detail & fasilitas, atau ketik *menu* untuk kembali."
         );
     }
 
     /**
-     * Show the chosen room's keterangan/fasilitas from DB, then offer to order.
+     * Show the chosen room's keterangan/fasilitas from DB, then offer to order
+     * via interactive buttons (Pesan / Menu Utama) and move to step-by-step flow.
      */
     private function sendKamarDetail(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
@@ -396,7 +426,11 @@ class KirimChatWebhookController extends Controller
         $kamar = $kamarId ? Kamar::find($kamarId) : null;
 
         if (! $kamar) {
-            $kirimChat->sendText($phoneNumber, "Pilihan tidak dikenali. Ketik nomor kamar/kelas yang ada di daftar.");
+            $this->sendReturnButtons(
+                $phoneNumber,
+                "Pilihan tidak dikenali. Ketik nomor kamar/kelas yang ada di daftar, atau kembali ke menu utama.",
+                $kirimChat
+            );
 
             return;
         }
@@ -405,38 +439,188 @@ class KirimChatWebhookController extends Controller
         $fasilitas = $kamar->fasilitas ?: 'Informasi fasilitas belum tersedia.';
 
         $session->update([
-            'state' => 'pesan_isi_data',
-            'context' => array_merge($session->context ?? [], ['kamar_id' => $kamar->id]),
+            'state' => 'pesan_nama',
+            'context' => array_merge($session->context ?? [], [
+                'kamar_id' => $kamar->id,
+                'kamar_nama' => $kamar->nama,
+                'kamar_harga' => $kamar->harga_per_malam,
+            ]),
+        ]);
+
+        $kirimChat->sendButtons(
+            $phoneNumber,
+            "{$kamar->nama} ({$kamar->tipeLabel()})\nTarif: Rp{$harga}/malam\n\nFasilitas/Keterangan:\n{$fasilitas}\n\nIngin melanjutkan pemesanan?",
+            [
+                ['id' => 'pesan', 'title' => 'Pesan'],
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+            ]
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Pemesanan step-by-step flow
+    //   pesan_nama -> pesan_tanggal_masuk -> pesan_tanggal_keluar -> pesan_no_hp
+    //   -> simpan_reservasi (dari context) -> pesan_pembayaran
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Step 1: nama pemesan. Tombol "Pesan" mengirim id='pesan' yang hanya
+     * memicu prompt; input lain dianggap sebagai nama dan disimpan.
+     */
+    private function inputNama(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $value = trim($rawInput);
+
+        if (in_array(Str::lower($value), ['pesan', 'menu', 'halo', ''], true)) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Silakan kirim *Nama* pemesan.\nContoh: Budi Santoso"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'pesan_tanggal_masuk',
+            'context' => array_merge($session->context ?? [], ['nama' => $value]),
         ]);
 
         $kirimChat->sendText(
             $phoneNumber,
-            "{$kamar->nama} ({$kamar->tipeLabel()})\nTarif: Rp{$harga}\n\nFasilitas/Keterangan:\n{$fasilitas}\n\n"
-            ."Untuk memesan, kirim data dengan format:\n"
-            ."Nama, Tanggal masuk, Tanggal keluar, No WhatsApp\n"
-            ."Contoh: Budi, 15-06-2026, 17-06-2026, 6281234567890"
+            "Nama pemesan: *{$value}*\n\n"
+            ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+            ."Contoh: 15-06-2026"
         );
     }
 
     /**
-     * Parse the WA order form (key-value multiline) and create a reservation
-     * in DB, then send the final interactive reply with Menu Utama + Bayar.
+     * Step 2: tanggal mulai. Format harus DD-MM-YYYY; jika salah, ulangi.
+     */
+    private function inputTanggalMasuk(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $tanggal = $this->parseTanggalDdMmYyyy($rawInput);
+
+        if (! $tanggal) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Format tanggal tidak sesuai. Silakan kirim *Tanggal Mulai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+                ."Contoh: 15-06-2026"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'pesan_tanggal_keluar',
+            'context' => array_merge($session->context ?? [], ['tanggal_masuk' => $tanggal]),
+        ]);
+
+        $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Tanggal mulai: *{$tanggalTeks}*\n\n"
+            ."Silakan kirim *Tanggal Selesai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+            ."Contoh: 17-06-2026"
+        );
+    }
+
+    /**
+     * Step 3: tanggal selesai. Harus DD-MM-YYYY dan >= tanggal mulai.
+     */
+    private function inputTanggalKeluar(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $tanggal = $this->parseTanggalDdMmYyyy($rawInput);
+
+        if (! $tanggal) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Format tanggal tidak sesuai. Silakan kirim *Tanggal Selesai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+                ."Contoh: 17-06-2026"
+            );
+
+            return;
+        }
+
+        $masuk = data_get($session->context, 'tanggal_masuk');
+        if ($masuk && Carbon::parse($tanggal)->lte(Carbon::parse($masuk))) {
+            $masukTeks = Carbon::parse($masuk)->format('d-m-Y');
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Tanggal selesai harus setelah tanggal mulai ({$masukTeks}). Silakan kirim *Tanggal Selesai* yang benar.\n"
+                ."Contoh: 17-06-2026"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'pesan_no_hp',
+            'context' => array_merge($session->context ?? [], ['tanggal_keluar' => $tanggal]),
+        ]);
+
+        $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Tanggal selesai: *{$tanggalTeks}*\n\n"
+            ."Terakhir, silakan kirim *No. WhatsApp/HP* yang bisa dihubungi.\n"
+            ."Ketik *sama* untuk menggunakan nomor ini ({$phoneNumber})."
+        );
+    }
+
+    /**
+     * Step 4: nomor HP. "sama"/kosong -> pakai nomor pengirim. Lalu simpan
+     * reservasi dari context dan tampilkan ringkasan + tombol Bayar/Menu.
+     */
+    private function inputNoHp(WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
+    {
+        $value = trim($rawInput);
+        $waNumber = (! $value || in_array(Str::lower($value), ['sama', 'same', '-'], true))
+            ? $phoneNumber
+            : $value;
+
+        $session->update([
+            'context' => array_merge($session->context ?? [], ['wa' => $waNumber]),
+        ]);
+
+        $this->simpanReservasi($session, $phoneNumber, $rawInput, $customerName, $kirimChat);
+    }
+
+    /**
+     * Parse strictly DD-MM-YYYY (atau DD/MM/YYYY) ke Y-m-d. Return null jika
+     * format tidak cocok atau tanggal tidak valid.
+     */
+    private function parseTanggalDdMmYyyy(string $input): ?string
+    {
+        $value = trim($input);
+
+        foreach (['d-m-Y', 'd/m/Y'] as $format) {
+            try {
+                $parsed = Carbon::createFromFormat($format, $value);
+                if ($parsed !== false && $parsed->format($format) === $value) {
+                    return $parsed->format('Y-m-d');
+                }
+            } catch (\Throwable) {
+                continue;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Build a reservation from the step-by-step context (nama, tanggal_masuk,
+     * tanggal_keluar, wa, kamar_id) and send the final interactive reply with
+     * Menu Utama + Bayar.
      */
     private function simpanReservasi(WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
     {
-        $form = $this->parseReservasiForm($rawInput);
-        $nama = $form['nama'] ?: ($customerName ?: 'Pelanggan WhatsApp');
+        $ctx = $session->context ?? [];
+        $nama = $ctx['nama'] ?? ($customerName ?: 'Pelanggan WhatsApp');
+        $waNumber = $ctx['wa'] ?? $phoneNumber;
+        $masuk = $ctx['tanggal_masuk'] ?? null;
+        $keluar = $ctx['tanggal_keluar'] ?? null;
 
-        // "WA: sama" / kosong -> pakai nomor pengirim.
-        $waRaw = $form['wa'];
-        $waNumber = (! $waRaw || in_array(Str::lower($waRaw), ['sama', 'same', '-'], true))
-            ? $phoneNumber
-            : $waRaw;
-
-        $masuk = $form['masuk'] ? ($this->availability->parseDateInput($form['masuk'])[0] ?? null) : null;
-        $keluar = $form['keluar'] ? ($this->availability->parseDateInput($form['keluar'])[0] ?? null) : null;
-
-        $kamarId = data_get($session->context, 'kamar_id');
+        $kamarId = data_get($ctx, 'kamar_id');
         $kamar = $kamarId ? Kamar::find($kamarId) : null;
 
         $duration = ($masuk && $keluar)
@@ -939,7 +1123,12 @@ class KirimChatWebhookController extends Controller
             ?? Arr::get($payload, 'button_reply.id')
             ?? Arr::get($payload, 'list_reply.id')
             ?? Arr::get($payload, 'data.button_reply.id')
-            ?? Arr::get($payload, 'data.list_reply.id');
+            ?? Arr::get($payload, 'data.list_reply.id')
+            ?? Arr::get($payload, 'data.raw.message.interactive.list_reply.id')
+            ?? Arr::get($payload, 'data.raw.message.interactive.button_reply.id')
+            ?? Arr::get($payload, 'data.raw.message.interactive.button.id')
+            ?? Arr::get($payload, 'raw.message.interactive.list_reply.id')
+            ?? Arr::get($payload, 'raw.message.interactive.button_reply.id');
     }
 
     /**

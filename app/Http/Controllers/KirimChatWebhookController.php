@@ -278,7 +278,7 @@ class KirimChatWebhookController extends Controller
                     'rows' => [
                         [
                             'id' => '1',
-                            'title' => 'Informasi Layanan & Pemesanan',
+                            'title' => 'Info Layanan & Pesan',
                             'description' => 'Lihat info layanan dan pesan kamar/kelas',
                         ],
                         [

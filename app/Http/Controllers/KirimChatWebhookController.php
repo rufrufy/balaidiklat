@@ -479,7 +479,16 @@ class KirimChatWebhookController extends Controller
                 ? "Foto {$kamar->nama} ({$kamar->tipeLabel()})"
                 : null;
 
-            $kirimChat->sendImage($phoneNumber, $mediaUrl, $caption);
+            try {
+                $kirimChat->sendImage($phoneNumber, $mediaUrl, $caption);
+            } catch (\Throwable $e) {
+                Log::warning('Gagal kirim foto kamar via WA', [
+                    'kamar_id' => $kamar->id,
+                    'foto_path' => $path,
+                    'media_url' => $mediaUrl,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
     }
 

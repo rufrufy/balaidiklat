@@ -21,6 +21,22 @@ class KirimChatService
         return $this->post('/messages/send', $payload, $phoneNumber, 'text', $content);
     }
 
+    public function sendImage(string $phoneNumber, string $mediaUrl, ?string $caption = null): array
+    {
+        $payload = [
+            'phone_number' => $phoneNumber,
+            'channel' => 'whatsapp',
+            'message_type' => 'image',
+            'media_url' => $mediaUrl,
+        ];
+
+        if ($caption) {
+            $payload['caption'] = mb_substr($caption, 0, 1024);
+        }
+
+        return $this->post('/messages/send', $payload, $phoneNumber, 'image', $caption ?: $mediaUrl);
+    }
+
     /**
      * Send an interactive reply-buttons message. WhatsApp allows max 3 buttons.
      * Each button is ['id' => string, 'title' => string].

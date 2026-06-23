@@ -423,7 +423,7 @@ class KirimChatWebhookController extends Controller
         $map = data_get($session->context, 'kamar_map', []);
         $choice = trim($rawInput);
         $kamarId = $map[$choice] ?? null;
-        $kamar = $kamarId ? Kamar::find($kamarId) : null;
+        $kamar = $kamarId ? Kamar::with('fotos')->find($kamarId) : null;
 
         if (! $kamar) {
             $this->sendReturnButtons(
@@ -447,6 +447,8 @@ class KirimChatWebhookController extends Controller
             ]),
         ]);
 
+        $this->sendKamarPhotos($kamar, $phoneNumber, $kirimChat);
+
         $kirimChat->sendButtons(
             $phoneNumber,
             "{$kamar->nama} ({$kamar->tipeLabel()})\nTarif: Rp{$harga}/malam\n\nFasilitas/Keterangan:\n{$fasilitas}\n\nIngin melanjutkan pemesanan?",
@@ -455,6 +457,30 @@ class KirimChatWebhookController extends Controller
                 ['id' => 'menu', 'title' => 'Menu Utama'],
             ]
         );
+    }
+
+    private function sendKamarPhotos(Kamar $kamar, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $fotoPaths = $kamar->allFotoPaths();
+
+        if ($fotoPaths->isEmpty()) {
+            return;
+        }
+
+        $baseUrl = rtrim((string) config('app.url'), '/');
+        if (! str_starts_with($baseUrl, 'http')) {
+            $baseUrl = 'https://' . $baseUrl;
+        }
+
+        foreach ($fotoPaths->take(3) as $index => $path) {
+            $mediaUrl = $baseUrl . '/storage/' . ltrim($path, '/');
+
+            $caption = $index === 0
+                ? "Foto {$kamar->nama} ({$kamar->tipeLabel()})"
+                : null;
+
+            $kirimChat->sendImage($phoneNumber, $mediaUrl, $caption);
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────

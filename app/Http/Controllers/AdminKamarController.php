@@ -15,18 +15,24 @@ class AdminKamarController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode'],
-            'nama' => ['required', 'string', 'max:255'],
-            'tipe' => ['required', 'in:kamar,ruang_kelas'],
+            'jenis_kelas' => ['required', 'string', 'max:255', 'unique:kamars,jenis_kelas'],
+            'kuota_total' => ['nullable', 'integer', 'min:1'],
+            'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
-            'status' => ['required', 'in:available,limited,full,maintenance'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
         ], [
             'foto.*.max' => 'Ukuran foto maksimal 2MB.',
             'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
+
+        if (empty($data['kuota_total'])) {
+            $data['kuota_total'] = $data['stok_total'] ?? 1;
+        }
+        if (empty($data['stok_total'])) {
+            $data['stok_total'] = $data['kuota_total'];
+        }
 
         // Set first uploaded photo as legacy foto_path for backward compatibility
         if ($request->hasFile('foto') && isset($request->file('foto')[0]) && $request->file('foto')[0]->isValid()) {
@@ -58,12 +64,11 @@ class AdminKamarController extends Controller
     public function update(Request $request, Kamar $kamar): RedirectResponse
     {
         $data = $request->validate([
-            'kode' => ['required', 'string', 'max:50', 'unique:kamars,kode,'.$kamar->id],
-            'nama' => ['required', 'string', 'max:255'],
-            'tipe' => ['required', 'in:kamar,ruang_kelas'],
+            'jenis_kelas' => ['required', 'string', 'max:255', 'unique:kamars,jenis_kelas,'.$kamar->id],
+            'kuota_total' => ['nullable', 'integer', 'min:1'],
+            'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
-            'status' => ['required', 'in:available,limited,full,maintenance'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
             'hapus_foto' => ['nullable', 'array'],
@@ -72,6 +77,13 @@ class AdminKamarController extends Controller
             'foto.*.max' => 'Ukuran foto maksimal 2MB.',
             'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
+
+        if (empty($data['kuota_total'])) {
+            $data['kuota_total'] = $data['stok_total'] ?? 1;
+        }
+        if (empty($data['stok_total'])) {
+            $data['stok_total'] = $data['kuota_total'];
+        }
 
         // Delete selected existing photos
         if ($request->filled('hapus_foto')) {

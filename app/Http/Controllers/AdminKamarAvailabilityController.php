@@ -18,7 +18,7 @@ class AdminKamarAvailabilityController extends Controller
         $kamars = collect();
 
         if (! empty($data['tanggal_masuk']) && ! empty($data['tanggal_keluar'])) {
-            $kamars = $availability->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
+            $kamars = $availability->availableRoomsWithStock($data['tanggal_masuk'], $data['tanggal_keluar']);
         }
 
         return view('admin.kamar-availability', [

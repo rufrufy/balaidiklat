@@ -70,8 +70,90 @@
         </div>
     </section>
 
-    <section id="booking" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4 align-items-end"><div class="col-lg-8"><div class="eyebrow">Form WhatsApp</div><h2 class="display-5">Ajukan reservasi.</h2><div class="row g-3"><div class="col-md-6"><label class="form-label fw-bold">Tanggal masuk</label><input id="waCheckin" type="date" class="form-control"></div><div class="col-md-6"><label class="form-label fw-bold">Tanggal keluar</label><input id="waCheckout" type="date" class="form-control"></div><div class="col-md-6"><label class="form-label fw-bold">Instansi</label><input id="waAgency" class="form-control" placeholder="BKPP Kota Semarang"></div><div class="col-md-6"><label class="form-label fw-bold">Nama kegiatan</label><input id="waEvent" class="form-control" placeholder="Diklat Manajemen ASN"></div><div class="col-md-6"><label class="form-label fw-bold">Jumlah peserta</label><input id="waGuests" type="number" min="1" value="12" class="form-control"></div></div></div><div class="col-lg-4"><a id="waBookingButton" class="btn btn-secondary-enterprise w-100" href="#" target="_blank" rel="noopener">Booking via WhatsApp</a><p class="text-muted mt-3 mb-0 small">Format pesan otomatis sesuai kebutuhan reservasi.</p></div></div></div></div></section>
-    <section id="lacak" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4"><div class="col-lg-5"><div class="eyebrow">Lacak booking kamar</div><h2 class="display-5">Cek status reservasi.</h2><p class="text-muted">Masukkan kode booking dari admin. Nomor WhatsApp opsional untuk memverifikasi pencarian.</p><form method="POST" action="{{ route('booking.track') }}" class="row g-3">@csrf<div class="col-12"><label class="form-label fw-bold">Kode booking</label><input class="form-control" name="kode" value="{{ $trackingCode ?? '' }}" placeholder="RSV-202606110001" required></div><div class="col-12"><label class="form-label fw-bold">No WhatsApp</label><input class="form-control" name="phone_number" placeholder="628xxxx"></div><div class="col-12"><button class="btn btn-primary-enterprise" type="submit">Lacak Booking</button></div></form></div><div class="col-lg-7">@isset($trackingCode)<div class="card-enterprise p-4 tracking-result">@if($trackingResult)<div class="eyebrow">Hasil ditemukan</div><h3>{{ $trackingResult->kode }} - {{ $trackingResult->status }}</h3><p class="mb-1"><strong>Pemesan:</strong> {{ $trackingResult->nama_pemesan }}</p><p class="mb-1"><strong>Kegiatan:</strong> {{ $trackingResult->kegiatan }}</p><p class="mb-1"><strong>Tanggal:</strong> {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} - {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p><p class="mb-1"><strong>Kamar:</strong> {{ $trackingResult->kamar ? $trackingResult->kamar->kode.' - '.$trackingResult->kamar->nama : 'Belum dialokasikan' }}</p>@if($trackingResult->items->isNotEmpty())<div class="mb-2"><strong>Detail kamar:</strong>@foreach($trackingResult->items as $item)<div class="small text-muted">{{ $item->kamar ? $item->kamar->kode.' - '.$item->kamar->nama : '-' }} | {{ optional($item->tanggal_masuk)->format('d M Y') }} - {{ optional($item->tanggal_keluar)->format('d M Y') }} | Rp{{ number_format($item->subtotal, 0, ',', '.') }}</div>@endforeach</div>@endif<p class="mb-1"><strong>Total billing:</strong> Rp{{ number_format($trackingResult->total_harga, 0, ',', '.') }}</p><p class="mb-1"><strong>Status payment:</strong> {{ $trackingResult->payment_status }}</p><p class="mb-0"><strong>Catatan:</strong> {{ $trackingResult->catatan ?: '-' }}</p>@else<div class="eyebrow">Tidak ditemukan</div><h3>Kode {{ $trackingCode }} belum terdaftar.</h3><p class="text-muted mb-0">Pastikan kode booking sesuai atau hubungi admin melalui WhatsApp.</p>@endif</div>@else<div class="empty-state h-100 d-flex align-items-center justify-content-center">Hasil pelacakan akan muncul di sini.</div>@endisset</div></div></div></div></section>
+    <section id="booking" class="section-pad pt-0">
+        <div class="container">
+            <div class="card-enterprise p-4 p-md-5">
+                <div class="row g-4 align-items-end mb-3">
+                    <div class="col-lg-8">
+                        <div class="eyebrow">Form Pemesanan</div>
+                        <h2 class="display-5 mb-2">Ajukan reservasi via WhatsApp.</h2>
+                        <p class="text-muted mb-0">Lengkapi data berikut. Sistem akan menyusun format pesan otomatis ke WhatsApp Bot untuk diproses.</p>
+                    </div>
+                </div>
+                <form id="landingOrderForm" class="row g-3">
+                    @csrf
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nama pemesan <span class="text-danger">*</span></label>
+                        <input class="form-control" name="nama_pemesan" id="orderNama" required placeholder="Budi Santoso">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">No WhatsApp <span class="text-danger">*</span></label>
+                        <input class="form-control" name="phone_number" id="orderWa" required placeholder="62812xxxxxxx">
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="orderInstansiToggle">
+                            <label class="form-check-label fw-bold" for="orderInstansiToggle">Penyewa adalah instansi</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 order-instansi-field d-none">
+                        <label class="form-label fw-bold">Instansi</label>
+                        <input class="form-control" name="instansi" id="orderInstansi" placeholder="BKPP Kota Semarang">
+                    </div>
+                    <div class="col-md-6 order-instansi-field d-none">
+                        <label class="form-label fw-bold">Kegiatan</label>
+                        <input class="form-control" name="kegiatan" id="orderKegiatan" placeholder="Diklat Manajemen ASN">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Tanggal masuk <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="tanggal_masuk" id="orderCheckin" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Tanggal keluar <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="tanggal_keluar" id="orderCheckout" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Jenis kamar/kelas <span class="text-danger">*</span></label>
+                        <select class="form-select" name="kamar_id" id="orderKamar" required>
+                            <option value="">Pilih kamar/kelas</option>
+                            @foreach ($availableKamars as $kamar)
+                                <option value="{{ $kamar->id }}" data-jenis="{{ $kamar->jenis_kelas }}" data-harga="{{ $kamar->harga_per_malam }}">{{ $kamar->jenis_kelas }} ({{ $kamar->tipeLabel() }}) · Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }}/malam</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Jumlah unit <span class="text-danger">*</span></label>
+                        <input type="number" min="1" value="1" class="form-control" name="jumlah_unit" id="orderJumlahUnit" required>
+                        <div class="small text-muted mt-1" id="orderStokInfo">Pilih kamar & tanggal untuk lihat ketersediaan.</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="orderMultipleToggle">
+                            <label class="form-check-label fw-bold" for="orderMultipleToggle">Pesan beberapa jenis kamar / beberapa tanggal</label>
+                        </div>
+                    </div>
+                    <div class="col-12 order-multi-items d-none">
+                        <div class="border rounded-3 p-3 bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>Item tambahan</strong>
+                                <button type="button" class="btn btn-sm btn-ghost" id="addOrderItemBtn">+ Tambah Item</button>
+                            </div>
+                            <div id="orderItemList"></div>
+                            <div class="small text-muted mt-2">Setiap item dapat memiliki kamar dan tanggal berbeda.</div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div id="orderFeedback" class="alert d-none" role="alert"></div>
+                    </div>
+                    <div class="col-12 d-flex flex-column flex-sm-row gap-3">
+                        <button type="submit" class="btn btn-secondary-enterprise" id="orderSubmitBtn">Kirim ke WhatsApp Bot</button>
+                        <a class="btn btn-ghost" href="#ketersediaan">Cek Ketersediaan Dulu</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="lacak" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4"><div class="col-lg-5"><div class="eyebrow">Lacak booking kamar</div><h2 class="display-5">Cek status reservasi.</h2><p class="text-muted">Masukkan kode booking dari admin. Nomor WhatsApp opsional untuk memverifikasi pencarian.</p><form method="POST" action="{{ route('booking.track') }}" class="row g-3">@csrf<div class="col-12"><label class="form-label fw-bold">Kode booking</label><input class="form-control" name="kode" value="{{ $trackingCode ?? '' }}" placeholder="RSV-202606110001" required></div><div class="col-12"><label class="form-label fw-bold">No WhatsApp</label><input class="form-control" name="phone_number" placeholder="628xxxx"></div><div class="col-12"><button class="btn btn-primary-enterprise" type="submit">Lacak Booking</button></div></form></div><div class="col-lg-7">@isset($trackingCode)<div class="card-enterprise p-4 tracking-result">@if($trackingResult)<div class="eyebrow">Hasil ditemukan</div><h3>{{ $trackingResult->kode }} - {{ $trackingResult->status }}</h3><p class="mb-1"><strong>Pemesan:</strong> {{ $trackingResult->nama_pemesan }}</p><p class="mb-1"><strong>Kegiatan:</strong> {{ $trackingResult->kegiatan }}</p><p class="mb-1"><strong>Tanggal:</strong> {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} - {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p><p class="mb-1"><strong>Kamar:</strong> {{ $trackingResult->kamar ? $trackingResult->kamar->jenis_kelas : ($trackingResult->jenis_kelas ?: 'Belum dialokasikan') }}</p>@if($trackingResult->items->isNotEmpty())<div class="mb-2"><strong>Detail kamar:</strong>@foreach($trackingResult->items as $item)<div class="small text-muted">{{ $item->kamar ? $item->kamar->jenis_kelas : ($item->jenis_kelas ?: '-') }} | {{ optional($item->tanggal_masuk)->format('d M Y') }} - {{ optional($item->tanggal_keluar)->format('d M Y') }} | Rp{{ number_format($item->subtotal, 0, ',', '.') }}</div>@endforeach</div>@endif<p class="mb-1"><strong>Total billing:</strong> Rp{{ number_format($trackingResult->total_harga, 0, ',', '.') }}</p><p class="mb-1"><strong>Status payment:</strong> {{ $trackingResult->payment_status }}</p><p class="mb-0"><strong>Catatan:</strong> {{ $trackingResult->catatan ?: '-' }}</p>@else<div class="eyebrow">Tidak ditemukan</div><h3>Kode {{ $trackingCode }} belum terdaftar.</h3><p class="text-muted mb-0">Pastikan kode booking sesuai atau hubungi admin melalui WhatsApp.</p>@endif</div>@else<div class="empty-state h-100 d-flex align-items-center justify-content-center">Hasil pelacakan akan muncul di sini.</div>@endisset</div></div></div></div></section>
 
     {{-- ═══ DAFTAR KAMAR DENGAN CAROUSEL FOTO ═══ --}}
     <section id="kamar" class="section-pad pt-0">
@@ -101,7 +183,7 @@
                                         <div class="carousel-inner">
                                             @foreach ($fotos as $i => $path)
                                                 <div class="carousel-item @if($i === 0) active @endif">
-                                                    <img class="d-block w-100" src="{{ asset('storage/'.$path) }}" alt="{{ $kamar->nama }} foto {{ $i + 1 }}">
+                                                    <img class="d-block w-100" src="{{ asset('storage/'.$path) }}" alt="{{ $kamar->jenis_kelas }} foto {{ $i + 1 }}">
                                                 </div>
                                             @endforeach
                                         </div>
@@ -109,12 +191,12 @@
                                         <button class="carousel-control-next" type="button" data-bs-target="#landingCarousel{{ $kamar->id }}" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
                                     </div>
                                 @elseif ($fotos->count() === 1)
-                                    <img class="room-photo w-100" src="{{ asset('storage/'.$fotos->first()) }}" alt="{{ $kamar->nama }}">
+                                    <img class="room-photo w-100" src="{{ asset('storage/'.$fotos->first()) }}" alt="{{ $kamar->jenis_kelas }}">
                                 @else
-                                    <div class="room-visual"><h4 class="text-white mb-0">{{ $kamar->kode }}</h4></div>
+                                    <div class="room-visual"><h4 class="text-white mb-0">{{ $kamar->jenis_kelas }}</h4></div>
                                 @endif
                                 <div class="p-4">
-                                    <h4>{{ $kamar->nama }}</h4>
+                                    <h4>{{ $kamar->jenis_kelas }}</h4>
                                     <p class="text-muted mb-2">{{ $kamar->tipeLabel() }}</p>
                                     <p class="fw-bold mb-2">Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} / malam</p>
                                     @if($kamar->fasilitas)<span class="badge-soft badge-success-soft">{{ \Illuminate\Support\Str::limit($kamar->fasilitas, 40) }}</span>@endif
@@ -127,12 +209,64 @@
         </div>
     </section>
 
-    <section id="kontak" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4 align-items-center"><div class="col-lg-8"><div class="eyebrow">Kontak</div><h2 class="display-5 mb-2">Siap booking asrama?</h2><p class="text-muted mb-0">Klik tombol WhatsApp. Format pesan otomatis membawa tanggal, instansi, kegiatan, dan jumlah peserta.</p></div><div class="col-lg-4 text-lg-end"><a id="footerWaButton" class="btn btn-secondary-enterprise" href="#" target="_blank" rel="noopener">Booking via WhatsApp</a></div></div></div></div></section>
+    <section id="kontak" class="section-pad pt-0">
+        <div class="container">
+            <div class="card-enterprise p-4 p-md-5">
+                <div class="row g-4 align-items-center mb-4">
+                    <div class="col-lg-8">
+                        <div class="eyebrow">Lokasi & Kontak</div>
+                        <h2 class="display-5 mb-2">Balai Diklat BKPP Kota Semarang</h2>
+                        <p class="text-muted mb-2">Klik tombol WhatsApp untuk menghubungi kami. Format pesan otomatis membawa data reservasi.</p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a id="footerWaButton" class="btn btn-secondary-enterprise" href="#" target="_blank" rel="noopener">Hubungi via WhatsApp</a>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="ratio ratio-16x9 rounded-3 overflow-hidden" style="border:1px solid var(--border)">
+                            <iframe
+                                src="https://www.google.com/maps?q=Jl.%20Fatmawati%20No.73a%2C%20Kedungmundu%2C%20Tembalang%2C%20Semarang%2C%20Jawa%20Tengah%2050273&output=embed"
+                                style="border:0;width:100%;height:100%"
+                                allowfullscreen
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Peta Lokasi Balai Diklat BKPP Kota Semarang"></iframe>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card-enterprise p-4 h-100">
+                            <h3 class="h5 mb-3">Informasi Lokasi</h3>
+                            <p class="mb-2"><strong>Alamat:</strong><br>Jl. Fatmawati No.73a, Kedungmundu,<br>Kec. Tembalang, Kota Semarang,<br>Jawa Tengah 50273</p>
+                            <p class="mb-2"><strong>Lihat di Google Maps:</strong><br><a href="https://maps.app.goo.gl/t2aK6JmQb56BD8Y1A" target="_blank" rel="noopener">https://maps.app.goo.gl/t2aK6JmQb56BD8Y1A</a></p>
+                            <p class="mb-0"><strong>Keterangan:</strong><br>Balai Diklat Badan Kepegawaian dan Pengembangan Sumber Daya Manusia (BKPP) Kota Semarang menyediakan layanan sewa asrama dan ruang kelas untuk kegiatan diklat, rapat, maupun kegiatan resmi instansi lainnya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-<footer class="footer"><div class="container d-flex flex-column flex-md-row justify-content-between gap-3"><div><strong>Asrama Balai Diklat BKPP Kota Semarang</strong><div>Landing publik DB-backed.</div></div><div class="mono">Laravel 13 - Bootstrap 5.x</div></div></footer>
+<footer class="footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-3">
+        <div>
+            <strong>Asrama Balai Diklat BKPP Kota Semarang</strong>
+            <div>Jl. Fatmawati No.73a, Kedungmundu, Tembalang, Semarang 50273</div>
+        </div>
+        <div class="mono">Laravel 13 - Bootstrap 5.x</div>
+    </div>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const ASRAMA_WHATSAPP_NUMBER="6281200000000";function makeWhatsappText(){return["Halo Admin Asrama Balai Diklat BKPP Kota Semarang.","Saya ingin mengajukan reservasi asrama.","","Nama instansi: "+(document.getElementById("waAgency").value||"-"),"Nama kegiatan: "+(document.getElementById("waEvent").value||"-"),"Tanggal masuk: "+(document.getElementById("waCheckin").value||"-"),"Tanggal keluar: "+(document.getElementById("waCheckout").value||"-"),"Jumlah peserta: "+(document.getElementById("waGuests").value||"-"),"","Mohon info ketersediaan kamar dan prosedur selanjutnya. Terima kasih."].join("\n")}function updateWhatsappLinks(){const url=`https://wa.me/${ASRAMA_WHATSAPP_NUMBER}?text=${encodeURIComponent(makeWhatsappText())}`;document.getElementById("waBookingButton").href=url;document.getElementById("footerWaButton").href=url}document.querySelectorAll("#booking input").forEach(input=>input.addEventListener("input",updateWhatsappLinks));updateWhatsappLinks();
+const WHATSAPP_BOT_NUMBER = "{{ $whatsappBotNumber }}";
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+function updateFooterWaLink() {
+    const url = `https://wa.me/${WHATSAPP_BOT_NUMBER}?text=${encodeURIComponent("Halo Admin Asrama Balai Diklat BKPP Kota Semarang. Saya ingin bertanya tentang reservasi.")}`;
+    const btn = document.getElementById('footerWaButton');
+    if (btn) btn.href = url;
+}
+updateFooterWaLink();
 
 // ═══ Cek Ketersediaan AJAX ═══
 document.getElementById('checkAvailBtn')?.addEventListener('click', async function() {
@@ -153,12 +287,11 @@ document.getElementById('checkAvailBtn')?.addEventListener('click', async functi
     resultsDiv.innerHTML = '<div class="spinner-overlay"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
     try {
-        const csrf = document.querySelector('meta[name="csrf-token"]').content;
         const response = await fetch('{{ route("cek.ketersediaan") }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrf,
+                'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
             body: JSON.stringify({ tanggal_masuk: checkin, tanggal_keluar: checkout })
@@ -171,27 +304,34 @@ document.getElementById('checkAvailBtn')?.addEventListener('click', async functi
             return;
         }
 
-        if (data.rooms.length === 0) {
+        const availableRooms = (data.rooms || []).filter(r => r.tersedia > 0);
+
+        if (availableRooms.length === 0) {
             resultsDiv.innerHTML = `<div class="empty-state">
-                <h4 style="color:var(--primary)">Tidak ada kamar tersedia</h4>
+                <h4 style="color:var(--primary)">Tidak ada kamar Tersedia</h4>
                 <p class="mb-0">Maaf, semua kamar terisi pada ${data.tanggal_masuk} s/d ${data.tanggal_keluar}.<br>Silakan coba tanggal lain.</p>
             </div>`;
             return;
         }
 
-        let html = `<div class="mb-3"><span class="availability-badge">${data.rooms.length} kamar tersedia</span> <span class="text-muted small ms-2">${data.tanggal_masuk} s/d ${data.tanggal_keluar}</span></div>`;
+        let html = `<div class="mb-3"><span class="availability-badge">${availableRooms.length} kamar Tersedia</span> <span class="text-muted small ms-2">${data.tanggal_masuk} s/d ${data.tanggal_keluar}</span></div>`;
         html += '<div class="row g-3">';
-        data.rooms.forEach(room => {
+        availableRooms.forEach(room => {
             const fotoHtml = room.fotos.length > 0
                 ? `<img src="${room.fotos[0]}" alt="${room.nama}" class="mb-2">`
                 : `<div style="width:100%;height:140px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#0f4a4a);display:grid;place-items:center;color:#fff;font-weight:700;margin-bottom:8px">${room.kode}</div>`;
+
+            const stokBadge = room.tersedia > 0
+                ? `<span class="availability-badge">${room.tersedia} Tersedia</span>`
+                : `<span class="badge bg-danger">Penuh</span>`;
 
             html += `<div class="col-md-6">
                 <div class="room-avail-card">
                     ${fotoHtml}
                     <h4 style="font-size:1rem;margin-bottom:4px">${room.nama}</h4>
                     <div class="text-muted small mb-1">${room.tipe} · ${room.kode}</div>
-                    <div class="fw-bold" style="color:var(--primary)">Rp${room.harga} / malam</div>
+                    <div class="fw-bold mb-2" style="color:var(--primary)">Rp${room.harga} / malam</div>
+                    <div class="d-flex align-items-center gap-2 mb-1">${stokBadge}<span class="small text-muted">dari ${room.stok_total} unit total</span></div>
                     ${room.fasilitas ? `<div class="small text-muted mt-1">${room.fasilitas}</div>` : ''}
                 </div>
             </div>`;
@@ -200,6 +340,164 @@ document.getElementById('checkAvailBtn')?.addEventListener('click', async functi
         resultsDiv.innerHTML = html;
     } catch (e) {
         resultsDiv.innerHTML = '<div class="empty-state">Gagal memuat data. Silakan coba lagi.</div>';
+    }
+});
+
+// ═══ Form Pemesanan Landing ═══
+const orderForm = document.getElementById('landingOrderForm');
+const orderInstansiToggle = document.getElementById('orderInstansiToggle');
+const orderMultipleToggle = document.getElementById('orderMultipleToggle');
+const orderItemList = document.getElementById('orderItemList');
+const orderStokInfo = document.getElementById('orderStokInfo');
+const orderFeedback = document.getElementById('orderFeedback');
+
+function toggleInstansiFields() {
+    document.querySelectorAll('.order-instansi-field').forEach(el => el.classList.toggle('d-none', !orderInstansiToggle.checked));
+}
+function toggleMultiItems() {
+    document.querySelector('.order-multi-items').classList.toggle('d-none', !orderMultipleToggle.checked);
+}
+orderInstansiToggle?.addEventListener('change', toggleInstansiFields);
+orderMultipleToggle?.addEventListener('change', toggleMultiItems);
+
+@php
+    $kamarsJson = json_encode($availableKamars->map(function($k) {
+        return ['id' => $k->id, 'jenis_kelas' => $k->jenis_kelas, 'tipe' => $k->tipeLabel(), 'harga' => $k->harga_per_malam];
+    }));
+@endphp
+const kamarsData = {{ $kamarsJson }};
+
+function addOrderItemRow() {
+    const wrap = document.createElement('div');
+    wrap.className = 'row g-2 mb-2 order-item-row';
+    const options = kamarsData.map(k => `<option value="${k.id}">${k.jenis_kelas}</option>`).join('');
+    wrap.innerHTML = `
+        <div class="col-md-4"><select class="form-select form-select-sm item-kamar" data-field="kamar_id"><option value="">Pilih kamar</option>${options}</select></div>
+        <div class="col-md-3"><input type="date" class="form-control form-control-sm item-masuk" data-field="tanggal_masuk"></div>
+        <div class="col-md-3"><input type="date" class="form-control form-control-sm item-keluar" data-field="tanggal_keluar"></div>
+        <div class="col-md-1"><input type="number" min="1" value="1" class="form-control form-control-sm item-unit" data-field="jumlah_unit"></div>
+        <div class="col-md-1"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-order-item">×</button></div>
+    `;
+    orderItemList.appendChild(wrap);
+}
+document.getElementById('addOrderItemBtn')?.addEventListener('click', addOrderItemRow);
+orderItemList?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-order-item')) e.target.closest('.order-item-row').remove();
+});
+
+// Cek stok real-time saat kamar/tanggal/jumlah berubah
+async function checkOrderStock() {
+    const kamarId = document.getElementById('orderKamar').value;
+    const masuk = document.getElementById('orderCheckin').value;
+    const keluar = document.getElementById('orderCheckout').value;
+    const unit = parseInt(document.getElementById('orderJumlahUnit').value || '1', 10);
+    if (!kamarId || !masuk || !keluar) {
+        orderStokInfo.textContent = 'Pilih kamar & tanggal untuk lihat ketersediaan.';
+        orderStokInfo.className = 'small text-muted mt-1';
+        return;
+    }
+    if (keluar <= masuk) {
+        orderStokInfo.textContent = 'Tanggal keluar harus setelah tanggal masuk.';
+        orderStokInfo.className = 'small text-danger mt-1';
+        return;
+    }
+    try {
+        const res = await fetch('{{ route("cek.ketersediaan") }}', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json','X-CSRF-TOKEN':csrfToken,'Accept':'application/json'},
+            body: JSON.stringify({ tanggal_masuk: masuk, tanggal_keluar: keluar })
+        });
+        const data = await res.json();
+        const room = (data.rooms || []).find(r => String(r.id) === String(kamarId));
+        if (!room) {
+            orderStokInfo.textContent = 'Kamar tidak ditemukan.';
+            orderStokInfo.className = 'small text-danger mt-1';
+            return;
+        }
+        if (room.tersedia >= unit) {
+            orderStokInfo.textContent = `Tersedia: ${room.tersedia} unit (dari ${room.stok_total} total). Cukup untuk ${unit} unit.`;
+            orderStokInfo.className = 'small text-success mt-1';
+        } else if (room.tersedia > 0) {
+            orderStokInfo.textContent = `Tersedia hanya ${room.tersedia} unit (dari ${room.stok_total} total). Permintaan ${unit} unit melebihi ketersediaan!`;
+            orderStokInfo.className = 'small text-warning mt-1';
+        } else {
+            orderStokInfo.textContent = `Kamar penuh pada tanggal ini (0 Tersedia dari ${room.stok_total} total).`;
+            orderStokInfo.className = 'small text-danger mt-1';
+        }
+    } catch (e) {
+        orderStokInfo.textContent = 'Gagal mengecek ketersediaan.';
+        orderStokInfo.className = 'small text-danger mt-1';
+    }
+}
+['change','input'].forEach(ev => {
+    document.getElementById('orderKamar')?.addEventListener(ev, checkOrderStock);
+    document.getElementById('orderCheckin')?.addEventListener(ev, checkOrderStock);
+    document.getElementById('orderCheckout')?.addEventListener(ev, checkOrderStock);
+    document.getElementById('orderJumlahUnit')?.addEventListener(ev, checkOrderStock);
+});
+
+function showOrderFeedback(msg, type) {
+    orderFeedback.className = `alert alert-${type}`;
+    orderFeedback.textContent = msg;
+    orderFeedback.classList.remove('d-none');
+}
+function hideOrderFeedback() {
+    orderFeedback.classList.add('d-none');
+}
+
+orderForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideOrderFeedback();
+    const submitBtn = document.getElementById('orderSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Memproses...';
+
+    const payload = {
+        nama_pemesan: document.getElementById('orderNama').value.trim(),
+        phone_number: document.getElementById('orderWa').value.trim(),
+        tipe_penyewa: orderInstansiToggle.checked ? 'instansi' : 'perorangan',
+        instansi: document.getElementById('orderInstansi').value.trim(),
+        kegiatan: document.getElementById('orderKegiatan').value.trim(),
+        tanggal_masuk: document.getElementById('orderCheckin').value,
+        tanggal_keluar: document.getElementById('orderCheckout').value,
+        kamar_id: document.getElementById('orderKamar').value,
+        jumlah_unit: parseInt(document.getElementById('orderJumlahUnit').value || '1', 10),
+        multiple: orderMultipleToggle.checked,
+        items: [],
+    };
+
+    if (orderMultipleToggle.checked) {
+        document.querySelectorAll('.order-item-row').forEach(row => {
+            const kamarId = row.querySelector('.item-kamar').value;
+            if (!kamarId) return;
+            payload.items.push({
+                kamar_id: kamarId,
+                tanggal_masuk: row.querySelector('.item-masuk').value,
+                tanggal_keluar: row.querySelector('.item-keluar').value,
+                jumlah_unit: parseInt(row.querySelector('.item-unit').value || '1', 10),
+            });
+        });
+    }
+
+    try {
+        const res = await fetch('{{ route("kirim.pemesanan.whatsapp") }}', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json','X-CSRF-TOKEN':csrfToken,'Accept':'application/json'},
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            showOrderFeedback('Format pemesanan berhasil dibuat. Mengarahkan ke WhatsApp Bot...', 'success');
+            setTimeout(() => { window.open(data.whatsapp_url, '_blank'); }, 600);
+        } else {
+            const errMsg = (data && data.message) ? data.message : 'Gagal membuat format pemesanan. Periksa kembali isian Anda.';
+            showOrderFeedback(errMsg, 'danger');
+        }
+    } catch (err) {
+        showOrderFeedback('Terjadi kesalahan jaringan. Silakan coba lagi.', 'danger');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Kirim ke WhatsApp Bot';
     }
 });
 </script>

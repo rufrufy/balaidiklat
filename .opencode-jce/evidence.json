@@ -1,0 +1,152 @@
+[
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+    "status": "unknown",
+    "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406042914-1",
+    "timestamp": "2026-06-25T16:47:22.914Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\"",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\" -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406068955-2",
+    "timestamp": "2026-06-25T16:47:48.955Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406101175-3",
+    "timestamp": "2026-06-25T16:48:21.175Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length))",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length)) -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406139031-4",
+    "timestamp": "2026-06-25T16:48:59.031Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\"",
+    "status": "fail",
+    "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> fail",
+    "area": "auto-capture",
+    "id": "ev-1782406170453-5",
+    "timestamp": "2026-06-25T16:49:30.453Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\"",
+    "status": "unknown",
+    "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406249532-6",
+    "timestamp": "2026-06-25T16:50:49.532Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" }",
+    "status": "unknown",
+    "summary": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" } -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406278217-7",
+    "timestamp": "2026-06-25T16:51:18.217Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" }",
+    "status": "unknown",
+    "summary": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" } -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406308619-8",
+    "timestamp": "2026-06-25T16:51:48.619Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" }",
+    "status": "unknown",
+    "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" } -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406373961-9",
+    "timestamp": "2026-06-25T16:52:53.961Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\"",
+    "status": "pass",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\" -> pass",
+    "area": "auto-capture",
+    "id": "ev-1782406430544-10",
+    "timestamp": "2026-06-25T16:53:50.544Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406507644-11",
+    "timestamp": "2026-06-25T16:55:07.644Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }",
+    "status": "pass",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+    "area": "auto-capture",
+    "id": "ev-1782406535044-12",
+    "timestamp": "2026-06-25T16:55:35.044Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }",
+    "status": "pass",
+    "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+    "area": "auto-capture",
+    "id": "ev-1782406616302-13",
+    "timestamp": "2026-06-25T16:56:56.302Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\"",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406756452-14",
+    "timestamp": "2026-06-25T16:59:16.452Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\"",
+    "status": "unknown",
+    "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1782406795182-15",
+    "timestamp": "2026-06-25T16:59:55.182Z"
+  }
+]

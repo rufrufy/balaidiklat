@@ -1,0 +1,1602 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-25T17:00:52.204Z",
+  "activeTasks": [],
+  "completedSummaries": [],
+  "blockers": [],
+  "verificationEvidence": [
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\"",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\"",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
+      "status": "unknown",
+      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\"",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length))",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length)) -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\"",
+      "status": "fail",
+      "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\"",
+      "status": "unknown",
+      "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" }",
+      "status": "unknown",
+      "summary": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" } -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" }",
+      "status": "unknown",
+      "summary": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" } -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" }",
+      "status": "unknown",
+      "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" } -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\"",
+      "status": "pass",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\" -> pass",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }",
+      "status": "pass",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }",
+      "status": "pass",
+      "summary": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\"",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\"",
+      "status": "unknown",
+      "summary": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto"
+    }
+  ],
+  "retryHistory": [],
+  "traceEvents": [
+    {
+      "type": "planner.explain",
+      "message": "Planner fan-out created 3 explicit unit(s).",
+      "at": "2026-06-25T15:28:36.507Z",
+      "metadata": {
+        "workflowId": "graph-1782401316502-uivp",
+        "plannerMode": "fanout",
+        "detectedUnits": [
+          "perbaiki di halaman landing page cek ketersediaan kamar",
+          "buat otomatis ketika sudah memesan dan lunas maka jumlah ketersediaan kamar berkurang(termasuk pemesanan via whatsapp)",
+          "buat ketika pemesan di whatsapp melebihi jumlah kamar tersedia maka beri pesan jumlah pemesanan kamar melebihi keter"
+        ]
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:38:08.878Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 512,
+        "compressedChars": 503,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:49:42.817Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 47,
+        "compressedChars": 46,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:50:18.140Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 3034,
+        "compressedChars": 2995,
+        "estimatedTokensSaved": 10
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:50:36.812Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 105,
+        "compressedChars": 103,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:50:59.435Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 130,
+        "compressedChars": 129,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:51:26.750Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 49,
+        "compressedChars": 47,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:51:37.826Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 47,
+        "compressedChars": 46,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:54:28.214Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 28,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:58:24.769Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 49,
+        "compressedChars": 47,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:58:40.770Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 47,
+        "compressedChars": 46,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T15:59:52.121Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 410,
+        "compressedChars": 402,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:08:01.258Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1283,
+        "compressedChars": 1258,
+        "estimatedTokensSaved": 6
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:08:25.760Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1031,
+        "compressedChars": 1002,
+        "estimatedTokensSaved": 7
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:08:57.536Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 636,
+        "compressedChars": 614,
+        "estimatedTokensSaved": 5
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:09:12.881Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1462,
+        "compressedChars": 1427,
+        "estimatedTokensSaved": 9
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:09:34.843Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1224,
+        "compressedChars": 1201,
+        "estimatedTokensSaved": 5
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:10:21.884Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 61,
+        "compressedChars": 57,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:10:32.418Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 3,
+        "compressedChars": 2,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:10:52.337Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 163,
+        "compressedChars": 162,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:11:03.054Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 130,
+        "compressedChars": 129,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:12:34.104Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1717,
+        "compressedChars": 1785,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:13:40.025Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 94,
+        "compressedChars": 91,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:20:46.114Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 49,
+        "compressedChars": 47,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:21:19.356Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 47,
+        "compressedChars": 46,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:21:32.798Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 412,
+        "compressedChars": 403,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:24:45.630Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 636,
+        "compressedChars": 614,
+        "estimatedTokensSaved": 5
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:32:19.229Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 673,
+        "compressedChars": 650,
+        "estimatedTokensSaved": 6
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:46:28.852Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 49,
+        "compressedChars": 47,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:46:46.547Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 47,
+        "compressedChars": 46,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
+      "at": "2026-06-25T16:47:22.938Z",
+      "metadata": {
+        "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:47:22.942Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 63,
+        "compressedChars": 57,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\" -> unknown",
+      "at": "2026-06-25T16:47:48.982Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Token: $($token.Substring(0,20))...\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:47:48.986Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 32,
+        "compressedChars": 31,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content -> unknown",
+      "at": "2026-06-25T16:48:21.216Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing; $r2.Content"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length)) -> unknown",
+      "at": "2026-06-25T16:48:59.066Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 10; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/cek-ketersediaan\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $r2.Content.Substring(0, [Math]::Min(800, $r2.Content.Length))"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:48:59.072Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 605,
+        "compressedChars": 604,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> fail",
+      "at": "2026-06-25T16:49:30.512Z",
+      "metadata": {
+        "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin@balaidiklat.test'; password='password'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 0 -ErrorAction SilentlyContinue; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:49:30.517Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1172,
+        "compressedChars": 1131,
+        "estimatedTokensSaved": 10
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\" -> unknown",
+      "at": "2026-06-25T16:50:49.588Z",
+      "metadata": {
+        "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; Write-Output \"Form token: $($token.Substring(0,15))...\"; $body = @{email='admin'; password='semarang1'; _token=$token}; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5; Write-Output \"Login status: $($r2.StatusCode)\"; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Dashboard status: $($r3.StatusCode), Length: $($r3.Content.Length)\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:50:49.593Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 90,
+        "compressedChars": 87,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" } -> unknown",
+      "at": "2026-06-25T16:51:18.266Z",
+      "metadata": {
+        "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Availability status: $($r3.StatusCode), Length: $($r3.Content.Length)\"; if ($r3.Content -match 'Tersedia') { Write-Output \"Contains 'Tersedia': YES\" } else { Write-Output \"Contains 'Tersedia': NO\" }"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:51:18.271Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 65,
+        "compressedChars": 63,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" } -> unknown",
+      "at": "2026-06-25T16:51:48.682Z",
+      "metadata": {
+        "command": "$r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar data: YES\" }; if ($r3.Content -match 'Cek Available') { Write-Output \"Title OK\" }; $idx = $r3.Content.IndexOf('Kamar'); if ($idx -ge 0) { Write-Output \"Context: $($r3.Content.Substring($idx, 100))\" }"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" } -> unknown",
+      "at": "2026-06-25T16:52:54.005Z",
+      "metadata": {
+        "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/kamar/availability?tanggal_masuk=2026-07-01&tanggal_keluar=2026-07-03\" -WebSession $s -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($r3.StatusCode)\"; if ($r3.Content -match 'Kamar 1') { Write-Output \"Has kamar: YES\" } else { Write-Output \"Has kamar: NO\" }; if ($r3.Content -match 'Tersedia') { Write-Output \"Has Tersedia: YES\" } else { Write-Output \"Has Tersedia: NO\" }; if ($r3.Content -match 'Stok Total') { Write-Output \"Has Stok Total: YES\" }"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:52:54.010Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 69,
+        "compressedChars": 65,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\" -> pass",
+      "at": "2026-06-25T16:53:50.600Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='perorangan'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=1; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; Write-Output \"Status: $($r2.StatusCode)\"; $json = $r2.Content | ConvertFrom-Json; Write-Output \"Success: $($json.success)\"; Write-Output \"WA URL: $($json.whatsapp_url.Substring(0,80))...\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:53:50.605Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 121,
+        "compressedChars": 118,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message -> unknown",
+      "at": "2026-06-25T16:55:07.692Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($resp.Content, 'csrf-token\" content=\"([^\"]+)\"')).Groups[1].Value; $headers = @{'X-CSRF-TOKEN'=$token; 'X-Requested-With'='XMLHttpRequest'; 'Accept'='application/json'}; $body = @{nama_pemesan='Test User'; phone_number='628123456789'; tipe_penyewa='instansi'; instansi='BKPP'; kegiatan='Diklat'; tanggal_masuk='2026-07-01'; tanggal_keluar='2026-07-03'; kamar_id=3; jumlah_unit=2; multiple=$false} | ConvertTo-Json; $r2 = Invoke-WebRequest -Uri \"http://balaidiklat.test/kirim-pemesanan-whatsapp\" -Method POST -Headers $headers -Body $body -ContentType 'application/json' -WebSession $s -UseBasicParsing -TimeoutSec 30; $json = $r2.Content | ConvertFrom-Json; Write-Output $json.message"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:55:07.697Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 246,
+        "compressedChars": 245,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+      "at": "2026-06-25T16:55:35.097Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; $c = $resp.Content; $checks = @('landingOrderForm','orderInstansiToggle','orderMultipleToggle','orderJumlahUnit','Fatmawati','maps.app.goo.gl','62878455351641','Cek Ketersediaan'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:55:35.103Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 171,
+        "compressedChars": 163,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } } -> pass",
+      "at": "2026-06-25T16:56:56.362Z",
+      "metadata": {
+        "command": "$r = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -UseBasicParsing -SessionVariable s -TimeoutSec 15; $token = ([regex]::Match($r.Content, 'name=\"_token\" value=\"([^\"]+)\"')).Groups[1].Value; $body = @{email='admin'; password='semarang1'; _token=$token}; Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/login\" -Method POST -Body $body -WebSession $s -UseBasicParsing -TimeoutSec 30 | Out-Null; $r3 = Invoke-WebRequest -Uri \"http://balaidiklat.test/admin/dashboard?section=kamar\" -WebSession $s -UseBasicParsing -TimeoutSec 60; $c = $r3.Content; $checks = @('jenis_kelas','kuota_total','stok_total','Kuota Total','Stok Total Unit','Jenis Kelas / Nama Kamar'); foreach ($ch in $checks) { if ($c -match [regex]::Escape($ch)) { Write-Output \"OK: $ch\" } else { Write-Output \"MISSING: $ch\" } }"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:56:56.367Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 118,
+        "compressedChars": 112,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:57:16.692Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 28,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:57:32.528Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 195,
+        "compressedChars": 190,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:58:51.065Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 186,
+        "compressedChars": 177,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+      "at": "2026-06-25T16:59:16.508Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:59:16.513Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 489,
+        "compressedChars": 479,
+        "estimatedTokensSaved": 3
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\" -> unknown",
+      "at": "2026-06-25T16:59:55.233Z",
+      "metadata": {
+        "command": "$resp = Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 60; Write-Output \"Status: $($resp.StatusCode), Length: $($resp.Content.Length)\""
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-06-25T16:59:55.237Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 28,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 0
+      }
+    }
+  ],
+  "changedFiles": [
+    "C:\\laragon\\www\\balaidiklat",
+    "C:\\laragon\\www\\balaidiklat\\.opencode-context.md",
+    "C:\\laragon\\www\\balaidiklat\\routes",
+    "C:\\laragon\\www\\balaidiklat\\routes\\web.php",
+    "C:\\laragon\\www\\balaidiklat\\app",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\Kamar.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\KamarReservasi.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\KamarReservasiItem.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Services",
+    "C:\\laragon\\www\\balaidiklat\\app\\Services\\KamarAvailabilityService.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Services\\KirimChatService.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminReservasiController.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\KirimChatWebhookController.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\landing.blade.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\dashboard.blade.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\partials\\reservasi-table.blade.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\kamar-availability.blade.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\ChatbotRule.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_11_000006_restructure_kamars_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000002_create_kamars_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000003_create_kamar_reservasis_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\ChatbotRuleSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000005_add_billing_and_multiple_rooms_to_reservations.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_11_000010_add_tipe_penyewa_to_reservations.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_25_000001_add_stok_total_and_jumlah_unit.php",
+    "C:\\laragon\\www\\balaidiklat\\config\\app.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\FormPemesananLandingRuleSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminKamarAvailabilityController.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminKamarController.php",
+    "Type.PHP",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations",
+    "toJson().PHP",
+    "getAttributes()).PHP",
+    "C:\\laragon\\www\\balaidiklat\\__inspect.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminDashboardController.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\partials\\kamar-table.blade.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AdminUserSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\__check_rules.php"
+  ],
+  "workflowRuns": [],
+  "wisdom": [],
+  "taskLearnings": [],
+  "failureMemories": [],
+  "contextBudgetSummary": {
+    "originalChars": 0,
+    "compressedChars": 0,
+    "estimatedTokensSaved": 0,
+    "estimatedSavingsPercent": 0,
+    "tasks": 0,
+    "byTool": {
+      "bash": {
+        "originalChars": 0,
+        "compressedChars": 0,
+        "estimatedTokensSaved": 0,
+        "tasks": 0
+      }
+    }
+  }
+}

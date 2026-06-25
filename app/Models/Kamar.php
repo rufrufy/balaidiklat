@@ -8,37 +8,35 @@ use Illuminate\Support\Collection;
 
 class Kamar extends Model
 {
+    // DB produksi memakai jenis_kelas + kuota_total + stok_total (tanpa
+    // kode/nama/tipe/status/foto_path). Atribut legacy diisi via accessor.
     protected $fillable = [
-        'kode',
-        'nama',
-        'tipe',
-        'harga_per_malam',
+        'jenis_kelas',
+        'kuota_total',
+        'stok_total',
         'fasilitas',
-        'status',
-        'foto_path',
+        'harga_per_malam',
     ];
 
     protected function casts(): array
     {
         return [
             'harga_per_malam' => 'integer',
+            'kuota_total' => 'integer',
+            'stok_total' => 'integer',
         ];
     }
 
     public function reservasiItems(): HasMany
     {
-        return $this->hasMany(KamarReservasiItem::class);
+        return $this->hasMany(KamarReservasiItem::class, 'jenis_kelas', 'jenis_kelas');
     }
 
     public function fotos(): HasMany
     {
-        return $this->hasMany(KamarFoto::class)->orderBy('urutan');
+        return $this->hasMany(KamarFoto::class, 'kamar_id', 'id')->orderBy('urutan');
     }
 
-    /**
-     * Get all photo paths from the kamar_fotos table.
-     * Falls back to legacy foto_path if no fotos relation records exist.
-     */
     public function allFotoPaths(): Collection
     {
         if ($this->fotos->isNotEmpty()) {
@@ -54,6 +52,38 @@ class Kamar extends Model
 
     public function tipeLabel(): string
     {
-        return $this->tipe === 'ruang_kelas' ? 'Ruang Kelas' : 'Kamar';
+        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'Ruang Kelas' : 'Kamar';
+    }
+
+    // ── Accessors untuk kompatibilitas dengan code yang mengasumsikan
+    //    skema migration (kode/nama/tipe/status/foto_path).
+
+    public function getKodeAttribute(): string
+    {
+        return (string) ($this->attributes['kode'] ?? $this->attributes['jenis_kelas'] ?? $this->id);
+    }
+
+    public function getNamaAttribute(): string
+    {
+        return (string) ($this->attributes['nama'] ?? $this->attributes['jenis_kelas'] ?? 'Kamar');
+    }
+
+    public function getTipeAttribute(): string
+    {
+        if (isset($this->attributes['tipe'])) {
+            return $this->attributes['tipe'];
+        }
+
+        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'ruang_kelas' : 'kamar';
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return $this->attributes['status'] ?? 'available';
+    }
+
+    public function getFotoPathAttribute(): ?string
+    {
+        return $this->attributes['foto_path'] ?? null;
     }
 }

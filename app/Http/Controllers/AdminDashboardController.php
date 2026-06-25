@@ -30,7 +30,7 @@ class AdminDashboardController extends Controller
             'pengaduans' => $pengaduans,
             'stats' => [
                 'kamar' => $kamars->count(),
-                'ruang_kelas' => $kamars->where('tipe', 'ruang_kelas')->count(),
+                'ruang_kelas' => $kamars->filter(fn ($k) => $k->tipe === 'ruang_kelas')->count(),
                 'reservasi' => $reservasis->count(),
                 'sessions' => $sessions->count(),
                 'messages' => $messages->count(),

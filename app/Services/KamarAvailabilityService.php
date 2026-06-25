@@ -10,64 +10,81 @@ use Illuminate\Support\Collection;
 class KamarAvailabilityService
 {
     /**
-     * Return rooms that are available (status = 'available') and have no
-     * conflicting reservations on the given date range. If no dates are
-     * provided, returns all rooms with status 'available'.
+     * Return all kamar (jenis_kelas) with sisa kuota for the given date range.
+     * Sisa kuota = kuota_total - sum(jumlah) dari reservasi items yang overlap
+     * dengan range tanggal dan berstatus pending/approved.
      */
     public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
     {
-        $query = Kamar::query()->where('status', 'available');
+        $kamars = Kamar::orderBy('jenis_kelas')->get();
 
-        if ($tanggalMasuk && $tanggalKeluar) {
-            // Exclude rooms that have an overlapping reservation (pending or approved)
-            $bookedKamarIds = KamarReservasiItem::query()
-                ->whereHas('reservasi', function ($q) {
-                    $q->whereIn('status', ['pending', 'approved']);
-                })
-                ->where('tanggal_masuk', '<', $tanggalKeluar)
-                ->where('tanggal_keluar', '>', $tanggalMasuk)
-                ->pluck('kamar_id')
-                ->unique();
-
-            if ($bookedKamarIds->isNotEmpty()) {
-                $query->whereNotIn('id', $bookedKamarIds);
-            }
+        if (! $tanggalMasuk || ! $tanggalKeluar) {
+            return $kamars->map(fn (Kamar $k) => $this->withAvailability($k, $k->kuota_total));
         }
 
-        return $query->orderBy('kode')->get();
+        $booked = $this->bookedCountPerJenis($tanggalMasuk, $tanggalKeluar);
+
+        return $kamars->map(function (Kamar $k) use ($booked): Kamar {
+            $terpakai = $booked[$k->jenis_kelas] ?? 0;
+            $sisa = max(0, $k->kuota_total - $terpakai);
+
+            return $this->withAvailability($k, $sisa);
+        });
     }
 
     /**
-     * Whether a specific room can be booked on a given date range.
+     * Whether a specific jenis_kelas has at least $jumlah unit available
+     * on the given date range.
      */
-    public function isBookable(Kamar $kamar, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
+    public function isBookable(string $jenisKelas, int $jumlah, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
     {
-        if ($kamar->status !== 'available') {
+        $kamar = Kamar::where('jenis_kelas', $jenisKelas)->first();
+
+        if (! $kamar) {
             return false;
         }
 
-        if ($tanggalMasuk && $tanggalKeluar) {
-            $hasConflict = KamarReservasiItem::query()
-                ->where('kamar_id', $kamar->id)
-                ->whereHas('reservasi', function ($q) {
-                    $q->whereIn('status', ['pending', 'approved']);
-                })
-                ->where('tanggal_masuk', '<', $tanggalKeluar)
-                ->where('tanggal_keluar', '>', $tanggalMasuk)
-                ->exists();
-
-            return ! $hasConflict;
+        if (! $tanggalMasuk || ! $tanggalKeluar) {
+            return $kamar->kuota_total >= $jumlah;
         }
 
-        return true;
+        $booked = $this->bookedCountPerJenis($tanggalMasuk, $tanggalKeluar);
+        $terpakai = $booked[$jenisKelas] ?? 0;
+        $sisa = max(0, $kamar->kuota_total - $terpakai);
+
+        return $sisa >= $jumlah;
+    }
+
+    /**
+     * Sum of reserved units per jenis_kelas for overlapping date range.
+     *
+     * @return array<string,int>
+     */
+    private function bookedCountPerJenis(string $tanggalMasuk, string $tanggalKeluar): array
+    {
+        $rows = KamarReservasiItem::query()
+            ->selectRaw('jenis_kelas, COALESCE(SUM(jumlah), 0) as total')
+            ->whereHas('reservasi', function ($q) {
+                $q->whereIn('status', ['pending', 'approved']);
+            })
+            ->where('tanggal_masuk', '<', $tanggalKeluar)
+            ->where('tanggal_keluar', '>', $tanggalMasuk)
+            ->groupBy('jenis_kelas')
+            ->pluck('total', 'jenis_kelas');
+
+        return $rows->map(fn ($v) => (int) $v)->all();
+    }
+
+    private function withAvailability(Kamar $kamar, int $sisa): Kamar
+    {
+        $kamar->setAttribute('sisa_kuota', $sisa);
+
+        return $kamar;
     }
 
     /**
      * Parse free-form date input from WhatsApp (single date or range) into
      * [tanggal_masuk, tanggal_keluar]. Returns null if no date is found.
-     *
-     * Accepts patterns like "12-06-2026", "12/06/2026", "2026-06-12", and
-     * ranges separated by " - ", " sampai ", or " s/d ".
      *
      * @return array{0:string,1:string}|null
      */

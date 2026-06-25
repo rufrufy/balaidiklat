@@ -10,10 +10,10 @@
                     <td>
                         @if($reservasi->items->isNotEmpty())
                             @foreach($reservasi->items as $item)
-                                <div class="small mb-1"><strong>{{ $item->kamar?->kode }}</strong> {{ optional($item->tanggal_masuk)->format('d M') }}-{{ optional($item->tanggal_keluar)->format('d M Y') }}</div>
+                                <div class="small mb-1"><strong>{{ $item->jenis_kelas ?: '-' }}</strong> ({{ $item->jumlah ?? 1 }} unit) {{ optional($item->tanggal_masuk)->format('d M') }}-{{ optional($item->tanggal_keluar)->format('d M Y') }}</div>
                             @endforeach
                         @else
-                            {{ $reservasi->kamar ? $reservasi->kamar->kode.' - '.$reservasi->kamar->nama : 'Belum dialokasikan' }}
+                            {{ $reservasi->jenis_kelas ? $reservasi->jenis_kelas.' ('.($reservasi->jumlah ?? 1).' unit)' : 'Belum dialokasikan' }}
                             <div class="small text-muted">{{ optional($reservasi->tanggal_masuk)->format('d M Y') ?: '-' }} - {{ optional($reservasi->tanggal_keluar)->format('d M Y') ?: '-' }}</div>
                         @endif
                     </td>

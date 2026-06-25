@@ -17,7 +17,7 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('landing', ['kamars' => Kamar::with('fotos')->latest()->get()]);
+    return view('landing', ['kamars' => Kamar::latest()->get()]);
 })->name('landing');
 
 Route::post('/cek-ketersediaan', function () {
@@ -29,22 +29,13 @@ Route::post('/cek-ketersediaan', function () {
     $service = app(\App\Services\KamarAvailabilityService::class);
     $rooms = $service->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
 
-    // Load fotos for the available rooms
-    $rooms->load('fotos');
-
     return response()->json([
         'rooms' => $rooms->map(function ($room) {
-            $fotos = $room->allFotoPaths()->map(fn ($path) => asset('storage/'.$path))->values();
-
             return [
                 'id' => $room->id,
-                'kode' => $room->kode,
-                'nama' => $room->nama,
-                'tipe' => $room->tipeLabel(),
-                'harga' => number_format($room->harga_per_malam, 0, ',', '.'),
-                'fasilitas' => $room->fasilitas,
-                'status' => $room->status,
-                'fotos' => $fotos,
+                'jenis_kelas' => $room->jenis_kelas,
+                'kuota_total' => $room->kuota_total,
+                'sisa_kuota' => $room->sisa_kuota ?? $room->kuota_total,
             ];
         }),
         'tanggal_masuk' => $data['tanggal_masuk'],
@@ -58,13 +49,13 @@ Route::post('/lacak-booking', function () {
         'phone_number' => ['nullable', 'string', 'max:40'],
     ]);
 
-    $reservasi = KamarReservasi::with(['kamar', 'items.kamar'])
+    $reservasi = KamarReservasi::with(['items'])
         ->where('kode', $data['kode'])
         ->when($data['phone_number'] ?? null, fn ($query, $phone) => $query->where('phone_number', $phone))
         ->first();
 
     return view('landing', [
-        'kamars' => Kamar::with('fotos')->latest()->get(),
+        'kamars' => Kamar::latest()->get(),
         'trackingResult' => $reservasi,
         'trackingCode' => $data['kode'],
     ]);

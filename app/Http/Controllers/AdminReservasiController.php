@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kamar;
 use App\Models\KamarReservasi;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -99,11 +100,35 @@ class AdminReservasiController extends Controller
             'tanggal_keluar' => $data['tanggal_keluar'] ?? null,
             'durasi_hari' => $duration,
             'jumlah_peserta' => $isInstansi ? ($data['jumlah_peserta'] ?? 1) : 1,
-            'total_harga' => 0,
+            'total_harga' => $this->calcTotal($data, $multipleKamar, $duration),
             'status' => $data['status'],
             'payment_status' => $data['payment_status'] ?? 'unpaid',
             'catatan' => $data['catatan'] ?? null,
         ];
+    }
+
+    private function calcTotal(array $data, bool $multipleKamar, int $duration): int
+    {
+        if ($multipleKamar) {
+            $total = 0;
+            foreach ($data['items'] ?? [] as $item) {
+                if (empty($item['jenis_kelas'])) {
+                    continue;
+                }
+                $kamar = Kamar::where('jenis_kelas', $item['jenis_kelas'])->first();
+                if (! $kamar) {
+                    continue;
+                }
+                $dur = $this->duration($item['tanggal_masuk'] ?? null, $item['tanggal_keluar'] ?? null);
+                $total += $kamar->harga_per_malam * ($item['jumlah'] ?? 1) * $dur;
+            }
+
+            return $total;
+        }
+
+        $kamar = Kamar::where('jenis_kelas', $data['jenis_kelas'] ?? '')->first();
+
+        return ($kamar?->harga_per_malam ?? 0) * ($data['jumlah'] ?? 1) * $duration;
     }
 
     private function syncItems(KamarReservasi $reservasi, array $data, Request $request): void
@@ -115,20 +140,36 @@ class AdminReservasiController extends Controller
             'tanggal_keluar' => $data['tanggal_keluar'] ?? null,
         ]];
 
+        $total = 0;
+
         foreach ($items as $item) {
             if (empty($item['jenis_kelas']) || empty($item['tanggal_masuk']) || empty($item['tanggal_keluar'])) {
                 continue;
             }
 
+            $kamar = Kamar::where('jenis_kelas', $item['jenis_kelas'])->first();
+            if (! $kamar) {
+                continue;
+            }
+
             $duration = $this->duration($item['tanggal_masuk'], $item['tanggal_keluar']);
+            $jumlah = $item['jumlah'] ?? 1;
+            $subtotal = $kamar->harga_per_malam * $jumlah * $duration;
+            $total += $subtotal;
 
             $reservasi->items()->create([
                 'jenis_kelas' => $item['jenis_kelas'],
-                'jumlah' => $item['jumlah'] ?? 1,
+                'jumlah' => $jumlah,
                 'tanggal_masuk' => $item['tanggal_masuk'],
                 'tanggal_keluar' => $item['tanggal_keluar'],
                 'durasi_hari' => $duration,
+                'harga_per_malam' => $kamar->harga_per_malam,
+                'subtotal' => $subtotal,
             ]);
+        }
+
+        if ($total > 0) {
+            $reservasi->update(['total_harga' => $total]);
         }
     }
 

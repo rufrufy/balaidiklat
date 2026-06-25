@@ -10,7 +10,7 @@
                     <td>
                         @if($reservasi->items->isNotEmpty())
                             @foreach($reservasi->items as $item)
-                                <div class="small mb-1"><strong>{{ $item->jenis_kelas ?: '-' }}</strong> ({{ $item->jumlah ?? 1 }} unit) {{ optional($item->tanggal_masuk)->format('d M') }}-{{ optional($item->tanggal_keluar)->format('d M Y') }}</div>
+                                <div class="small mb-1"><strong>{{ $item->jenis_kelas ?: '-' }}</strong> ({{ $item->jumlah ?? 1 }} unit) {{ optional($item->tanggal_masuk)->format('d M') }}-{{ optional($item->tanggal_keluar)->format('d M Y') }}<div class="text-muted">Rp{{ number_format($item->subtotal ?? 0, 0, ',', '.') }}</div></div>
                             @endforeach
                         @else
                             {{ $reservasi->jenis_kelas ? $reservasi->jenis_kelas.' ('.($reservasi->jumlah ?? 1).' unit)' : 'Belum dialokasikan' }}

@@ -397,7 +397,8 @@ class KirimChatWebhookController extends Controller
         foreach ($rooms->values() as $index => $kamar) {
             $no = $index + 1;
             $map[(string) $no] = $kamar->jenis_kelas;
-            $lines[] = "{$no}. {$kamar->jenis_kelas} - sisa {$kamar->sisa_kuota} dari {$kamar->kuota_total} unit";
+            $harga = number_format((int) $kamar->harga_per_malam, 0, ',', '.');
+            $lines[] = "{$no}. {$kamar->jenis_kelas} - Rp{$harga}/malam (sisa {$kamar->sisa_kuota} dari {$kamar->kuota_total} unit)";
         }
 
         $session->update([
@@ -436,8 +437,10 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
-        $kamar = Kamar::where('jenis_kelas', $jenisKelas)->first();
+        $kamar = Kamar::with('fotos')->where('jenis_kelas', $jenisKelas)->first();
         $kuota = $kamar?->kuota_total ?? 0;
+        $harga = $kamar ? number_format((int) $kamar->harga_per_malam, 0, ',', '.') : '0';
+        $fasilitas = $kamar?->fasilitas ?: '-';
 
         $session->update([
             'state' => 'pesan_jumlah',
@@ -447,12 +450,53 @@ class KirimChatWebhookController extends Controller
             ]),
         ]);
 
+        $this->sendKamarPhotos($kamar, $phoneNumber, $kirimChat);
+
         $kirimChat->sendText(
             $phoneNumber,
-            "Jenis kelas terpilih: *{$jenisKelas}* (kuota {$kuota} unit)\n\n"
+            "Jenis kelas terpilih: *{$jenisKelas}*\n"
+            ."Tarif: Rp{$harga}/malam\n"
+            ."Kuota: {$kuota} unit\n"
+            ."Fasilitas: {$fasilitas}\n\n"
             ."Silakan kirim *Jumlah unit* yang ingin dipesan.\n"
             ."Contoh: 1"
         );
+    }
+
+    private function sendKamarPhotos(?Kamar $kamar, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        if (! $kamar) {
+            return;
+        }
+
+        $fotoPaths = $kamar->allFotoPaths();
+        if ($fotoPaths->isEmpty()) {
+            return;
+        }
+
+        $baseUrl = rtrim((string) config('app.url'), '/');
+        if (! str_starts_with($baseUrl, 'http')) {
+            $baseUrl = 'https://' . $baseUrl;
+        }
+
+        foreach ($fotoPaths->take(3) as $index => $path) {
+            $mediaUrl = $baseUrl . '/storage/' . ltrim($path, '/');
+
+            $caption = $index === 0
+                ? "Foto {$kamar->jenis_kelas}"
+                : null;
+
+            try {
+                $kirimChat->sendImage($phoneNumber, $mediaUrl, $caption);
+            } catch (\Throwable $e) {
+                Log::warning('Gagal kirim foto kamar via WA', [
+                    'kamar_id' => $kamar->id,
+                    'foto_path' => $path,
+                    'media_url' => $mediaUrl,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
     }
 
     /**
@@ -646,6 +690,10 @@ class KirimChatWebhookController extends Controller
             ? (int) max(1, Carbon::parse($masuk)->diffInDays(Carbon::parse($keluar)) ?: 1)
             : 1;
 
+        $kamar = $jenisKelas ? Kamar::where('jenis_kelas', $jenisKelas)->first() : null;
+        $hargaPerMalam = $kamar?->harga_per_malam ?? 0;
+        $total = $hargaPerMalam * $jumlah * $duration;
+
         $reservasi = KamarReservasi::create([
             'kode' => $this->generateReservationCode(),
             'nama_pemesan' => $nama,
@@ -658,7 +706,7 @@ class KirimChatWebhookController extends Controller
             'tanggal_keluar' => $keluar,
             'durasi_hari' => $duration,
             'jumlah_peserta' => $jumlah,
-            'total_harga' => 0,
+            'total_harga' => $total,
             'status' => 'pending',
             'payment_status' => 'unpaid',
             'catatan' => 'Reservasi via WhatsApp chatbot.',
@@ -671,6 +719,8 @@ class KirimChatWebhookController extends Controller
                 'tanggal_masuk' => $masuk,
                 'tanggal_keluar' => $keluar,
                 'durasi_hari' => $duration,
+                'harga_per_malam' => $hargaPerMalam,
+                'subtotal' => $total,
             ]);
         }
 
@@ -679,12 +729,14 @@ class KirimChatWebhookController extends Controller
             'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
         ]);
 
+        $hargaText = number_format($total, 0, ',', '.');
         $kirimChat->sendButtons(
             $phoneNumber,
             "Reservasi berhasil dibuat!\n\n"
             ."Kode booking: {$reservasi->kode}\n"
             .($jenisKelas ? "Jenis kelas: {$jenisKelas} ({$jumlah} unit)\n" : '')
             .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
+            ."Total: Rp{$hargaText}\n"
             ."Status: menunggu konfirmasi & pembayaran.\n\n"
             ."Terima kasih telah memesan di Balai Diklat Kota Semarang.",
             [
@@ -875,12 +927,14 @@ class KirimChatWebhookController extends Controller
         $tanggal = ($reservasi->tanggal_masuk && $reservasi->tanggal_keluar)
             ? $reservasi->tanggal_masuk->format('d M Y').' s/d '.$reservasi->tanggal_keluar->format('d M Y')
             : '-';
+        $hargaText = number_format((int) $reservasi->total_harga, 0, ',', '.');
         $bayar = $reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar';
 
         $detail = "Detail booking {$reservasi->kode}:\n\n"
             ."Pemesan: {$reservasi->nama_pemesan}\n"
             ."Jenis kelas: {$jenisText}\n"
             ."Tanggal: {$tanggal}\n"
+            ."Total: Rp{$hargaText}\n"
             ."Status reservasi: {$reservasi->status}\n"
             ."Status pembayaran: {$bayar}";
 

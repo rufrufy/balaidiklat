@@ -71,7 +71,7 @@
     </section>
 
     <section id="booking" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4 align-items-end"><div class="col-lg-8"><div class="eyebrow">Form WhatsApp</div><h2 class="display-5">Ajukan reservasi.</h2><div class="row g-3"><div class="col-md-6"><label class="form-label fw-bold">Tanggal masuk</label><input id="waCheckin" type="date" class="form-control"></div><div class="col-md-6"><label class="form-label fw-bold">Tanggal keluar</label><input id="waCheckout" type="date" class="form-control"></div><div class="col-md-6"><label class="form-label fw-bold">Instansi</label><input id="waAgency" class="form-control" placeholder="BKPP Kota Semarang"></div><div class="col-md-6"><label class="form-label fw-bold">Nama kegiatan</label><input id="waEvent" class="form-control" placeholder="Diklat Manajemen ASN"></div><div class="col-md-6"><label class="form-label fw-bold">Jumlah peserta</label><input id="waGuests" type="number" min="1" value="12" class="form-control"></div></div></div><div class="col-lg-4"><a id="waBookingButton" class="btn btn-secondary-enterprise w-100" href="#" target="_blank" rel="noopener">Booking via WhatsApp</a><p class="text-muted mt-3 mb-0 small">Format pesan otomatis sesuai kebutuhan reservasi.</p></div></div></div></div></section>
-    <section id="lacak" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4"><div class="col-lg-5"><div class="eyebrow">Lacak booking kamar</div><h2 class="display-5">Cek status reservasi.</h2><p class="text-muted">Masukkan kode booking dari admin. Nomor WhatsApp opsional untuk memverifikasi pencarian.</p><form method="POST" action="{{ route('booking.track') }}" class="row g-3">@csrf<div class="col-12"><label class="form-label fw-bold">Kode booking</label><input class="form-control" name="kode" value="{{ $trackingCode ?? '' }}" placeholder="RSV-202606110001" required></div><div class="col-12"><label class="form-label fw-bold">No WhatsApp</label><input class="form-control" name="phone_number" placeholder="628xxxx"></div><div class="col-12"><button class="btn btn-primary-enterprise" type="submit">Lacak Booking</button></div></form></div><div class="col-lg-7">@isset($trackingCode)<div class="card-enterprise p-4 tracking-result">@if($trackingResult)<div class="eyebrow">Hasil ditemukan</div><h3>{{ $trackingResult->kode }} - {{ $trackingResult->status }}</h3><p class="mb-1"><strong>Pemesan:</strong> {{ $trackingResult->nama_pemesan }}</p><p class="mb-1"><strong>Kegiatan:</strong> {{ $trackingResult->kegiatan }}</p><p class="mb-1"><strong>Tanggal:</strong> {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} - {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p><p class="mb-1"><strong>Jenis Kelas:</strong> {{ $trackingResult->jenis_kelas ? $trackingResult->jenis_kelas.' ('.($trackingResult->jumlah ?? 1).' unit)' : 'Belum dialokasikan' }}</p>@if($trackingResult->items->isNotEmpty())<div class="mb-2"><strong>Detail:</strong>@foreach($trackingResult->items as $item)<div class="small text-muted">{{ $item->jenis_kelas ?: '-' }} ({{ $item->jumlah ?? 1 }} unit) | {{ optional($item->tanggal_masuk)->format('d M Y') }} - {{ optional($item->tanggal_keluar)->format('d M Y') }}</div>@endforeach</div>@endif<p class="mb-1"><strong>Total billing:</strong> Rp{{ number_format($trackingResult->total_harga, 0, ',', '.') }}</p><p class="mb-1"><strong>Status payment:</strong> {{ $trackingResult->payment_status }}</p><p class="mb-0"><strong>Catatan:</strong> {{ $trackingResult->catatan ?: '-' }}</p>@else<div class="eyebrow">Tidak ditemukan</div><h3>Kode {{ $trackingCode }} belum terdaftar.</h3><p class="text-muted mb-0">Pastikan kode booking sesuai atau hubungi admin melalui WhatsApp.</p>@endif</div>@else<div class="empty-state h-100 d-flex align-items-center justify-content-center">Hasil pelacakan akan muncul di sini.</div>@endisset</div></div></div></div></section>
+    <section id="lacak" class="section-pad pt-0"><div class="container"><div class="card-enterprise p-4 p-md-5"><div class="row g-4"><div class="col-lg-5"><div class="eyebrow">Lacak booking kamar</div><h2 class="display-5">Cek status reservasi.</h2><p class="text-muted">Masukkan kode booking dari admin. Nomor WhatsApp opsional untuk memverifikasi pencarian.</p><form method="POST" action="{{ route('booking.track') }}" class="row g-3">@csrf<div class="col-12"><label class="form-label fw-bold">Kode booking</label><input class="form-control" name="kode" value="{{ $trackingCode ?? '' }}" placeholder="RSV-202606110001" required></div><div class="col-12"><label class="form-label fw-bold">No WhatsApp</label><input class="form-control" name="phone_number" placeholder="628xxxx"></div><div class="col-12"><button class="btn btn-primary-enterprise" type="submit">Lacak Booking</button></div></form></div><div class="col-lg-7">@isset($trackingCode)<div class="card-enterprise p-4 tracking-result">@if($trackingResult)<div class="eyebrow">Hasil ditemukan</div><h3>{{ $trackingResult->kode }} - {{ $trackingResult->status }}</h3><p class="mb-1"><strong>Pemesan:</strong> {{ $trackingResult->nama_pemesan }}</p><p class="mb-1"><strong>Kegiatan:</strong> {{ $trackingResult->kegiatan }}</p><p class="mb-1"><strong>Tanggal:</strong> {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} - {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p><p class="mb-1"><strong>Jenis Kelas:</strong> {{ $trackingResult->jenis_kelas ? $trackingResult->jenis_kelas.' ('.($trackingResult->jumlah ?? 1).' unit)' : 'Belum dialokasikan' }}</p>@if($trackingResult->items->isNotEmpty())<div class="mb-2"><strong>Detail:</strong>@foreach($trackingResult->items as $item)<div class="small text-muted">{{ $item->jenis_kelas ?: '-' }} ({{ $item->jumlah ?? 1 }} unit) | {{ optional($item->tanggal_masuk)->format('d M Y') }} - {{ optional($item->tanggal_keluar)->format('d M Y') }} | Rp{{ number_format($item->subtotal ?? 0, 0, ',', '.') }}</div>@endforeach</div>@endif<p class="mb-1"><strong>Total billing:</strong> Rp{{ number_format($trackingResult->total_harga, 0, ',', '.') }}</p><p class="mb-1"><strong>Status payment:</strong> {{ $trackingResult->payment_status }}</p><p class="mb-0"><strong>Catatan:</strong> {{ $trackingResult->catatan ?: '-' }}</p>@else<div class="eyebrow">Tidak ditemukan</div><h3>Kode {{ $trackingCode }} belum terdaftar.</h3><p class="text-muted mb-0">Pastikan kode booking sesuai atau hubungi admin melalui WhatsApp.</p>@endif</div>@else<div class="empty-state h-100 d-flex align-items-center justify-content-center">Hasil pelacakan akan muncul di sini.</div>@endisset</div></div></div></div></section>
 
     {{-- ═══ DAFTAR KAMAR DENGAN CAROUSEL FOTO ═══ --}}
     <section id="kamar" class="section-pad pt-0">
@@ -88,13 +88,36 @@
             @else
                 <div class="row g-4">
                     @foreach ($kamars as $kamar)
+                        @php $fotos = $kamar->allFotoPaths(); @endphp
                         <div class="col-md-6 col-xl-3">
                             <article class="room-card h-100">
-                                <div class="room-visual"><h4 class="text-white mb-0">{{ $kamar->jenis_kelas }}</h4></div>
+                                @if ($fotos->count() > 1)
+                                    <div id="landingCarousel{{ $kamar->id }}" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                            @foreach ($fotos as $i => $path)
+                                                <button type="button" data-bs-target="#landingCarousel{{ $kamar->id }}" data-bs-slide-to="{{ $i }}" @if($i === 0) class="active" aria-current="true" @endif></button>
+                                            @endforeach
+                                        </div>
+                                        <div class="carousel-inner">
+                                            @foreach ($fotos as $i => $path)
+                                                <div class="carousel-item @if($i === 0) active @endif">
+                                                    <img class="d-block w-100" src="{{ asset('storage/'.$path) }}" alt="{{ $kamar->jenis_kelas }} foto {{ $i + 1 }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#landingCarousel{{ $kamar->id }}" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#landingCarousel{{ $kamar->id }}" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                                    </div>
+                                @elseif ($fotos->count() === 1)
+                                    <img class="room-photo w-100" src="{{ asset('storage/'.$fotos->first()) }}" alt="{{ $kamar->jenis_kelas }}">
+                                @else
+                                    <div class="room-visual"><h4 class="text-white mb-0">{{ $kamar->jenis_kelas }}</h4></div>
+                                @endif
                                 <div class="p-4">
                                     <h4>{{ $kamar->jenis_kelas }}</h4>
-                                    <p class="fw-bold mb-2">Kuota: {{ $kamar->kuota_total }} unit</p>
-                                    <span class="badge-soft badge-success-soft">Tersedia untuk dipesan</span>
+                                    <p class="fw-bold mb-2">Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} / malam</p>
+                                    <p class="text-muted mb-2">Kuota: {{ $kamar->kuota_total }} unit</p>
+                                    @if($kamar->fasilitas)<span class="badge-soft badge-success-soft">{{ \Illuminate\Support\Str::limit($kamar->fasilitas, 40) }}</span>@endif
                                 </div>
                             </article>
                         </div>
@@ -163,12 +186,18 @@ document.getElementById('checkAvailBtn')?.addEventListener('click', async functi
                 ? `<span class="availability-badge">${room.sisa_kuota} unit tersisa</span>`
                 : `<span class="badge bg-danger">Penuh</span>`;
 
+            const fotoHtml = room.fotos.length > 0
+                ? `<img src="${room.fotos[0]}" alt="${room.jenis_kelas}" class="mb-2">`
+                : `<div style="width:100%;height:140px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#0f4a4a);display:grid;place-items:center;color:#fff;font-weight:700;margin-bottom:8px">${room.jenis_kelas}</div>`;
+
             html += `<div class="col-md-6">
                 <div class="room-avail-card">
-                    <div style="width:100%;height:140px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#0f4a4a);display:grid;place-items:center;color:#fff;font-weight:700;margin-bottom:8px">${room.jenis_kelas}</div>
+                    ${fotoHtml}
                     <h4 style="font-size:1rem;margin-bottom:4px">${room.jenis_kelas}</h4>
                     <div class="text-muted small mb-1">Kuota total: ${room.kuota_total} unit</div>
-                    <div class="fw-bold" style="color:var(--primary)">${sisaBadge}</div>
+                    <div class="fw-bold" style="color:var(--primary)">Rp${room.harga} / malam</div>
+                    ${room.fasilitas ? `<div class="small text-muted mt-1">${room.fasilitas}</div>` : ''}
+                    <div class="mt-1">${sisaBadge}</div>
                 </div>
             </div>`;
         });

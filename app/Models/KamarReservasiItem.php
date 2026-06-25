@@ -14,6 +14,8 @@ class KamarReservasiItem extends Model
         'tanggal_masuk',
         'tanggal_keluar',
         'durasi_hari',
+        'harga_per_malam',
+        'subtotal',
     ];
 
     protected function casts(): array
@@ -23,6 +25,8 @@ class KamarReservasiItem extends Model
             'tanggal_keluar' => 'date',
             'durasi_hari' => 'integer',
             'jumlah' => 'integer',
+            'harga_per_malam' => 'integer',
+            'subtotal' => 'integer',
         ];
     }
 

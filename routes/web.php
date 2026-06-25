@@ -17,7 +17,7 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('landing', ['kamars' => Kamar::latest()->get()]);
+    return view('landing', ['kamars' => Kamar::with('fotos')->latest()->get()]);
 })->name('landing');
 
 Route::post('/cek-ketersediaan', function () {
@@ -36,6 +36,9 @@ Route::post('/cek-ketersediaan', function () {
                 'jenis_kelas' => $room->jenis_kelas,
                 'kuota_total' => $room->kuota_total,
                 'sisa_kuota' => $room->sisa_kuota ?? $room->kuota_total,
+                'harga' => (int) $room->harga_per_malam,
+                'fasilitas' => $room->fasilitas ?: '',
+                'fotos' => $room->allFotoPaths()->map(fn ($path) => asset('storage/'.$path))->values()->all(),
             ];
         }),
         'tanggal_masuk' => $data['tanggal_masuk'],
@@ -55,7 +58,7 @@ Route::post('/lacak-booking', function () {
         ->first();
 
     return view('landing', [
-        'kamars' => Kamar::latest()->get(),
+        'kamars' => Kamar::with('fotos')->latest()->get(),
         'trackingResult' => $reservasi,
         'trackingCode' => $data['kode'],
     ]);

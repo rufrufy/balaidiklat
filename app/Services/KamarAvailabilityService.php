@@ -10,104 +10,64 @@ use Illuminate\Support\Facades\DB;
 class KamarAvailabilityService
 {
     /**
-     * Total unit terpakai (pending/approved) per jenis_kelas untuk rentang tanggal.
-     *
-     * @return array<string, int>
-     */
-    public function bookedUnitsByKamar(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): array
-    {
-        if (! $tanggalMasuk || ! $tanggalKeluar) {
-            return [];
-        }
-
-        $rows = DB::table('kamar_reservasi_items')
-            ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
-            ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
-            ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
-            ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
-            ->whereNotNull('kamar_reservasi_items.jenis_kelas')
-            ->selectRaw('kamar_reservasi_items.jenis_kelas, COALESCE(SUM(kamar_reservasi_items.jumlah), 0) AS terpakai')
-            ->groupBy('kamar_reservasi_items.jenis_kelas')
-            ->pluck('terpakai', 'jenis_kelas');
-
-        return $rows->all();
-    }
-
-    /**
-     * Daftar kamar + atribut tersedia/stok_total/terpakai untuk rentang tanggal.
-     */
-    public function availableRoomsWithStock(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
-    {
-        $rooms = Kamar::query()->orderBy('jenis_kelas')->get();
-
-        $booked = $this->bookedUnitsByKamar($tanggalMasuk, $tanggalKeluar);
-
-        return $rooms->map(function (Kamar $kamar) use ($booked): Kamar {
-            $terpakai = (int) ($booked[$kamar->jenis_kelas] ?? 0);
-            $stokTotal = (int) ($kamar->stok_total ?: ($kamar->kuota_total ?: 1));
-            $kamar->setAttribute('tersedia', max(0, $stokTotal - $terpakai));
-            $kamar->setAttribute('stok_total', $stokTotal);
-            $kamar->setAttribute('terpakai', $terpakai);
-
-            return $kamar;
-        });
-    }
-
-    /**
-     * Legacy: daftar kamar tanpa info stok.
+     * Return rooms that are available (status = 'available') and have no
+     * conflicting reservations on the given date range. If no dates are
+     * provided, returns all rooms with status 'available'.
      */
     public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
     {
-        $query = Kamar::query();
+        $query = Kamar::query()->where('status', 'available');
 
         if ($tanggalMasuk && $tanggalKeluar) {
-            $bookedJenis = DB::table('kamar_reservasi_items')
-                ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
-                ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
-                ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
-                ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
-                ->whereNotNull('kamar_reservasi_items.jenis_kelas')
-                ->pluck('kamar_reservasi_items.jenis_kelas')
+            // Exclude rooms that have an overlapping reservation (pending or approved)
+            $bookedKamarIds = KamarReservasiItem::query()
+                ->whereHas('reservasi', function ($q) {
+                    $q->whereIn('status', ['pending', 'approved']);
+                })
+                ->where('tanggal_masuk', '<', $tanggalKeluar)
+                ->where('tanggal_keluar', '>', $tanggalMasuk)
+                ->pluck('kamar_id')
                 ->unique();
 
-            if ($bookedJenis->isNotEmpty()) {
-                $query->whereNotIn('jenis_kelas', $bookedJenis);
+            if ($bookedKamarIds->isNotEmpty()) {
+                $query->whereNotIn('id', $bookedKamarIds);
             }
         }
 
-        return $query->orderBy('jenis_kelas')->get();
+        return $query->orderBy('kode')->get();
     }
 
     /**
-     * Sisa unit Tersedia untuk satu kamar pada rentang tanggal.
+     * Whether a specific room can be booked on a given date range.
      */
-    public function availableStock(Kamar $kamar, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): int
+    public function isBookable(Kamar $kamar, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
     {
-        $stokTotal = (int) ($kamar->stok_total ?: ($kamar->kuota_total ?: 1));
-
-        if (! $tanggalMasuk || ! $tanggalKeluar) {
-            return $stokTotal;
+        if ($kamar->status !== 'available') {
+            return false;
         }
 
-        $terpakai = (int) DB::table('kamar_reservasi_items')
-            ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
-            ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
-            ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
-            ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
-            ->where('kamar_reservasi_items.jenis_kelas', $kamar->jenis_kelas)
-            ->sum('kamar_reservasi_items.jumlah');
+        if ($tanggalMasuk && $tanggalKeluar) {
+            $hasConflict = KamarReservasiItem::query()
+                ->where('kamar_id', $kamar->id)
+                ->whereHas('reservasi', function ($q) {
+                    $q->whereIn('status', ['pending', 'approved']);
+                })
+                ->where('tanggal_masuk', '<', $tanggalKeluar)
+                ->where('tanggal_keluar', '>', $tanggalMasuk)
+                ->exists();
 
-        return max(0, $stokTotal - $terpakai);
-    }
+            return ! $hasConflict;
+        }
 
-    public function isBookable(Kamar $kamar, int $jumlahUnit = 1, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
-    {
-        return $this->availableStock($kamar, $tanggalMasuk, $tanggalKeluar) >= $jumlahUnit;
+        return true;
     }
 
     /**
-     * Parse free-form date input WhatsApp → [tanggal_masuk, tanggal_keluar].
-     * Pola: "12-06-2026", "12/06/2026", "2026-06-12", range " - "/" sampai "/" s/d ".
+     * Parse free-form date input from WhatsApp (single date or range) into
+     * [tanggal_masuk, tanggal_keluar]. Returns null if no date is found.
+     *
+     * Accepts patterns like "12-06-2026", "12/06/2026", "2026-06-12", and
+     * ranges separated by " - ", " sampai ", or " s/d ".
      *
      * @return array{0:string,1:string}|null
      */

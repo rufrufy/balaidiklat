@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KamarReservasi extends Model
@@ -15,8 +14,6 @@ class KamarReservasi extends Model
         'instansi',
         'kegiatan',
         'phone_number',
-        'jenis_kelas',
-        'jumlah',
         'kamar_id',
         'multiple_kamar',
         'tanggal_masuk',
@@ -45,22 +42,7 @@ class KamarReservasi extends Model
 
     public function kamar(): BelongsTo
     {
-        return $this->belongsTo(Kamar::class, 'kamar_id');
-    }
-
-    // DB produksi tidak punya kamar_id; fallback via jenis_kelas.
-    public function getKamarAttribute(): ?Kamar
-    {
-        if (isset($this->attributes['kamar_id']) && $this->attributes['kamar_id']) {
-            return Kamar::find($this->attributes['kamar_id']);
-        }
-
-        $jenis = $this->attributes['jenis_kelas'] ?? null;
-        if (! $jenis) {
-            return null;
-        }
-
-        return Kamar::where('jenis_kelas', $jenis)->first();
+        return $this->belongsTo(Kamar::class);
     }
 
     public function items(): HasMany

@@ -34,14 +34,13 @@ Route::post('/cek-ketersediaan', function () {
     ]);
 
     $service = app(\App\Services\KamarAvailabilityService::class);
-    $rooms = $service->availableRoomsWithStock($data['tanggal_masuk'], $data['tanggal_keluar']);
+    $rooms = $service->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
 
+    // Load fotos for the available rooms
     $rooms->load('fotos');
 
     return response()->json([
         'rooms' => $rooms->map(function ($room) {
-            $fotos = $room->allFotoPaths()->map(fn ($path) => asset('storage/'.$path))->values();
-
             return [
                 'id' => $room->id,
                 'kode' => $room->kode,
@@ -51,9 +50,6 @@ Route::post('/cek-ketersediaan', function () {
                 'fasilitas' => $room->fasilitas,
                 'status' => $room->status,
                 'fotos' => $fotos,
-                'stok_total' => (int) $room->stok_total,
-                'tersedia' => (int) $room->tersedia,
-                'terpakai' => (int) $room->terpakai,
             ];
         }),
         'tanggal_masuk' => $data['tanggal_masuk'],
@@ -134,7 +130,7 @@ Route::post('/lacak-booking', function () {
         'phone_number' => ['nullable', 'string', 'max:40'],
     ]);
 
-    $reservasi = KamarReservasi::with(['kamar', 'items.kamar'])
+    $reservasi = KamarReservasi::with(['items'])
         ->where('kode', $data['kode'])
         ->when($data['phone_number'] ?? null, fn ($query, $phone) => $query->where('phone_number', $phone))
         ->first();

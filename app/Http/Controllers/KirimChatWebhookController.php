@@ -160,8 +160,13 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
-            case 'pilih_kamar':
-                $this->sendKamarDetail($session, $phoneNumber, $rawInput, $kirimChat);
+            case 'pilih_jenis':
+                $this->pilihJenis($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
+            case 'input_jumlah':
+                $this->inputJumlah($session, $phoneNumber, $rawInput, $kirimChat);
 
                 return;
 
@@ -346,7 +351,7 @@ class KirimChatWebhookController extends Controller
             $session->update(['state' => 'pesan_cek_tanggal']);
             $this->sendReturnButtons(
                 $phoneNumber,
-                "Maaf, tidak ada kamar/kelas yang Tersedia pada {$masuk} s/d {$keluar}.\nSilakan kirim tanggal lain, atau kembali ke menu utama.",
+                "Maaf, tidak ada kamar/kelas yang tersedia pada {$masuk} s/d {$keluar}.\nSilakan kirim tanggal lain, atau kembali ke menu utama.",
                 $kirimChat
             );
 
@@ -356,11 +361,11 @@ class KirimChatWebhookController extends Controller
         $lines = $rooms->map(static function ($room): string {
             $harga = number_format((int) $room->harga_per_malam, 0, ',', '.');
 
-            return "- {$room->kode} {$room->nama} (Rp{$harga}) - Tersedia: {$room->tersedia} unit";
+            return "- {$room->kode} {$room->nama} (Rp{$harga})";
         })->implode("\n");
 
         $session->update([
-            'state' => 'pesan_isi_data',
+            'state' => 'pilih_jenis',
             'context' => array_merge($session->context ?? [], [
                 'tanggal_masuk' => $masuk,
                 'tanggal_keluar' => $keluar,
@@ -369,7 +374,7 @@ class KirimChatWebhookController extends Controller
 
         $kirimChat->sendText(
             $phoneNumber,
-            "Kamar/kelas Tersedia {$masuk} s/d {$keluar}:\n{$lines}\n\n"
+            "Kamar/kelas tersedia {$masuk} s/d {$keluar}:\n{$lines}\n\n"
             ."Silakan isi data pemesanan dengan format:\n"
             ."Nama, Instansi, Kegiatan, Jumlah peserta\n"
             ."Contoh: Budi, BKPP, Diklat ASN, 20"
@@ -386,103 +391,137 @@ class KirimChatWebhookController extends Controller
     }
 
     /**
-     * List kamar/kelas straight from the manajemen kamar DB. Stores the
-     * ordered ids in session context so a numeric reply maps to a room.
+     * Tampilkan info ketersediaan hari ini (jenis kelas + sisa kuota) dan
+     * minta user memilih jenis. State -> pilih_jenis.
      */
     private function sendKamarList(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $kamars = Kamar::orderBy('jenis_kelas')->get();
+        $kamars = Kamar::where('status', 'available')->orderBy('kode')->get();
 
-        if ($kamars->isEmpty()) {
-            $this->sendReturnButtons($phoneNumber, "Mohon maaf, belum ada data kamar/kelas yang tersedia saat ini.", $kirimChat);
+        if ($rooms->isEmpty()) {
+            $this->sendReturnButtons($phoneNumber, "Mohon maaf, belum ada data jenis kelas yang tersedia saat ini.", $kirimChat);
 
             return;
         }
 
         $lines = [];
         $map = [];
-        foreach ($kamars->values() as $index => $kamar) {
+        foreach ($rooms->values() as $index => $kamar) {
             $no = $index + 1;
-            $map[(string) $no] = $kamar->id;
+            $map[(string) $no] = $kamar->jenis_kelas;
             $harga = number_format((int) $kamar->harga_per_malam, 0, ',', '.');
-            $lines[] = "{$no}. {$kamar->nama} ({$kamar->tipeLabel()}) - Rp{$harga}";
+            $lines[] = "{$no}. {$kamar->jenis_kelas} - Rp{$harga}/malam (sisa {$kamar->sisa_kuota} dari {$kamar->kuota_total} unit)";
         }
 
         $session->update([
-            'context' => array_merge($session->context ?? [], ['kamar_map' => $map]),
+            'state' => 'pilih_jenis',
+            'context' => array_merge($session->context ?? [], ['jenis_map' => $map]),
         ]);
 
+        $todayTeks = Carbon::today()->format('d-m-Y');
         $kirimChat->sendText(
             $phoneNumber,
             "INFORMASI LAYANAN BALAI DIKLAT KOTA SEMARANG\n\n"
             ."Balai Diklat menyediakan layanan sewa kamar dan ruang kelas untuk kegiatan diklat, rapat, maupun kegiatan resmi lainnya.\n\n"
-            ."Berikut adalah pilihan kamar/kelas yang tersedia:\n\n"
+            ."Ketersediaan hari ini ({$todayTeks}):\n\n"
             .implode("\n", $lines)
-            ."\n\nKetik nomor untuk melihat detail & fasilitas, atau ketik *menu* untuk kembali."
+            ."\n\nKetik nomor jenis kelas yang ingin dipesan, atau ketik *menu* untuk kembali."
         );
     }
 
     /**
-     * Show the chosen room's keterangan/fasilitas from DB, then offer to order
-     * via interactive buttons (Pesan / Menu Utama) and move to step-by-step flow.
+     * User memilih jenis kelas (dari nomor di list). Simpan jenis_kelas ke
+     * context, lalu minta jumlah unit. State -> pesan_jumlah.
      */
-    private function sendKamarDetail(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    private function pilihJenis(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
-        $map = data_get($session->context, 'kamar_map', []);
+        $map = data_get($session->context, 'jenis_map', []);
         $choice = trim($rawInput);
-        $kamarId = $map[$choice] ?? null;
-        $kamar = $kamarId ? Kamar::find($kamarId) : null;
+        $jenisKelas = $map[$choice] ?? null;
 
-        if (! $kamar) {
+        if (! $jenisKelas) {
             $this->sendReturnButtons(
                 $phoneNumber,
-                "Pilihan tidak dikenali. Ketik nomor kamar/kelas yang ada di daftar, atau kembali ke menu utama.",
+                "Pilihan tidak dikenali. Ketik nomor jenis kelas yang ada di daftar, atau kembali ke menu utama.",
                 $kirimChat
             );
 
             return;
         }
 
-        $harga = number_format((int) $kamar->harga_per_malam, 0, ',', '.');
-        $fasilitas = $kamar->fasilitas ?: 'Informasi fasilitas belum tersedia.';
+        $kamar = Kamar::with('fotos')->where('jenis_kelas', $jenisKelas)->first();
+        $kuota = $kamar?->kuota_total ?? 0;
+        $harga = $kamar ? number_format((int) $kamar->harga_per_malam, 0, ',', '.') : '0';
+        $fasilitas = $kamar?->fasilitas ?: '-';
 
         $session->update([
-            'state' => 'pesan_nama',
+            'state' => 'pesan_jumlah',
             'context' => array_merge($session->context ?? [], [
-                'kamar_id' => $kamar->id,
-                'kamar_nama' => $kamar->nama,
-                'kamar_harga' => $kamar->harga_per_malam,
+                'jenis_kelas' => $jenisKelas,
+                'kuota_total' => $kuota,
             ]),
         ]);
 
-        $kirimChat->sendButtons(
+        $this->sendKamarPhotos($kamar, $phoneNumber, $kirimChat);
+
+        $kirimChat->sendText(
             $phoneNumber,
-            "{$kamar->nama} ({$kamar->tipeLabel()})\nTarif: Rp{$harga}/malam\n\nFasilitas/Keterangan:\n{$fasilitas}\n\nIngin melanjutkan pemesanan?",
-            [
-                ['id' => 'pesan', 'title' => 'Pesan'],
-                ['id' => 'menu', 'title' => 'Menu Utama'],
-            ]
+            "Jenis kelas terpilih: *{$jenisKelas}*\n"
+            ."Tarif: Rp{$harga}/malam\n"
+            ."Kuota: {$kuota} unit\n"
+            ."Fasilitas: {$fasilitas}\n\n"
+            ."Silakan kirim *Jumlah unit* yang ingin dipesan.\n"
+            ."Contoh: 1"
         );
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Pemesanan step-by-step flow
-    //   pesan_nama -> pesan_tanggal_masuk -> pesan_tanggal_keluar -> pesan_no_hp
-    //   -> simpan_reservasi (dari context) -> pesan_pembayaran
-    // ─────────────────────────────────────────────────────────────────────────
+    private function sendKamarPhotos(?Kamar $kamar, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        if (! $kamar) {
+            return;
+        }
+
+        $fotoPaths = $kamar->allFotoPaths();
+        if ($fotoPaths->isEmpty()) {
+            return;
+        }
+
+        $baseUrl = rtrim((string) config('app.url'), '/');
+        if (! str_starts_with($baseUrl, 'http')) {
+            $baseUrl = 'https://' . $baseUrl;
+        }
+
+        foreach ($fotoPaths->take(3) as $index => $path) {
+            $mediaUrl = $baseUrl . '/storage/' . ltrim($path, '/');
+
+            $caption = $index === 0
+                ? "Foto {$kamar->jenis_kelas}"
+                : null;
+
+            try {
+                $kirimChat->sendImage($phoneNumber, $mediaUrl, $caption);
+            } catch (\Throwable $e) {
+                Log::warning('Gagal kirim foto kamar via WA', [
+                    'kamar_id' => $kamar->id,
+                    'foto_path' => $path,
+                    'media_url' => $mediaUrl,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
+    }
 
     /**
-     * Step 1: nama pemesan. Tombol "Pesan" mengirim id='pesan' yang hanya
-     * memicu prompt; input lain dianggap sebagai nama dan disimpan.
+     * Step: jumlah unit. Validasi integer >= 1. State -> pesan_tanggal_masuk.
      */
-    private function inputNama(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    private function inputJumlah(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
-        $value = trim($rawInput);
+        $jumlah = (int) trim($rawInput);
 
-        if (in_array(Str::lower($value), ['pesan', 'menu', 'halo', ''], true)) {
+        if ($jumlah < 1) {
             $kirimChat->sendText(
                 $phoneNumber,
-                "Silakan kirim *Nama* pemesan.\nContoh: Budi Santoso"
+                "Mohon kirim *Jumlah unit* yang valid (angka minimal 1).\nContoh: 1"
             );
 
             return;
@@ -490,19 +529,19 @@ class KirimChatWebhookController extends Controller
 
         $session->update([
             'state' => 'pesan_tanggal_masuk',
-            'context' => array_merge($session->context ?? [], ['nama' => $value]),
+            'context' => array_merge($session->context ?? [], ['jumlah' => $jumlah]),
         ]);
 
         $kirimChat->sendText(
             $phoneNumber,
-            "Nama pemesan: *{$value}*\n\n"
+            "Jumlah unit: *{$jumlah}*\n\n"
             ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
             ."Contoh: 15-06-2026"
         );
     }
 
     /**
-     * Step 2: tanggal mulai. Format harus DD-MM-YYYY; jika salah, ulangi.
+     * Step: tanggal mulai. Format DD-MM-YYYY. State -> pesan_tanggal_keluar.
      */
     private function inputTanggalMasuk(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
@@ -562,7 +601,7 @@ class KirimChatWebhookController extends Controller
         }
 
         $session->update([
-            'state' => 'pesan_no_hp',
+            'state' => 'pesan_nama',
             'context' => array_merge($session->context ?? [], ['tanggal_keluar' => $tanggal]),
         ]);
 
@@ -570,6 +609,35 @@ class KirimChatWebhookController extends Controller
         $kirimChat->sendText(
             $phoneNumber,
             "Tanggal selesai: *{$tanggalTeks}*\n\n"
+            ."Silakan kirim *Nama* pemesan.\n"
+            ."Contoh: Budi Santoso"
+        );
+    }
+
+    /**
+     * Step: nama pemesan. State -> pesan_no_hp.
+     */
+    private function inputNama(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $value = trim($rawInput);
+
+        if (in_array(Str::lower($value), ['pesan', 'menu', 'halo', '', 'sama'], true)) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Silakan kirim *Nama* pemesan.\nContoh: Budi Santoso"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'pesan_no_hp',
+            'context' => array_merge($session->context ?? [], ['nama' => $value]),
+        ]);
+
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Nama pemesan: *{$value}*\n\n"
             ."Terakhir, silakan kirim *No. WhatsApp/HP* yang bisa dihubungi.\n"
             ."Ketik *sama* untuk menggunakan nomor ini ({$phoneNumber})."
         );
@@ -616,9 +684,9 @@ class KirimChatWebhookController extends Controller
     }
 
     /**
-     * Build a reservation from the step-by-step context (nama, tanggal_masuk,
-     * tanggal_keluar, wa, kamar_id) and send the final interactive reply with
-     * Menu Utama + Bayar.
+     * Build a reservation from the step-by-step context (jenis_kelas, jumlah,
+     * tanggal_masuk, tanggal_keluar, nama, wa) and send the final interactive
+     * reply with Menu Utama + Bayar.
      */
     private function simpanReservasi(WhatsappSession $session, string $phoneNumber, string $rawInput, ?string $customerName, KirimChatService $kirimChat): void
     {
@@ -627,61 +695,43 @@ class KirimChatWebhookController extends Controller
         $waNumber = $ctx['wa'] ?? $phoneNumber;
         $masuk = $ctx['tanggal_masuk'] ?? null;
         $keluar = $ctx['tanggal_keluar'] ?? null;
-
-        $kamarId = data_get($ctx, 'kamar_id');
-        $kamar = $kamarId ? Kamar::find($kamarId) : null;
+        $jenisKelas = $ctx['jenis_kelas'] ?? null;
+        $jumlah = (int) ($ctx['jumlah'] ?? 1);
 
         $duration = ($masuk && $keluar)
             ? (int) max(1, Carbon::parse($masuk)->diffInDays(Carbon::parse($keluar)) ?: 1)
             : 1;
-        $jumlahUnit = 1;
-        $total = ($kamar?->harga_per_malam ?? 0) * $duration * $jumlahUnit;
-
-        if ($kamar && $masuk && $keluar) {
-            $tersedia = $this->availability->availableStock($kamar, $masuk, $keluar);
-            if ($tersedia < $jumlahUnit) {
-                $kirimChat->sendText(
-                    $phoneNumber,
-                    "Maaf, jumlah pemesanan kamar melebihi ketersediaan.\n\n"
-                    ."Kamar: {$kamar->nama}\nTanggal: {$masuk} s/d {$keluar}\n"
-                    ."Tersedia: {$tersedia} unit\n\n"
-                    ."Silakan pilih kamar/tanggal lain. Ketik *menu* untuk kembali."
-                );
-
-                return;
-            }
-        }
+        $total = ($kamar?->harga_per_malam ?? 0) * $duration;
 
         $reservasi = KamarReservasi::create([
             'kode' => $this->generateReservationCode(),
             'nama_pemesan' => $nama,
             'tipe_penyewa' => 'perorangan',
             'phone_number' => $waNumber,
-            'kamar_id' => $kamar?->id,
+            'jenis_kelas' => $jenisKelas,
+            'jumlah' => $jumlah,
             'multiple_kamar' => false,
             'tanggal_masuk' => $masuk,
             'tanggal_keluar' => $keluar,
             'durasi_hari' => $duration,
-            'jumlah_peserta' => 1,
+            'jumlah_peserta' => $jumlah,
             'total_harga' => $total,
             'status' => 'pending',
             'payment_status' => 'unpaid',
             'catatan' => 'Reservasi via WhatsApp chatbot.',
         ]);
 
-        if ($kamar && $masuk && $keluar) {
+        if ($jenisKelas && $masuk && $keluar) {
             $reservasi->items()->create([
-                'jenis_kelas' => $kamar->jenis_kelas,
-                'jumlah' => $jumlahUnit,
+                'kamar_id' => $kamar->id,
                 'tanggal_masuk' => $masuk,
                 'tanggal_keluar' => $keluar,
                 'durasi_hari' => $duration,
-                'harga_per_malam' => $kamar->harga_per_malam,
+                'harga_per_malam' => $hargaPerMalam,
                 'subtotal' => $total,
             ]);
         }
 
-        // Simpan kode booking di context untuk langkah pembayaran berikutnya.
         $session->update([
             'state' => 'pesan_pembayaran',
             'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
@@ -692,7 +742,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Reservasi berhasil dibuat!\n\n"
             ."Kode booking: {$reservasi->kode}\n"
-            .($kamar ? "Kamar/kelas: {$kamar->nama}\n" : '')
+            .($jenisKelas ? "Jenis kelas: {$jenisKelas} ({$jumlah} unit)\n" : '')
             .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
             ."Total: Rp{$hargaText}\n"
             ."Status: menunggu konfirmasi & pembayaran.\n\n"
@@ -702,378 +752,6 @@ class KirimChatWebhookController extends Controller
                 ['id' => 'bayar', 'title' => 'Bayar'],
             ]
         );
-    }
-
-    /**
-     * Handler untuk form pemesanan dari landing page. Pesan masuk dengan marker
-     * "FORM_PEMESANAN_LANDING" diikuti baris key:value. Parse, validasi ketersediaan
-     * unit, lalu balas dengan ringkasan + tombol Pesan Sekarang / Menu Utama.
-     */
-    private function handleFormPemesananLanding(
-        WhatsappSession $session,
-        string $phoneNumber,
-        string $rawInput,
-        ?string $customerName,
-        KirimChatService $kirimChat
-    ): void {
-        $data = $this->parseLandingForm($rawInput);
-
-        if (! $data) {
-            $this->sendReturnButtons(
-                $phoneNumber,
-                "Maaf, format pemesanan dari landing tidak dikenali. Silakan kirim ulang formulir dari halaman web atau ketik *menu*.",
-                $kirimChat
-            );
-
-            return;
-        }
-
-        $nama = $data['nama'] ?: ($customerName ?: 'Pelanggan');
-        $waNumber = $data['wa'] ?: $phoneNumber;
-        $tipePenyewa = $data['tipe_penyewa'] ?? 'perorangan';
-        $isInstansi = $tipePenyewa === 'instansi';
-        $instansi = $data['instansi'] ?? null;
-        $kegiatan = $data['kegiatan'] ?? null;
-        $masuk = $data['masuk'] ?? null;
-        $keluar = $data['keluar'] ?? null;
-        $kamarId = $data['kamar_id'] ?? null;
-        $jumlahUnit = (int) ($data['jumlah_unit'] ?? 1);
-        if ($jumlahUnit < 1) {
-            $jumlahUnit = 1;
-        }
-        $items = $data['items'] ?? [];
-
-        $kamar = $kamarId ? Kamar::find($kamarId) : null;
-
-        if (! $kamar || ! $masuk || ! $keluar) {
-            $this->sendReturnButtons(
-                $phoneNumber,
-                "Data pemesanan tidak lengkap (kamar/tanggal belum diisi). Silakan lengkapi formulir di landing page.",
-                $kirimChat
-            );
-
-            return;
-        }
-
-        // Validasi ketersediaan unit utama
-        $tersedia = $this->availability->availableStock($kamar, $masuk, $keluar);
-        if ($tersedia < $jumlahUnit) {
-            $kirimChat->sendText(
-                $phoneNumber,
-                "Maaf, jumlah pemesanan kamar melebihi ketersediaan.\n\n"
-                ."Kamar: {$kamar->nama}\n"
-                ."Tanggal: {$masuk} s/d {$keluar}\n"
-                ."Diminta: {$jumlahUnit} unit\n"
-                ."Tersedia: {$tersedia} unit\n\n"
-                ."Silakan kurangi jumlah unit atau pilih tanggal/kamar lain. Ketik *menu* untuk kembali."
-            );
-
-            return;
-        }
-
-        // Validasi item tambahan (multiple)
-        foreach ($items as $item) {
-            $ikamar = Kamar::find($item['kamar_id'] ?? null);
-            if (! $ikamar) {
-                continue;
-            }
-            $iTersedia = $this->availability->availableStock($ikamar, $item['tanggal_masuk'] ?? null, $item['tanggal_keluar'] ?? null);
-            $iUnit = (int) ($item['jumlah_unit'] ?? 1);
-            if ($iTersedia < $iUnit) {
-                $kirimChat->sendText(
-                    $phoneNumber,
-                    "Maaf, jumlah pemesanan kamar melebihi ketersediaan untuk item tambahan.\n\n"
-                    ."Kamar: {$ikamar->nama}\n"
-                    ."Tanggal: ".($item['tanggal_masuk'] ?? '-')." s/d ".($item['tanggal_keluar'] ?? '-')."\n"
-                    ."Diminta: {$iUnit} unit\n"
-                    ."Tersedia: {$iTersedia} unit\n\n"
-                    ."Silakan sesuaikan pemesanan. Ketik *menu* untuk kembali."
-                );
-
-                return;
-            }
-        }
-
-        // Simpan context untuk konfirmasi "Pesan Sekarang"
-        $session->update([
-            'state' => 'pesan_konfirmasi_landing',
-            'context' => [
-                'nama' => $nama,
-                'wa' => $waNumber,
-                'tipe_penyewa' => $tipePenyewa,
-                'instansi' => $instansi,
-                'kegiatan' => $kegiatan,
-                'kamar_id' => $kamar->id,
-                'kamar_nama' => $kamar->nama,
-                'kamar_harga' => $kamar->harga_per_malam,
-                'tanggal_masuk' => $masuk,
-                'tanggal_keluar' => $keluar,
-                'jumlah_unit' => $jumlahUnit,
-                'items' => $items,
-            ],
-        ]);
-
-        // Hitung total
-        $duration = (int) max(1, Carbon::parse($masuk)->diffInDays(Carbon::parse($keluar)) ?: 1);
-        $total = $kamar->harga_per_malam * $duration * $jumlahUnit;
-        foreach ($items as $item) {
-            $ikamar = Kamar::find($item['kamar_id'] ?? null);
-            if (! $ikamar) {
-                continue;
-            }
-            $iDur = (int) max(1, Carbon::parse($item['tanggal_masuk'])->diffInDays(Carbon::parse($item['tanggal_keluar'])) ?: 1);
-            $iUnit = (int) ($item['jumlah_unit'] ?? 1);
-            $total += $ikamar->harga_per_malam * $iDur * $iUnit;
-        }
-        $session->update(['context.total_harga' => $total]);
-
-        $hargaText = number_format($total, 0, ',', '.');
-        $ringkasan = "RINGKASAN PEMESANAN (dari Landing Page)\n\n"
-            ."Nama: {$nama}\n"
-            ."No WA: {$waNumber}\n"
-            ."Tipe Penyewa: ".($isInstansi ? 'Instansi' : 'Perorangan')."\n";
-        if ($isInstansi) {
-            $ringkasan .= "Instansi: ".($instansi ?: '-')."\n";
-            $ringkasan .= "Kegiatan: ".($kegiatan ?: '-')."\n";
-        }
-        $ringkasan .= "Tanggal: {$masuk} s/d {$keluar}\n"
-            ."Kamar: {$kamar->nama}\n"
-            ."Jumlah Unit: {$jumlahUnit}\n";
-        if (! empty($items)) {
-            $ringkasan .= "--- Item Tambahan ---\n";
-            foreach ($items as $i => $item) {
-                $ikamar = Kamar::find($item['kamar_id'] ?? null);
-                $ringkasan .= sprintf(
-                    "Item %d: %s | %s s/d %s | %s unit\n",
-                    $i + 1,
-                    $ikamar?->nama ?: '-',
-                    $item['tanggal_masuk'] ?? '-',
-                    $item['tanggal_keluar'] ?? '-',
-                    $item['jumlah_unit'] ?? 1
-                );
-            }
-        }
-        $ringkasan .= "\nTotal: Rp{$hargaText}\n\nApakah Anda yakin ingin memesan?";
-
-        $kirimChat->sendButtons($phoneNumber, $ringkasan, [
-            ['id' => 'pesan_sekarang', 'title' => 'Pesan Sekarang'],
-            ['id' => 'menu', 'title' => 'Menu Utama'],
-        ]);
-    }
-
-    /**
-     * Konfirmasi "Pesan Sekarang" dari form landing: simpan reservasi ke DB,
-     * lalu lanjut ke flow pembayaran (Bayar / Menu Utama).
-     */
-    private function konfirmasiPesanLanding(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
-    {
-        $ctx = $session->context ?? [];
-        $nama = $ctx['nama'] ?? 'Pelanggan';
-        $waNumber = $ctx['wa'] ?? $phoneNumber;
-        $tipePenyewa = $ctx['tipe_penyewa'] ?? 'perorangan';
-        $isInstansi = $tipePenyewa === 'instansi';
-        $instansi = $ctx['instansi'] ?? null;
-        $kegiatan = $ctx['kegiatan'] ?? null;
-        $masuk = $ctx['tanggal_masuk'] ?? null;
-        $keluar = $ctx['tanggal_keluar'] ?? null;
-        $kamarId = $ctx['kamar_id'] ?? null;
-        $jumlahUnit = (int) ($ctx['jumlah_unit'] ?? 1);
-        $items = $ctx['items'] ?? [];
-        $kamar = $kamarId ? Kamar::find($kamarId) : null;
-
-        // Validasi ulang ketersediaan (race-condition guard)
-        if ($kamar && $masuk && $keluar) {
-            $tersedia = $this->availability->availableStock($kamar, $masuk, $keluar);
-            if ($tersedia < $jumlahUnit) {
-                $kirimChat->sendText(
-                    $phoneNumber,
-                    "Maaf, saat konfirmasi ketersediaan kamar berkurang.\n\n"
-                    ."Kamar: {$kamar->nama}\nTersedia: {$tersedia} unit\nDiminta: {$jumlahUnit} unit\n\n"
-                    ."Silakan ulangi pemesanan dengan jumlah yang lebih kecil. Ketik *menu* untuk kembali."
-                );
-
-                return;
-            }
-        }
-
-        $duration = ($masuk && $keluar)
-            ? (int) max(1, Carbon::parse($masuk)->diffInDays(Carbon::parse($keluar)) ?: 1)
-            : 1;
-        $total = ($kamar?->harga_per_malam ?? 0) * $duration * $jumlahUnit;
-
-        $reservasi = KamarReservasi::create([
-            'kode' => $this->generateReservationCode(),
-            'nama_pemesan' => $nama,
-            'tipe_penyewa' => $tipePenyewa,
-            'instansi' => $isInstansi ? $instansi : null,
-            'kegiatan' => $isInstansi ? $kegiatan : null,
-            'phone_number' => $waNumber,
-            'kamar_id' => $kamar?->id,
-            'multiple_kamar' => ! empty($items),
-            'tanggal_masuk' => $masuk,
-            'tanggal_keluar' => $keluar,
-            'durasi_hari' => $duration,
-            'jumlah_peserta' => $isInstansi ? 1 : 1,
-            'total_harga' => $total,
-            'status' => 'pending',
-            'payment_status' => 'unpaid',
-            'catatan' => 'Reservasi via Landing Page (form WhatsApp).',
-        ]);
-
-        if ($kamar && $masuk && $keluar) {
-            $reservasi->items()->create([
-                'jenis_kelas' => $kamar->jenis_kelas,
-                'jumlah' => $jumlahUnit,
-                'tanggal_masuk' => $masuk,
-                'tanggal_keluar' => $keluar,
-                'durasi_hari' => $duration,
-                'harga_per_malam' => $kamar->harga_per_malam,
-                'subtotal' => $kamar->harga_per_malam * $duration * $jumlahUnit,
-            ]);
-        }
-
-        foreach ($items as $item) {
-            $ikamar = Kamar::find($item['kamar_id'] ?? null);
-            if (! $ikamar || empty($item['tanggal_masuk']) || empty($item['tanggal_keluar'])) {
-                continue;
-            }
-            $iDur = (int) max(1, Carbon::parse($item['tanggal_masuk'])->diffInDays(Carbon::parse($item['tanggal_keluar'])) ?: 1);
-            $iUnit = (int) ($item['jumlah_unit'] ?? 1);
-            $iSub = $ikamar->harga_per_malam * $iDur * $iUnit;
-            $total += $iSub;
-            $reservasi->items()->create([
-                'jenis_kelas' => $ikamar->jenis_kelas,
-                'jumlah' => $iUnit,
-                'tanggal_masuk' => $item['tanggal_masuk'],
-                'tanggal_keluar' => $item['tanggal_keluar'],
-                'durasi_hari' => $iDur,
-                'harga_per_malam' => $ikamar->harga_per_malam,
-                'subtotal' => $iSub,
-            ]);
-        }
-
-        $reservasi->update(['total_harga' => $total]);
-
-        $session->update([
-            'state' => 'pesan_pembayaran',
-            'context' => array_merge($ctx, ['booking_kode' => $reservasi->kode, 'total_harga' => $total]),
-        ]);
-
-        $hargaText = number_format($total, 0, ',', '.');
-        $kirimChat->sendButtons(
-            $phoneNumber,
-            "Reservasi berhasil dibuat!\n\n"
-            ."Kode booking: {$reservasi->kode}\n"
-            .($kamar ? "Kamar/kelas: {$kamar->nama}\n" : '')
-            .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
-            ."Total: Rp{$hargaText}\n"
-            ."Status: menunggu pembayaran.\n\n"
-            ."Pilih metode pembayaran atau kembali ke menu utama.",
-            [
-                ['id' => 'menu', 'title' => 'Menu Utama'],
-                ['id' => 'bayar', 'title' => 'Bayar'],
-            ]
-        );
-    }
-
-    /**
-     * Parse pesan form landing page. Format:
-     *   FORM_PEMESANAN_LANDING
-     *   Nama: ...
-     *   No WA: ...
-     *   Tipe Penyewa: ...
-     *   Instansi: ...
-     *   Kegiatan: ...
-     *   Tanggal Masuk: YYYY-MM-DD
-     *   Tanggal Keluar: YYYY-MM-DD
-     *   Kamar: <kode> - <nama>
-     *   Jumlah Unit: N
-     *   --- Item Tambahan ---
-     *   Item 1: <kode> - <nama> | <masuk> s/d <keluar> | <unit> unit
-     *   ...
-     */
-    private function parseLandingForm(string $rawInput): ?array
-    {
-        $text = trim($rawInput);
-        if (! str_starts_with(strtoupper($text), 'FORM_PEMESANAN_LANDING')) {
-            return null;
-        }
-
-        $lines = preg_split('/\r\n|\r|\n/', $text);
-        $data = [];
-        $inItems = false;
-        $items = [];
-
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line === '' || strtoupper($line) === 'FORM_PEMESANAN_LANDING') {
-                continue;
-            }
-            if (str_starts_with($line, '--- Item Tambahan ---')) {
-                $inItems = true;
-                continue;
-            }
-
-            if ($inItems && preg_match('/^Item\s+\d+:\s*(.+?)\s*\|\s*(.+?)\s*s\/d\s*(.+?)\s*\|\s*(\d+)\s*unit$/i', $line, $m)) {
-                $jenisKelas = trim($m[1]);
-                $kamar = Kamar::where('jenis_kelas', $jenisKelas)->first();
-                $items[] = [
-                    'kamar_id' => $kamar?->id,
-                    'jenis_kelas' => $jenisKelas,
-                    'kamar_label' => $jenisKelas,
-                    'tanggal_masuk' => $this->normalizeDate(trim($m[2])),
-                    'tanggal_keluar' => $this->normalizeDate(trim($m[3])),
-                    'jumlah_unit' => (int) $m[4],
-                ];
-                continue;
-            }
-
-            if (! str_contains($line, ':')) {
-                continue;
-            }
-            [$key, $value] = array_map('trim', explode(':', $line, 2));
-            $k = Str::lower($key);
-            $data[$k] = $value;
-        }
-
-        // Resolve kamar utama via jenis_kelas
-        $jenisKelas = $data['jenis kelas'] ?? null;
-        $kamar = $jenisKelas ? Kamar::where('jenis_kelas', $jenisKelas)->first() : null;
-
-        $result = [
-            'nama' => $data['nama'] ?? null,
-            'wa' => $data['no wa'] ?? ($data['wa'] ?? ($data['whatsapp'] ?? null)),
-            'tipe_penyewa' => ($data['tipe penyewa'] ?? '') === 'instansi' ? 'instansi' : 'perorangan',
-            'instansi' => $data['instansi'] ?? null,
-            'kegiatan' => $data['kegiatan'] ?? null,
-            'masuk' => $this->normalizeDate($data['tanggal masuk'] ?? null),
-            'keluar' => $this->normalizeDate($data['tanggal keluar'] ?? null),
-            'kamar_id' => $kamar?->id,
-            'jumlah_unit' => (int) ($data['jumlah unit'] ?? 1),
-            'items' => $items,
-        ];
-
-        return $result;
-    }
-
-    private function normalizeDate(?string $value): ?string
-    {
-        if (! $value || $value === '-') {
-            return null;
-        }
-        $value = trim($value);
-        foreach (['Y-m-d', 'd-m-Y', 'd/m/Y', 'Y/m/d'] as $format) {
-            try {
-                $parsed = Carbon::createFromFormat($format, $value);
-                if ($parsed !== false) {
-                    return $parsed->format('Y-m-d');
-                }
-            } catch (\Throwable) {
-                continue;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -1283,7 +961,7 @@ class KirimChatWebhookController extends Controller
     private function cekBooking(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
         $kode = trim($rawInput);
-        $reservasi = KamarReservasi::with('kamar')->where('kode', $kode)->first();
+        $reservasi = KamarReservasi::with('items')->where('kode', $kode)->first();
 
         if (! $reservasi) {
             $this->sendReturnButtons(
@@ -1295,16 +973,18 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
-        $hargaText = number_format((int) $reservasi->total_harga, 0, ',', '.');
-        $kamarText = $reservasi->kamar ? $reservasi->kamar->nama : 'Belum dialokasikan';
+        $jenisText = $reservasi->jenis_kelas
+            ? $reservasi->jenis_kelas.' ('.($reservasi->jumlah ?? 1).' unit)'
+            : 'Belum dialokasikan';
         $tanggal = ($reservasi->tanggal_masuk && $reservasi->tanggal_keluar)
             ? $reservasi->tanggal_masuk->format('d M Y').' s/d '.$reservasi->tanggal_keluar->format('d M Y')
             : '-';
+        $hargaText = number_format((int) $reservasi->total_harga, 0, ',', '.');
         $bayar = $reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar';
 
         $detail = "Detail booking {$reservasi->kode}:\n\n"
             ."Pemesan: {$reservasi->nama_pemesan}\n"
-            ."Kamar/kelas: {$kamarText}\n"
+            ."Jenis kelas: {$jenisText}\n"
             ."Tanggal: {$tanggal}\n"
             ."Total: Rp{$hargaText}\n"
             ."Status reservasi: {$reservasi->status}\n"

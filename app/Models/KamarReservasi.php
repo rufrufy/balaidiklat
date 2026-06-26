@@ -55,7 +55,7 @@ class KamarReservasi extends Model
             return Kamar::find($this->attributes['kamar_id']);
         }
 
-        $jenis = $this->attributes['jenis_kelas'] ?? null;
+        $jenis = $this->getAttributeValue('jenis_kelas') ?? ($this->attributes['jenis_kelas'] ?? null);
         if (! $jenis) {
             return null;
         }

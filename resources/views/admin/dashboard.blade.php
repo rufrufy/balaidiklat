@@ -587,54 +587,72 @@
                     </div><button class="btn btn-secondary-enterprise" data-bs-toggle="modal"
                         data-bs-target="#ruleModal">Tambah Aturan</button>
                 </div>
+
                 <div class="card-enterprise p-4">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Prioritas</th>
-                                    <th>Nama</th>
-                                    <th>Keyword</th>
-                                    <th>State</th>
-                                    <th>Action</th>
-                                    <th>Balasan</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($rules as $rule)
-                                    <tr>
-                                        <td>{{ $rule->priority }}</td>
-                                        <td>{{ $rule->nama }}</td>
-                                        <td><span class="mono">{{ $rule->match_type }}:
-                                                {{ $rule->keyword ?: '(any)' }}</span></td>
-                                        <td><span class="mono small">{{ $rule->state ?: '*' }} →
-                                                {{ $rule->next_state ?: '-' }}</span></td>
-                                        <td>
-                                            @if ($rule->action)
-                                                <span
-                                                class="badge-soft badge-primary-soft">{{ $rule->action }}</span>@else<span
-                                                    class="text-muted">-</span>
+                    {{-- Toolbar: search + filter + stats --}}
+                    <div class="d-flex flex-column flex-lg-row gap-3 mb-4 align-items-lg-center">
+                        <div class="position-relative flex-grow-1" style="max-width: 360px;">
+                            <input type="text" id="ruleSearch" class="form-control" placeholder="Cari nama / keyword / balasan...">
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap" id="ruleFilters">
+                            <button class="btn btn-sm btn-ghost active" data-rule-filter="all">Semua <span class="badge bg-secondary ms-1" id="ruleCountAll">{{ $rules->count() }}</span></button>
+                            <button class="btn btn-sm btn-ghost" data-rule-filter="active">Aktif <span class="badge bg-success ms-1" id="ruleCountActive">{{ $rules->where('is_active', true)->count() }}</span></button>
+                            <button class="btn btn-sm btn-ghost" data-rule-filter="inactive">Nonaktif <span class="badge bg-warning text-dark ms-1" id="ruleCountInactive">{{ $rules->where('is_active', false)->count() }}</span></button>
+                        </div>
+                    </div>
+
+                    {{-- Card list --}}
+                    <div id="ruleList" class="d-flex flex-column gap-3">
+                        @forelse($rules as $rule)
+                            <div class="rule-card" data-rule-name="{{ strtolower($rule->nama) }}" data-rule-keyword="{{ strtolower($rule->keyword) }}" data-rule-reply="{{ strtolower($rule->reply_text ?? '') }}" data-rule-active="{{ $rule->is_active ? '1' : '0' }}" data-rule-action="{{ $rule->action ?? '' }}"
+                                style="border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;transition:box-shadow .2s,opacity .2s;">
+                                <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                                    <div class="flex-grow-1" style="min-width: 220px;">
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <span class="badge bg-primary">{{ $rule->priority }}</span>
+                                            <h3 class="h6 mb-0">{{ $rule->nama }}</h3>
+                                            @if($rule->is_active)
+                                                <span class="badge-soft badge-success-soft">Aktif</span>
+                                            @else
+                                                <span class="badge-soft badge-warning-soft">Nonaktif</span>
                                             @endif
-                                        </td>
-                                        <td>{{ Str::limit($rule->reply_text, 60) ?: '-' }}</td>
-                                        <td>{{ $rule->is_active ? 'Aktif' : 'Nonaktif' }}</td>
-                                        <td><button class="btn btn-sm btn-ghost" data-bs-toggle="modal"
-                                                data-bs-target="#editRule{{ $rule->id }}">Edit</button>
-                                            <form method="POST"
-                                                action="{{ route('admin.chatbot-rules.destroy', $rule) }}"
-                                                class="d-inline" onsubmit="return confirm('Hapus aturan ini?')">@csrf
-                                                @method('DELETE')<button
-                                                    class="btn btn-sm btn-outline-danger">Hapus</button></form>
-                                        </td>
-                                </tr>@empty<tr>
-                                        <td colspan="8" class="text-center text-muted py-4">Belum ada aturan
-                                            chatbot.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                        </div>
+                                        <div class="d-flex gap-2 flex-wrap small text-muted mb-2">
+                                            <span class="mono">{{ $rule->match_type }}: {{ $rule->keyword ?: '(any)' }}</span>
+                                            <span>•</span>
+                                            <span class="mono">{{ $rule->state ?: '*' }} → {{ $rule->next_state ?: '-' }}</span>
+                                            @if($rule->action)
+                                                <span>•</span>
+                                                <span class="badge-soft badge-primary-soft">{{ $rule->action }}</span>
+                                            @endif
+                                        </div>
+                                        @if($rule->reply_text)
+                                            <p class="mb-0 small">{{ Str::limit($rule->reply_text, 120) }}</p>
+                                        @endif
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 align-items-end">
+                                        <form method="POST" action="{{ route('admin.chatbot-rules.toggle', $rule) }}" class="d-inline">@csrf
+                                            <button type="submit" class="btn btn-sm {{ $rule->is_active ? 'btn-outline-warning' : 'btn-outline-success' }}">
+                                                {{ $rule->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                            </button>
+                                        </form>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-ghost" data-bs-toggle="modal" data-bs-target="#editRule{{ $rule->id }}">Edit</button>
+                                            <form method="POST" action="{{ route('admin.chatbot-rules.destroy', $rule) }}" class="d-inline" onsubmit="return confirm('Hapus aturan ini?')">@csrf @method('DELETE')
+                                                <button class="btn btn-sm btn-outline-danger">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center text-muted py-5" id="ruleEmpty">
+                                <p class="mb-0">Belum ada aturan chatbot. Klik "Tambah Aturan" untuk membuat.</p>
+                            </div>
+                        @endforelse
+                        <div class="text-center text-muted py-4 d-none" id="ruleNoMatch">
+                            <p class="mb-0">Tidak ada aturan yang cocok dengan filter/pencarian.</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1162,7 +1180,7 @@
                                                     <option value="">Pilih kamar</option>
                                                     @foreach ($kamars as $kamar)
                                                         <option value="{{ $kamar->id }}"
-                                                            @selected($item->jenis_kelas === $kamar->jenis_kelas)>{{ $kamar->jenis_kelas }}</option>
+                                                            @selected(($item->jenis_kelas ?? null) === $kamar->jenis_kelas || (isset($item->kamar_id) && (string) $item->kamar_id === (string) $kamar->id))>{{ $kamar->jenis_kelas }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -1368,6 +1386,50 @@
             wrapper.appendChild(removeBtn);
             container.appendChild(wrapper);
         }
+
+        // ═══ Rules: filter + search ═══
+        (function () {
+            const filterBtns = document.querySelectorAll('#ruleFilters [data-rule-filter]');
+            const searchInput = document.getElementById('ruleSearch');
+            const cards = document.querySelectorAll('#ruleList .rule-card');
+            const emptyMsg = document.getElementById('ruleEmpty');
+            const noMatchMsg = document.getElementById('ruleNoMatch');
+            let currentFilter = 'all';
+            let currentSearch = '';
+
+            function applyFilter() {
+                let visible = 0;
+                cards.forEach(card => {
+                    const isActive = card.dataset.ruleActive === '1';
+                    const filterMatch = currentFilter === 'all' ||
+                        (currentFilter === 'active' && isActive) ||
+                        (currentFilter === 'inactive' && !isActive);
+                    const haystack = card.dataset.ruleName + ' ' + card.dataset.ruleKeyword + ' ' + card.dataset.ruleReply;
+                    const searchMatch = currentSearch === '' || haystack.includes(currentSearch);
+                    const show = filterMatch && searchMatch;
+                    card.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+                if (emptyMsg) emptyMsg.classList.toggle('d-none', cards.length > 0);
+                if (noMatchMsg) noMatchMsg.classList.toggle('d-none', visible > 0 || cards.length === 0);
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.ruleFilter;
+                    applyFilter();
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    currentSearch = searchInput.value.toLowerCase().trim();
+                    applyFilter();
+                });
+            }
+        })();
     </script>
 </body>
 

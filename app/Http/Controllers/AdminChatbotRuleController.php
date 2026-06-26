@@ -30,6 +30,13 @@ class AdminChatbotRuleController extends Controller
         return redirect()->route('admin.dashboard', ['section' => 'rules'])->with('status', 'Aturan balasan berhasil dihapus.');
     }
 
+    public function toggle(ChatbotRule $rule): RedirectResponse
+    {
+        $rule->update(['is_active' => ! $rule->is_active]);
+
+        return redirect()->route('admin.dashboard', ['section' => 'rules'])->with('status', 'Status aturan berhasil diubah.');
+    }
+
     private function validatedData(Request $request): array
     {
         $data = $request->validate([

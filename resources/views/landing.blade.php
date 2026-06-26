@@ -557,13 +557,19 @@
                                             {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} -
                                             {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p>
                                         <p class="mb-1"><strong>Kamar:</strong>
-                                            {{ $trackingResult->kamar ? $trackingResult->kamar->jenis_kelas : ($trackingResult->jenis_kelas ?: 'Belum dialokasikan') }}
+                                            @php
+                                                $trackKamar = $trackingResult->kamar?->jenis_kelas ?? ($trackingResult->jenis_kelas ?? null);
+                                            @endphp
+                                            {{ $trackKamar ?: 'Belum dialokasikan' }}
                                         </p>
                                         @if ($trackingResult->items->isNotEmpty())
                                             <div class="mb-2"><strong>Detail kamar:</strong>
                                                 @foreach ($trackingResult->items as $item)
+                                                    @php
+                                                        $itemJenis = $item->kamar?->jenis_kelas ?? ($item->jenis_kelas ?? null);
+                                                    @endphp
                                                     <div class="small text-muted">
-                                                        {{ $item->kamar ? $item->kamar->jenis_kelas : ($item->jenis_kelas ?: '-') }}
+                                                        {{ $itemJenis ?: '-' }}
                                                         | {{ optional($item->tanggal_masuk)->format('d M Y') }} -
                                                         {{ optional($item->tanggal_keluar)->format('d M Y') }} |
                                                         Rp{{ number_format($item->subtotal, 0, ',', '.') }}</div>

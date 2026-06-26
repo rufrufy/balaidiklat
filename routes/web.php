@@ -173,6 +173,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/admin/retribusi/{billing}/send', [RetribusiBillingController::class, 'send'])->name('admin.retribusi.send');
     Route::post('/admin/chatbot-rules', [AdminChatbotRuleController::class, 'store'])->name('admin.chatbot-rules.store');
     Route::patch('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'update'])->name('admin.chatbot-rules.update');
+    Route::post('/admin/chatbot-rules/{rule}/toggle', [AdminChatbotRuleController::class, 'toggle'])->name('admin.chatbot-rules.toggle');
     Route::delete('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'destroy'])->name('admin.chatbot-rules.destroy');
     Route::get('/admin/whatsapp/messages', [AdminWhatsappChatController::class, 'index'])->name('admin.whatsapp.messages');
     Route::post('/admin/whatsapp/send', [AdminWhatsappChatController::class, 'send'])->name('admin.whatsapp.send');

@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "updatedAt": "2026-06-25T17:00:52.210Z",
+  "updatedAt": "2026-06-26T06:30:08.575Z",
   "memoryTiers": {
     "session": {
-      "currentTask": "1. perbaiki di halaman landing page cek ketersediaan kamar\n2. buat otomatis ketika sudah memesan dan lunas maka jumlah ketersediaan kamar berkurang(termasuk pemesanan via whatsapp)\n3. buat ketika pemesan di whatsapp melebihi jumlah kamar tersedia maka beri pesan jumlah pemesanan kamar melebihi keter",
       "blockers": [],
       "pendingPlan": "1. perbaiki di halaman landing page cek ketersediaan kamar\n2. buat otomatis ketika sudah memesan dan lunas maka jumlah ketersediaan kamar berkurang(termasuk pemesanan via whatsapp)\n3. buat ketika pemesan di whatsapp melebihi jumlah kamar tersedia maka beri pesan jumlah pemesanan kamar melebihi keter (executing)"
     },
@@ -45,7 +44,21 @@
       "startedAt": "2026-06-25T15:12:48.209Z",
       "nodesCompleted": 0,
       "nodesFailed": 0,
-      "endedAt": "2026-06-25T17:00:52.210Z"
+      "endedAt": "2026-06-26T02:21:25.950Z"
+    },
+    {
+      "id": "session-1782441025038-n18z",
+      "startedAt": "2026-06-26T02:30:25.038Z",
+      "nodesCompleted": 0,
+      "nodesFailed": 0,
+      "endedAt": "2026-06-26T04:30:46.993Z"
+    },
+    {
+      "id": "session-1782454828080-v1xt",
+      "startedAt": "2026-06-26T06:20:28.080Z",
+      "nodesCompleted": 0,
+      "nodesFailed": 0,
+      "endedAt": "2026-06-26T06:30:08.574Z"
     }
   ],
   "graph": {
@@ -455,7 +468,15 @@
     }
   },
   "orchestration": {
-    "constraints": [],
+    "constraints": [
+      {
+        "id": "con-1782438354492-od98n1",
+        "description": "Do not stop until all tasks are done",
+        "origin": "user",
+        "active": true,
+        "createdAt": "2026-06-26T01:45:54.492Z"
+      }
+    ],
     "signals": []
   },
   "autonomyLevel": "balanced",

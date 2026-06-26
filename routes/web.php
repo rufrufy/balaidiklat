@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('landing', [
         'kamars' => $kamars,
         'availableKamars' => $availableKamars,
-        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '62878455351641')),
+        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641')),
     ]);
 })->name('landing');
 
@@ -34,15 +34,17 @@ Route::post('/cek-ketersediaan', function () {
     ]);
 
     $service = app(\App\Services\KamarAvailabilityService::class);
-    $rooms = $service->availableRooms($data['tanggal_masuk'], $data['tanggal_keluar']);
+    $rooms = $service->availableRoomsWithStock($data['tanggal_masuk'], $data['tanggal_keluar']);
 
-    // Load fotos for the available rooms
     $rooms->load('fotos');
 
     return response()->json([
         'rooms' => $rooms->map(function ($room) {
+            $fotos = $room->allFotoPaths()->map(fn ($path) => asset('storage/'.$path))->values();
+
             return [
                 'id' => $room->id,
+                'jenis_kelas' => $room->jenis_kelas,
                 'kode' => $room->kode,
                 'nama' => $room->nama,
                 'tipe' => $room->tipeLabel(),
@@ -50,6 +52,9 @@ Route::post('/cek-ketersediaan', function () {
                 'fasilitas' => $room->fasilitas,
                 'status' => $room->status,
                 'fotos' => $fotos,
+                'stok_total' => (int) $room->stok_total,
+                'tersedia' => (int) $room->tersedia,
+                'terpakai' => (int) $room->terpakai,
             ];
         }),
         'tanggal_masuk' => $data['tanggal_masuk'],
@@ -118,7 +123,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
     $lines[] = 'Mohon proses pemesanan ini. Terima kasih.';
 
     $text = implode("\n", $lines);
-    $waNumber = preg_replace('/\D/', '', config('app.whatsapp_bot_number', '62878455351641'));
+    $waNumber = preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641'));
     $url = 'https://wa.me/'.$waNumber.'?text='.rawurlencode($text);
 
     return response()->json(['success' => true, 'whatsapp_url' => $url, 'message' => $text]);
@@ -138,7 +143,7 @@ Route::post('/lacak-booking', function () {
     return view('landing', [
         'kamars' => Kamar::with('fotos')->latest()->get(),
         'availableKamars' => Kamar::orderBy('jenis_kelas')->get(),
-        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '62878455351641')),
+        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641')),
         'trackingResult' => $reservasi,
         'trackingCode' => $data['kode'],
     ]);

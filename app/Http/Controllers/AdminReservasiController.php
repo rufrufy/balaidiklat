@@ -86,8 +86,8 @@ class AdminReservasiController extends Controller
     private function reservationPayload(array $data, bool $multipleKamar): array
     {
         $duration = $this->duration($data['tanggal_masuk'] ?? null, $data['tanggal_keluar'] ?? null);
-        $kamar = $multipleKamar ? null : Kamar::find($data['kamar_id'] ?? null);
-        $total = $multipleKamar ? 0 : (($kamar?->harga_per_malam ?? 0) * $duration);
+        $kamar = $multipleKamar ? null : Kamar::where('jenis_kelas', $data['jenis_kelas'] ?? '')->first();
+        $unit = $multipleKamar ? 1 : max(1, (int) ($data['jumlah'] ?? $data['jumlah_unit'] ?? 1));
         $isInstansi = ($data['tipe_penyewa'] ?? 'perorangan') === 'instansi';
 
         return [
@@ -97,7 +97,8 @@ class AdminReservasiController extends Controller
             'instansi' => $isInstansi ? ($data['instansi'] ?? null) : null,
             'kegiatan' => $isInstansi ? ($data['kegiatan'] ?? null) : null,
             'phone_number' => $data['phone_number'] ?? null,
-            'kamar_id' => $multipleKamar ? null : ($data['kamar_id'] ?? null),
+            'jenis_kelas' => $multipleKamar ? null : ($kamar?->jenis_kelas ?? ($data['jenis_kelas'] ?? null)),
+            'jumlah' => $multipleKamar ? 1 : $unit,
             'multiple_kamar' => $multipleKamar,
             'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
             'tanggal_keluar' => $data['tanggal_keluar'] ?? null,
@@ -138,10 +139,9 @@ class AdminReservasiController extends Controller
     {
         $items = $request->boolean('multiple_kamar') ? ($data['items'] ?? []) : [[
             'jenis_kelas' => $data['jenis_kelas'] ?? null,
-            'jumlah' => $data['jumlah'] ?? 1,
+            'jumlah' => $data['jumlah'] ?? $data['jumlah_unit'] ?? 1,
             'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
             'tanggal_keluar' => $data['tanggal_keluar'] ?? null,
-            'jumlah_unit' => $data['jumlah_unit'] ?? 1,
         ]];
 
         $total = 0;
@@ -157,11 +157,16 @@ class AdminReservasiController extends Controller
             }
 
             $duration = $this->duration($item['tanggal_masuk'], $item['tanggal_keluar']);
-            $subtotal = $kamar->harga_per_malam * $duration;
+            $unit = (int) ($item['jumlah'] ?? $item['jumlah_unit'] ?? 1);
+            if ($unit < 1) {
+                $unit = 1;
+            }
+            $subtotal = $kamar->harga_per_malam * $duration * $unit;
             $total += $subtotal;
 
             $reservasi->items()->create([
-                'kamar_id' => $kamar->id,
+                'jenis_kelas' => $kamar->jenis_kelas,
+                'jumlah' => $unit,
                 'tanggal_masuk' => $item['tanggal_masuk'],
                 'tanggal_keluar' => $item['tanggal_keluar'],
                 'durasi_hari' => $duration,

@@ -47,33 +47,33 @@
         </div>
         @if ($tanggalMasuk && $tanggalKeluar)
             <div class="card p-4">
-                <h2 class="h4 mb-3">Kamar tersedia
+                <h2 class="h4 mb-3">Kamar Tersedia
                     {{ \Illuminate\Support\Carbon::parse($tanggalMasuk)->format('d M Y') }} -
                     {{ \Illuminate\Support\Carbon::parse($tanggalKeluar)->format('d M Y') }}</h2>
                 <div class="table-responsive">
                     <table class="table align-middle">
                         <thead>
                             <tr>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th>Jenis Kelas</th>
                                 <th>Tipe</th>
                                 <th>Fasilitas</th>
                                 <th>Harga/Malam</th>
-                                <th>Status</th>
+                                <th>Stok Total</th>
+                                <th>Tersedia</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($kamars as $kamar)
                                 <tr>
-                                    <td>{{ $kamar->kode }}</td>
-                                    <td>{{ $kamar->nama }}</td>
+                                    <td>{{ $kamar->jenis_kelas }}</td>
                                     <td>{{ $kamar->tipeLabel() }}</td>
                                     <td class="small">
                                         {{ \Illuminate\Support\Str::limit($kamar->fasilitas, 50) ?: '-' }}</td>
                                     <td>Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }}</td>
-                                    <td>{{ $kamar->status }}</td>
+                                    <td>{{ $kamar->stok_total ?? 1 }}</td>
+                                    <td>{{ $kamar->tersedia ?? '-' }}</td>
                             </tr>@empty<tr>
-                                    <td colspan="6" class="text-center text-muted py-4">Tidak ada kamar available
+                                    <td colspan="6" class="text-center text-muted py-4">Tidak ada kamar Tersedia
                                         pada tanggal tersebut.</td>
                                 </tr>
                             @endforelse

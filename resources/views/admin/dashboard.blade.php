@@ -487,8 +487,8 @@
                     <div class="d-flex gap-2"><button class="btn btn-secondary-enterprise" data-bs-toggle="modal"
                             data-bs-target="#roomModal">Tambah Jenis Kelas</button></div>
                 </div>
-                <div class="card-enterprise p-3 mb-4"><span class="text-muted small">Setiap jenis kelas memiliki kuota
-                        total unit. Ketersediaan dihitung otomatis: kuota total dikurangi unit yang sudah dipesan pada
+                <div class="card-enterprise p-3 mb-4"><span class="text-muted small">Setiap jenis kelas memiliki stok
+                        total unit. Ketersediaan (Tersedia) dihitung otomatis: stok total dikurangi unit yang sudah dipesan pada
                         tanggal tersebut.</span></div>
                 <div class="row g-3 mb-4">
                     @forelse ($kamars as $kamar)
@@ -530,14 +530,12 @@
                                     <div class="room-photo w-100 mb-3"></div>
                                 @endif
                                 <div class="d-flex justify-content-between gap-2">
-                                    <h3 class="h4 mb-1">{{ $kamar->nama }}</h3><span
-                                        class="badge-soft badge-primary-soft">{{ $kamar->kode }}</span>
+                                    <h3 class="h4 mb-1">{{ $kamar->jenis_kelas }}</h3><span
+                                        class="badge-soft badge-primary-soft">ID: {{ $kamar->id }}</span>
                                 </div>
                                 <p class="mb-2">
-                                    @if ($kamar->status === 'available')
-                                    <span class="badge bg-success">Tersedia</span>@else<span
-                                            class="badge bg-danger">Tidak bisa dipesan ({{ $kamar->status }})</span>
-                                    @endif
+                                    <span class="badge bg-success">Tersedia</span>
+                                    <span class="small text-muted">Stok: {{ $kamar->stok_total ?? 1 }} unit</span>
                                 </p>
                                 <p class="text-muted mb-2">{{ $kamar->tipeLabel() }}</p>
                                 @if ($kamar->fasilitas)
@@ -791,24 +789,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-md-4"><label class="form-label fw-bold">Kode</label><input
-                                class="form-control" name="kode" required></div>
-                        <div class="col-md-8"><label class="form-label fw-bold">Nama</label><input
-                                class="form-control" name="nama" required></div>
-                        <div class="col-md-4"><label class="form-label fw-bold">Tipe</label><select
-                                class="form-select" name="tipe" required>
-                                <option value="kamar">Kamar</option>
-                                <option value="ruang_kelas">Ruang Kelas</option>
-                            </select></div>
-                        <div class="col-md-4"><label class="form-label fw-bold">Harga/malam</label><input
+                        <div class="col-md-6"><label class="form-label fw-bold">Jenis Kelas / Nama Kamar <span class="text-danger">*</span></label><input
+                                class="form-control" name="jenis_kelas" required placeholder="Contoh: Kamar 1 / Ruang Kelas Kecil"></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Harga/malam <span class="text-danger">*</span></label><input
                                 type="number" min="0" class="form-control" name="harga_per_malam" required>
                         </div>
-                        <div class="col-md-4"><label class="form-label fw-bold">Status</label><select
-                                class="form-select" name="status" required>
-                                @foreach ($roomStatusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-6"><label class="form-label fw-bold">Total Unit</label><input
+                                type="number" min="1" class="form-control" name="kuota_total" value="1">
+                        </div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Tersedia</label><input
+                                type="number" min="1" class="form-control" name="stok_total" value="1">
                         </div>
                         <div class="col-12"><label class="form-label fw-bold">Keterangan / Fasilitas</label>
                             <textarea class="form-control" name="fasilitas" rows="2" placeholder="Contoh: AC, kamar mandi dalam, TV"></textarea>
@@ -839,29 +829,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="row g-3">
-                            <div class="col-md-4"><label class="form-label fw-bold">Kode</label><input
-                                    class="form-control" name="kode" value="{{ $kamar->kode }}" required></div>
-                            <div class="col-md-8"><label class="form-label fw-bold">Nama</label><input
-                                    class="form-control" name="nama" value="{{ $kamar->nama }}" required></div>
-                            <div class="col-md-4"><label class="form-label fw-bold">Tipe</label><select
-                                    class="form-select" name="tipe" required>
-                                    @foreach (['kamar' => 'Kamar', 'ruang_kelas' => 'Ruang Kelas'] as $value => $label)
-                                        <option value="{{ $value }}" @selected($kamar->tipe === $value)>
-                                            {{ $label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4"><label class="form-label fw-bold">Harga/malam</label><input
+                            <div class="col-md-6"><label class="form-label fw-bold">Jenis Kelas / Nama Kamar <span class="text-danger">*</span></label><input
+                                    class="form-control" name="jenis_kelas" value="{{ $kamar->jenis_kelas }}" required></div>
+                            <div class="col-md-6"><label class="form-label fw-bold">Harga/malam <span class="text-danger">*</span></label><input
                                     type="number" min="0" class="form-control" name="harga_per_malam"
                                     value="{{ $kamar->harga_per_malam }}" required></div>
-                            <div class="col-md-4"><label class="form-label fw-bold">Status</label><select
-                                    class="form-select" name="status" required>
-                                    @foreach ($roomStatusOptions as $value => $label)
-                                        <option value="{{ $value }}" @selected($kamar->status === $value)>
-                                            {{ $label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <div class="col-md-6"><label class="form-label fw-bold">Total Unit</label><input
+                                    type="number" min="1" class="form-control" name="kuota_total"
+                                    value="{{ $kamar->kuota_total ?? 1 }}"></div>
+                            <div class="col-md-6"><label class="form-label fw-bold">Tersedia</label><input
+                                    type="number" min="1" class="form-control" name="stok_total"
+                                    value="{{ $kamar->stok_total ?? 1 }}" required></div>
                             <div class="col-12"><label class="form-label fw-bold">Keterangan / Fasilitas</label>
                                 <textarea class="form-control" name="fasilitas" rows="2">{{ $kamar->fasilitas }}</textarea>
                             </div>
@@ -935,7 +913,7 @@
                                 default</label><select class="form-select" name="kamar_id">
                                 <option value="">Belum dialokasikan</option>
                                 @foreach ($kamars as $kamar)
-                                    <option value="{{ $kamar->id }}">{{ $kamar->kode }} - {{ $kamar->nama }}
+                                    <option value="{{ $kamar->id }}">{{ $kamar->jenis_kelas }}
                                         (Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }})</option>
                                 @endforeach
                             </select>
@@ -962,8 +940,7 @@
                                     <div class="col-md-4"><select class="form-select" name="items[0][kamar_id]">
                                             <option value="">Pilih kamar</option>
                                             @foreach ($kamars as $kamar)
-                                                <option value="{{ $kamar->id }}">{{ $kamar->kode }} -
-                                                    {{ $kamar->nama }}</option>
+                                                <option value="{{ $kamar->id }}">{{ $kamar->jenis_kelas }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1143,8 +1120,8 @@
                                     default</label><select class="form-select" name="kamar_id">
                                     <option value="">Belum dialokasikan</option>
                                     @foreach ($kamars as $kamar)
-                                        <option value="{{ $kamar->id }}" @selected($reservasi->kamar_id === $kamar->id)>
-                                            {{ $kamar->kode }} - {{ $kamar->nama }}
+                                        <option value="{{ $kamar->id }}">
+                                            {{ $kamar->jenis_kelas }}
                                             (Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }})</option>
                                     @endforeach
                                 </select>
@@ -1185,8 +1162,7 @@
                                                     <option value="">Pilih kamar</option>
                                                     @foreach ($kamars as $kamar)
                                                         <option value="{{ $kamar->id }}"
-                                                            @selected($item->kamar_id === $kamar->id)>{{ $kamar->kode }} -
-                                                            {{ $kamar->nama }}</option>
+                                                            @selected($item->jenis_kelas === $kamar->jenis_kelas)>{{ $kamar->jenis_kelas }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -1225,7 +1201,7 @@
             <div class="col-md-4"><select class="form-select" data-name="kamar_id">
                     <option value="">Pilih kamar</option>
                     @foreach ($kamars as $kamar)
-                        <option value="{{ $kamar->id }}">{{ $kamar->kode }} - {{ $kamar->nama }}</option>
+                        <option value="{{ $kamar->id }}">{{ $kamar->jenis_kelas }}</option>
                     @endforeach
                 </select></div>
             <div class="col-md-3"><input type="date" class="form-control" data-name="tanggal_masuk"></div>

@@ -372,7 +372,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="metric"><strong>{{ $kamars->sum('kuota_total') }}</strong><span>Total
+                                    <div class="metric"><strong>{{ $kamars->sum('stok_total') ?: $kamars->sum('kuota_total') }}</strong><span>Total
                                             unit</span></div>
                                 </div>
                             </div>
@@ -452,29 +452,77 @@
         <section id="booking" class="section-pad pt-0">
             <div class="container">
                 <div class="card-enterprise p-4 p-md-5">
-                    <div class="row g-4 align-items-end">
-                        <div class="col-lg-8">
-                            <div class="eyebrow">Form WhatsApp</div>
-                            <h2 class="display-5">Ajukan reservasi.</h2>
-                            <div class="row g-3">
-                                <div class="col-md-6"><label class="form-label fw-bold">Tanggal masuk</label><input
-                                        id="waCheckin" type="date" class="form-control"></div>
-                                <div class="col-md-6"><label class="form-label fw-bold">Tanggal keluar</label><input
-                                        id="waCheckout" type="date" class="form-control"></div>
-                                <div class="col-md-6"><label class="form-label fw-bold">Instansi</label><input
-                                        id="waAgency" class="form-control" placeholder="BKPP Kota Semarang"></div>
-                                <div class="col-md-6"><label class="form-label fw-bold">Nama kegiatan</label><input
-                                        id="waEvent" class="form-control" placeholder="Diklat Manajemen ASN"></div>
-                                <div class="col-md-6"><label class="form-label fw-bold">Jumlah peserta</label><input
-                                        id="waGuests" type="number" min="1" value="12"
-                                        class="form-control"></div>
+                    <div class="eyebrow">Form Pemesanan WhatsApp</div>
+                    <h2 class="display-5 mb-2">Ajukan reservasi.</h2>
+                    <p class="text-muted mb-4">Isi formulir berikut untuk mengajukan pemesanan kamar. Data akan dikirim ke WhatsApp Bot untuk diproses.</p>
+                    <form id="landingOrderForm">
+                        <div class="row g-3">
+                            {{-- Nama & No WA --}}
+                            <div class="col-md-6"><label class="form-label fw-bold">Nama Pemesan <span class="text-danger">*</span></label><input
+                                    id="orderNama" class="form-control" placeholder="Nama lengkap pemesan" required></div>
+                            <div class="col-md-6"><label class="form-label fw-bold">No WhatsApp <span class="text-danger">*</span></label><input
+                                    id="orderWa" class="form-control" placeholder="628xxxx" required></div>
+
+                            {{-- Toggle Instansi --}}
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="orderInstansiToggle">
+                                    <label class="form-check-label fw-bold" for="orderInstansiToggle">Penyewa adalah Instansi</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 order-instansi-field d-none"><label class="form-label fw-bold">Nama Instansi</label><input
+                                    id="orderInstansi" class="form-control" placeholder="BKPP Kota Semarang"></div>
+                            <div class="col-md-6 order-instansi-field d-none"><label class="form-label fw-bold">Kegiatan</label><input
+                                    id="orderKegiatan" class="form-control" placeholder="Diklat Manajemen ASN"></div>
+
+                            {{-- Tanggal --}}
+                            <div class="col-md-6"><label class="form-label fw-bold">Tanggal Masuk <span class="text-danger">*</span></label><input
+                                    id="orderCheckin" type="date" class="form-control" required></div>
+                            <div class="col-md-6"><label class="form-label fw-bold">Tanggal Keluar <span class="text-danger">*</span></label><input
+                                    id="orderCheckout" type="date" class="form-control" required></div>
+
+                            {{-- Jenis Kamar & Jumlah --}}
+                            <div class="col-md-6"><label class="form-label fw-bold">Jenis Kamar / Kelas <span class="text-danger">*</span></label>
+                                <select id="orderKamar" class="form-select" required>
+                                    <option value="">Pilih jenis kamar</option>
+                                    @foreach ($availableKamars as $k)
+                                        <option value="{{ $k->id }}" data-jenis="{{ $k->jenis_kelas }}">{{ $k->jenis_kelas }} — Rp{{ number_format($k->harga_per_malam, 0, ',', '.') }}/malam</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6"><label class="form-label fw-bold">Jumlah Unit <span class="text-danger">*</span></label><input
+                                    id="orderJumlahUnit" type="number" min="1" value="1" class="form-control" required></div>
+
+                            {{-- Info ketersediaan real-time --}}
+                            <div class="col-12">
+                                <div id="orderStokInfo" class="small text-muted mt-1">Pilih kamar & tanggal untuk lihat ketersediaan.</div>
+                            </div>
+
+                            {{-- Toggle Multi Items --}}
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="orderMultipleToggle">
+                                    <label class="form-check-label fw-bold" for="orderMultipleToggle">Pesan beberapa jenis / beberapa tanggal</label>
+                                </div>
+                            </div>
+                            <div class="col-12 order-multi-items d-none">
+                                <div class="card-enterprise p-3">
+                                    <h4 class="h6 mb-3">Item Tambahan</h4>
+                                    <div id="orderItemList"></div>
+                                    <button type="button" id="addOrderItemBtn" class="btn btn-sm btn-ghost mt-2">+ Tambah Item</button>
+                                </div>
+                            </div>
+
+                            {{-- Feedback & Submit --}}
+                            <div class="col-12">
+                                <div id="orderFeedback" class="alert d-none"></div>
+                            </div>
+                            <div class="col-12">
+                                <button id="orderSubmitBtn" type="submit" class="btn btn-secondary-enterprise w-100">Kirim ke WhatsApp Bot</button>
+                                <p class="text-muted mt-2 mb-0 small">Data pemesanan akan dikirim ke WhatsApp Bot untuk konfirmasi dan pembayaran.</p>
                             </div>
                         </div>
-                        <div class="col-lg-4"><a id="waBookingButton" class="btn btn-secondary-enterprise w-100"
-                                href="#" target="_blank" rel="noopener">Booking via WhatsApp</a>
-                            <p class="text-muted mt-3 mb-0 small">Format pesan otomatis sesuai kebutuhan reservasi.</p>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -509,13 +557,13 @@
                                             {{ optional($trackingResult->tanggal_masuk)->format('d M Y') ?: '-' }} -
                                             {{ optional($trackingResult->tanggal_keluar)->format('d M Y') ?: '-' }}</p>
                                         <p class="mb-1"><strong>Kamar:</strong>
-                                            {{ $trackingResult->kamar ? $trackingResult->kamar->kode . ' - ' . $trackingResult->kamar->nama : 'Belum dialokasikan' }}
+                                            {{ $trackingResult->kamar ? $trackingResult->kamar->jenis_kelas : ($trackingResult->jenis_kelas ?: 'Belum dialokasikan') }}
                                         </p>
                                         @if ($trackingResult->items->isNotEmpty())
                                             <div class="mb-2"><strong>Detail kamar:</strong>
                                                 @foreach ($trackingResult->items as $item)
                                                     <div class="small text-muted">
-                                                        {{ $item->kamar ? $item->kamar->kode . ' - ' . $item->kamar->nama : '-' }}
+                                                        {{ $item->kamar ? $item->kamar->jenis_kelas : ($item->jenis_kelas ?: '-') }}
                                                         | {{ optional($item->tanggal_masuk)->format('d M Y') }} -
                                                         {{ optional($item->tanggal_keluar)->format('d M Y') }} |
                                                         Rp{{ number_format($item->subtotal, 0, ',', '.') }}</div>
@@ -601,11 +649,11 @@
                                         </div>
                                     @endif
                                     <div class="p-4">
-                                        <h4>{{ $kamar->nama }}</h4>
+                                        <h4>{{ $kamar->jenis_kelas }}</h4>
                                         <p class="text-muted mb-2">{{ $kamar->tipeLabel() }}</p>
                                         <p class="fw-bold mb-2">
                                             Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} / malam</p>
-                                        <p class="text-muted mb-2">Kuota: {{ $kamar->kuota_total }} unit</p>
+                                        <p class="text-muted mb-2">Tersedia: {{ $kamar->stok_total ?: $kamar->kuota_total }} unit</p>
                                         @if ($kamar->fasilitas)
                                             <span
                                                 class="badge-soft badge-success-soft">{{ \Illuminate\Support\Str::limit($kamar->fasilitas, 40) }}</span>
@@ -677,6 +725,8 @@
     <script>
         const WHATSAPP_BOT_NUMBER = "{{ $whatsappBotNumber }}";
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const URL_CEK_KETERSEDIAAN = "{!! route('cek.ketersediaan') !!}";
+        const URL_KIRIM_PEMESANAN = "{!! route('kirim.pemesanan.whatsapp') !!}";
 
         function updateFooterWaLink() {
             const url =
@@ -708,7 +758,7 @@
                 '<div class="spinner-overlay"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
             try {
-                const response = await fetch('{{ route('cek.ketersediaan') }}', {
+                const response = await fetch(URL_CEK_KETERSEDIAAN, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -721,13 +771,17 @@
                     })
                 });
 
-                const data = await response.json();
+                console.log('[CekKetersediaan] status:', response.status, response.statusText);
 
                 if (!response.ok) {
+                    const errText = await response.text();
+                    console.error('[CekKetersediaan] error response:', errText);
                     resultsDiv.innerHTML =
-                        '<div class="empty-state">Terjadi kesalahan. Pastikan tanggal valid.</div>';
+                        `<div class="empty-state">Error ${response.status}: Terjadi kesalahan. Pastikan tanggal valid.<br><small>${response.statusText}</small></div>`;
                     return;
                 }
+
+                const data = await response.json();
 
                 const availableRooms = (data.rooms || []).filter(r => r.tersedia > 0);
 
@@ -739,8 +793,9 @@
                     return;
                 }
 
+                const availCount = data.rooms.filter(r => r.tersedia > 0).length;
                 let html =
-                    `<div class="mb-3"><span class="availability-badge">${data.rooms.length} kamar tersedia</span> <span class="text-muted small ms-2">${data.tanggal_masuk} s/d ${data.tanggal_keluar}</span></div>`;
+                    `<div class="mb-3"><span class="availability-badge">${availCount} kamar tersedia</span> <span class="text-muted small ms-2">${data.tanggal_masuk} s/d ${data.tanggal_keluar}</span></div>`;
                 html += '<div class="row g-3">';
                 data.rooms.forEach(room => {
                     const fotoHtml = room.fotos.length > 0 ?
@@ -754,11 +809,11 @@
                     html += `<div class="col-md-6">
                 <div class="room-avail-card">
                     ${fotoHtml}
-                    <h4 style="font-size:1rem;margin-bottom:4px">${room.nama}</h4>
-                    <div class="text-muted small mb-1">${room.tipe} · ${room.kode}</div>
+                    <h4 style="font-size:1rem;margin-bottom:4px">${room.jenis_kelas}</h4>
+                    <div class="text-muted small mb-1">${room.tipe}</div>
                     <div class="fw-bold" style="color:var(--primary)">Rp${room.harga} / malam</div>
                     ${room.fasilitas ? `<div class="small text-muted mt-1">${room.fasilitas}</div>` : ''}
-                    <div class="mt-1">${sisaBadge}</div>
+                    <div class="mt-1">${stokBadge}</div>
                 </div>
             </div>`;
                 });
@@ -795,7 +850,7 @@
                 }),
             );
         @endphp
-        const kamarsData = {{ $kamarsJson }};
+        const kamarsData = {!! $kamarsJson !!};
 
         function addOrderItemRow() {
             const wrap = document.createElement('div');
@@ -832,7 +887,7 @@
                     return;
                 }
                 try {
-                    const res = await fetch('{{ route('cek.ketersediaan') }}', {
+                    const res = await fetch(URL_CEK_KETERSEDIAAN, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -921,7 +976,7 @@
             }
 
             try {
-                const res = await fetch('{{ route('kirim.pemesanan.whatsapp') }}', {
+                const res = await fetch(URL_KIRIM_PEMESANAN, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -932,14 +987,11 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    showOrderFeedback('Format pemesanan berhasil dibuat. Mengarahkan ke WhatsApp Bot...',
-                        'success');
-                    setTimeout(() => {
-                        window.open(data.whatsapp_url, '_blank');
-                    }, 600);
+                    showOrderFeedback('Format pemesanan berhasil dibuat. Mengarahkan ke WhatsApp...', 'success');
+                    window.location.href = data.whatsapp_url;
                 } else {
-                    const errMsg = (data && data.message) ? data.message :
-                        'Gagal membuat format pemesanan. Periksa kembali isian Anda.';
+                    const errMsg = (data && data.errors) ? Object.values(data.errors).flat().join(', ') :
+                        ((data && data.message) ? data.message : 'Gagal membuat format pemesanan. Periksa kembali isian Anda.');
                     showOrderFeedback(errMsg, 'danger');
                 }
             } catch (err) {

@@ -8,19 +8,18 @@ use Illuminate\Support\Collection;
 
 class Kamar extends Model
 {
-    // DB produksi memakai jenis_kelas + kuota_total + stok_total (tanpa
-    // kode/nama/tipe/status/foto_path). Atribut legacy diisi via accessor.
+    // DB produksi: jenis_kelas + kuota_total + stok_total + fasilitas + harga_per_malam.
     protected $fillable = [
-        'kode',
-        'nama',
-        'tipe',
+        'jenis_kelas',
+        'kuota_total',
+        'stok_total',
+        'fasilitas',
         'harga_per_malam',
     ];
 
     protected function casts(): array
     {
         return [
-            'kuota_total' => 'integer',
             'harga_per_malam' => 'integer',
             'kuota_total' => 'integer',
             'stok_total' => 'integer',
@@ -52,6 +51,36 @@ class Kamar extends Model
 
     public function tipeLabel(): string
     {
-        return $this->tipe === 'ruang_kelas' ? 'Ruang Kelas' : 'Kamar';
+        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'Ruang Kelas' : 'Kamar';
+    }
+
+    // Kompatibilitas code lama yang akses kode/nama/tipe/status.
+    public function getKodeAttribute(): string
+    {
+        return (string) ($this->attributes['kode'] ?? $this->attributes['jenis_kelas'] ?? $this->id);
+    }
+
+    public function getNamaAttribute(): string
+    {
+        return (string) ($this->attributes['nama'] ?? $this->attributes['jenis_kelas'] ?? 'Kamar');
+    }
+
+    public function getTipeAttribute(): string
+    {
+        if (isset($this->attributes['tipe'])) {
+            return $this->attributes['tipe'];
+        }
+
+        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'ruang_kelas' : 'kamar';
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return $this->attributes['status'] ?? 'available';
+    }
+
+    public function getFotoPathAttribute(): ?string
+    {
+        return $this->attributes['foto_path'] ?? null;
     }
 }

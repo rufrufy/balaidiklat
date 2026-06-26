@@ -279,6 +279,50 @@ class KirimChatWebhookController extends Controller
     {
         $name = $customerName ?: 'Sahabat Balai';
 
+        // Ambil aturan menu dari DB: state = 'main_menu' dan is_active = true, urut by menu_order lalu priority
+        $menuRules = ChatbotRule::where('state', 'main_menu')
+            ->where('is_active', true)
+            ->orderBy('menu_order')
+            ->orderBy('priority')
+            ->get();
+
+        // Fallback ke menu default jika tidak ada aturan
+        if ($menuRules->isEmpty()) {
+            $this->sendDefaultMainMenu($phoneNumber, $name, $kirimChat);
+
+            return;
+        }
+
+        $body = "Halo, {$name} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
+            ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
+            ."Silakan pilih menu layanan di bawah ini.";
+
+        $rows = $menuRules->map(fn (ChatbotRule $r): array => [
+            'id' => $r->keyword,
+            'title' => $r->menu_label ?: $r->nama,
+            'description' => $r->menu_description ?: '',
+        ])->values()->all();
+
+        $kirimChat->sendList(
+            $phoneNumber,
+            $body,
+            'Pilih Menu',
+            [
+                [
+                    'title' => 'Menu Layanan',
+                    'rows' => $rows,
+                ],
+            ],
+            'SAPA BALAI',
+            'Ketik "menu" kapan saja untuk kembali.'
+        );
+    }
+
+    /**
+     * Menu default jika belum ada aturan di DB.
+     */
+    private function sendDefaultMainMenu(string $phoneNumber, string $name, KirimChatService $kirimChat): void
+    {
         $body = "Halo, {$name} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
             ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
             ."Silakan pilih menu layanan di bawah ini.";
@@ -291,31 +335,11 @@ class KirimChatWebhookController extends Controller
                 [
                     'title' => 'Menu Layanan',
                     'rows' => [
-                        [
-                            'id' => '1',
-                            'title' => 'Info Layanan & Pesan',
-                            'description' => 'Lihat info layanan dan pesan kamar/kelas',
-                        ],
-                        [
-                            'id' => '3',
-                            'title' => 'Laporan Gangguan',
-                            'description' => 'Laporkan gangguan fasilitas',
-                        ],
-                        [
-                            'id' => '4',
-                            'title' => 'Saran',
-                            'description' => 'Kirim saran dan masukan',
-                        ],
-                        [
-                            'id' => '5',
-                            'title' => 'Survey Kepuasan',
-                            'description' => 'Isi survey kepuasan layanan',
-                        ],
-                        [
-                            'id' => '6',
-                            'title' => 'Customer Care',
-                            'description' => 'Hubungi tim layanan pelanggan',
-                        ],
+                        ['id' => '1', 'title' => 'Info Layanan & Pesan', 'description' => 'Lihat info layanan dan pesan kamar/kelas'],
+                        ['id' => '3', 'title' => 'Laporan Gangguan', 'description' => 'Laporkan gangguan fasilitas'],
+                        ['id' => '4', 'title' => 'Saran', 'description' => 'Kirim saran dan masukan'],
+                        ['id' => '5', 'title' => 'Survey Kepuasan', 'description' => 'Isi survey kepuasan layanan'],
+                        ['id' => '6', 'title' => 'Customer Care', 'description' => 'Hubungi tim layanan pelanggan'],
                     ],
                 ],
             ],
@@ -1423,6 +1447,19 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
+        // Validasi konten: hanya gambar valid (magic bytes), tolak script/injeksi/file palsu.
+        if (! $this->isValidImageContent($body)) {
+            Log::warning('Upload bukti ditolak: konten bukan gambar valid', [
+                'kode' => $kode,
+                'content_type' => $response->header('Content-Type'),
+                'size' => strlen($body),
+                'first_bytes' => bin2hex(substr($body, 0, 16)),
+            ]);
+            $kirimChat->sendText($phoneNumber, "Maaf, file yang dikirim bukan gambar yang valid. Silakan kirim foto bukti pembayaran asli (JPG/PNG/WebP).");
+
+            return;
+        }
+
         $ext = $this->guessImageExtension($response->header('Content-Type'), $imageUrl);
         $path = 'bukti-pembayaran/'.$reservasi->kode.'-'.Str::random(8).'.'.$ext;
         Storage::disk('public')->put($path, $body);
@@ -1468,10 +1505,50 @@ class KirimChatWebhookController extends Controller
         return in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true) ? ($ext === 'jpeg' ? 'jpg' : $ext) : 'jpg';
     }
 
+    /**
+     * Validasi konten gambar via magic bytes (bukan cuma ekstensi/Content-Type).
+     * Tolak file non-gambar (script, HTML, PHP, zip, dll) meski ekstensi/header dipalsukan.
+     */
+    private function isValidImageContent(string $body): bool
+    {
+        if ($body === '') {
+            return false;
+        }
+
+        $header = substr($body, 0, 12);
+
+        // JPEG: FF D8 FF
+        if (str_starts_with($header, "\xFF\xD8\xFF")) {
+            return true;
+        }
+
+        // PNG: 89 50 4E 47 0D 0A 1A 0A
+        if (str_starts_with($header, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A")) {
+            return true;
+        }
+
+        // WebP: RIFF....WEBP
+        if (str_starts_with($header, 'RIFF') && strlen($body) >= 12 && substr($body, 8, 4) === 'WEBP') {
+            return true;
+        }
+
+        // GIF: GIF89a or GIF87a
+        if (str_starts_with($header, 'GIF89a') || str_starts_with($header, 'GIF87a')) {
+            return true;
+        }
+
+        // BMP: BM
+        if (str_starts_with($header, 'BM')) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function generateReservationCode(): string
     {
         do {
-            $kode = 'RSV-'.now()->format('YmdHis').'-'.random_int(100, 999);
+            $kode = 'BKPP-'.now()->format('YmdHis').'-'.random_int(100, 999);
         } while (KamarReservasi::where('kode', $kode)->exists());
 
         return $kode;

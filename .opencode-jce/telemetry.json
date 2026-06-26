@@ -117,5 +117,906 @@
       "signals": []
     },
     "at": "2026-06-26T14:27:07.101Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "human-ui-design",
+        "ui-pattern-library",
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 33
+    },
+    "at": "2026-06-26T17:23:03.962Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:03.976Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:03.988Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:04.000Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-06-26T17:23:04.011Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix",
+        "context-preservation"
+      ],
+      "suppressedSkills": [
+        "game-development",
+        "typescript"
+      ],
+      "confidence": 58
+    },
+    "at": "2026-06-26T17:23:26.570Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:26.583Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:26.595Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:26.607Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:26.619Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-26T17:23:26.631Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix",
+        "context-preservation"
+      ],
+      "suppressedSkills": [
+        "typescript"
+      ],
+      "confidence": 58
+    },
+    "at": "2026-06-26T17:23:28.135Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:28.147Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:28.160Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:28.172Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:28.184Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-26T17:23:28.196Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix",
+        "context-preservation"
+      ],
+      "suppressedSkills": [
+        "typescript"
+      ],
+      "confidence": 58
+    },
+    "at": "2026-06-26T17:23:29.583Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:29.596Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:29.608Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:29.620Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:29.632Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-26T17:23:29.644Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "laravel",
+        "software-engineering",
+        "human-ui-design",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "verification-discipline",
+        "astro-remix",
+        "context-preservation",
+        "typescript"
+      ],
+      "confidence": 45
+    },
+    "at": "2026-06-26T17:23:31.017Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:31.030Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:31.042Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:31.055Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-06-26T17:23:31.068Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-26T17:23:31.080Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.927,
+      "tokensUsed": 118618,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:23:31.705Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.936,
+      "tokensUsed": 119785,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:23:47.885Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.954,
+      "tokensUsed": 122122,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:23:53.933Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.968,
+      "tokensUsed": 123869,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:00.663Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.972,
+      "tokensUsed": 124431,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:05.318Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.98,
+      "tokensUsed": 125389,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:09.767Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.988,
+      "tokensUsed": 126469,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:29.395Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 129004,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:45.533Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 129355,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:24:50.121Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 129511,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:25:07.724Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 130250,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:25:14.785Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 130360,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:25:28.193Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 130811,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:25:42.314Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 132042,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:25:46.910Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 133116,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:00.118Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 133116,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:00.483Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 133881,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:04.530Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 134384,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:12.668Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 135248,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:37.770Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 137118,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:26:43.335Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 138776,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:27:01.291Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 139390,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:27:09.496Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 141481,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:27:35.514Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 142338,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:27:41.306Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 144323,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:28:01.673Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 144884,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:28:07.220Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 145970,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:28:30.976Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 146546,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:28:38.230Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 146800,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:28:43.465Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 147985,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:29:02.145Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 148578,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:29:06.978Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 149122,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:29:28.106Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 149637,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:29:33.340Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 149761,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:29:38.866Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 150377,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:30:04.755Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "refactor",
+    "metadata": {
+      "intent": "refactor",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "human-ui-design",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-26T17:34:43.152Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "refactor"
+    },
+    "at": "2026-06-26T17:34:43.174Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "refactor"
+    },
+    "at": "2026-06-26T17:34:43.189Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "refactor"
+    },
+    "at": "2026-06-26T17:34:43.208Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "refactor"
+    },
+    "at": "2026-06-26T17:34:43.227Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.35,
+      "reason": "question lacks explicit action-request framing",
+      "signals": [
+        "action_verb",
+        "question_mark"
+      ]
+    },
+    "at": "2026-06-26T17:34:43.245Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 147469,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:04.602Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 151279,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:10.484Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 152294,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:30.033Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 152294,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:30.328Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 153755,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:35.627Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 154716,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:35:41.466Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 155476,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:36:14.867Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 156162,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:36:22.888Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 156419,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:36:30.656Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 157085,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:36:35.947Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 157224,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-26T17:36:41.132Z"
   }
 ]

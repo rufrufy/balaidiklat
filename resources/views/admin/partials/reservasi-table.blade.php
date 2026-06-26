@@ -78,7 +78,50 @@
                         <button class="btn btn-sm btn-link p-0" data-bs-toggle="modal"
                             data-bs-target="#retribusiModal{{ $reservasi->id }}">+ Billing</button>
                     </td>
-                    <td><span class="badge-soft badge-primary-soft">{{ $reservasi->status }}</span></td>
+                    <td>
+                        @php
+                            $statusColor = match($reservasi->status) {
+                                'approved' => 'success',
+                                'rejected' => 'danger',
+                                default => 'primary',
+                            };
+                            $statusLabel = match($reservasi->status) {
+                                'approved' => 'Approved',
+                                'rejected' => 'Rejected',
+                                default => 'Pending',
+                            };
+                            $nextStatus = match($reservasi->status) {
+                                'pending' => 'approved',
+                                'approved' => 'rejected',
+                                'rejected' => 'pending',
+                            };
+                            $nextLabel = match($nextStatus) {
+                                'approved' => 'Approve',
+                                'rejected' => 'Reject',
+                                'pending' => 'Kembalikan ke Pending',
+                            };
+                        @endphp
+                        <div class="dropdown">
+                            <button class="badge-soft badge-{{ $statusColor }}-soft dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:.8rem; cursor:pointer;">
+                                {{ $statusLabel }}
+                            </button>
+                            <ul class="dropdown-menu shadow-sm" style="border-radius:14px;border:1px solid var(--border);">
+                                @foreach(['pending' => 'Pending', 'approved' => 'Approve', 'rejected' => 'Reject'] as $s => $l)
+                                    @if($reservasi->status !== $s)
+                                        <li>
+                                            <form method="POST" action="{{ route('admin.reservasi.toggle-status', $reservasi) }}" class="d-block">
+                                                @csrf
+                                                <input type="hidden" name="status" value="{{ $s }}">
+                                                <button type="submit" class="dropdown-item" style="font-size:.85rem;">
+                                                    {{ $l }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </td>
                     <td>
                         <button class="btn btn-sm btn-ghost" data-bs-toggle="modal"
                             data-bs-target="#editReservation{{ $reservasi->id }}">Edit</button>

@@ -156,6 +156,7 @@ Route::post('/webhooks/kirimchat', [KirimChatWebhookController::class, 'handle']
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.store');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::post('/admin/password', [AdminAuthController::class, 'updatePassword'])->name('admin.password.update');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/admin/dashboard', AdminDashboardController::class)->name('admin.dashboard');
@@ -167,6 +168,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/admin/reservasi', [AdminReservasiController::class, 'store'])->name('admin.reservasi.store');
     Route::patch('/admin/reservasi/{reservasi}', [AdminReservasiController::class, 'update'])->name('admin.reservasi.update');
     Route::post('/admin/reservasi/{reservasi}/toggle-payment', [AdminReservasiController::class, 'togglePayment'])->name('admin.reservasi.toggle-payment');
+    Route::post('/admin/reservasi/{reservasi}/toggle-status', [AdminReservasiController::class, 'toggleStatus'])->name('admin.reservasi.toggle-status');
     Route::delete('/admin/reservasi/{reservasi}', [AdminReservasiController::class, 'destroy'])->name('admin.reservasi.destroy');
     Route::post('/admin/reservasi/{reservasi}/retribusi', [RetribusiBillingController::class, 'store'])->name('admin.retribusi.store');
     Route::patch('/admin/retribusi/{billing}', [RetribusiBillingController::class, 'update'])->name('admin.retribusi.update');

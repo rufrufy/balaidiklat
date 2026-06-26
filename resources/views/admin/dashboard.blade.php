@@ -407,9 +407,10 @@
                 <button class="nav-link" data-section="whatsapp">WhatsApp Chat</button>
                 <a class="nav-link" href="{{ route('admin.rekap.bulanan') }}">Rekap Bulanan</a>
             </nav>
-            <div class="sidebar-foot"><strong>Webhook</strong>
-                <div class="mono small mt-2">/api/webhooks/kirimchat</div><a class="btn btn-sm btn-light mt-3"
-                    href="{{ route('landing') }}">Lihat Landing</a>
+            <div class="sidebar-foot">
+                <strong>Akun</strong>
+                <button class="btn btn-sm btn-light mt-2 d-block w-100" data-section="password">Ganti Password</button>
+                <a class="btn btn-sm btn-light mt-2 d-block w-100 text-center text-decoration-none" href="{{ route('landing') }}">Lihat Landing</a>
             </div>
         </aside>
         <main class="main">
@@ -467,12 +468,12 @@
                 <div class="row g-4">
                     <div class="col-xl-6">
                         <div class="card-enterprise p-4">
-                            <h2 class="h3 mb-3">Kamar terbaru</h2>@include('admin.partials.kamar-table')
+                            <h2 class="h3 mb-3">Pemesanan baru</h2>@include('admin.partials.reservasi-table')
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="card-enterprise p-4">
-                            <h2 class="h3 mb-3">Reservasi terbaru</h2>@include('admin.partials.reservasi-table')
+                            <h2 class="h3 mb-3">Kamar</h2>@include('admin.partials.kamar-table')
                         </div>
                     </div>
                 </div>
@@ -772,6 +773,33 @@
                     </div>
                 </div>
             </section>
+
+            <section id="password" class="page-section">
+                <div class="mb-4">
+                    <div class="eyebrow">Keamanan akun</div>
+                    <h2 class="display-5 mb-0">Ganti password admin.</h2>
+                </div>
+                <div class="card-enterprise p-4" style="max-width: 520px;">
+                    <form method="POST" action="{{ route('admin.password.update') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Password saat ini</label>
+                            <input type="password" class="form-control" name="current_password" required autocomplete="current-password">
+                            @error('current_password') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Password baru</label>
+                            <input type="password" class="form-control" name="password" required minlength="6" autocomplete="new-password">
+                            @error('password') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Konfirmasi password baru</label>
+                            <input type="password" class="form-control" name="password_confirmation" required minlength="6" autocomplete="new-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary-enterprise">Simpan Password Baru</button>
+                    </form>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -1027,6 +1055,11 @@
                         <div class="col-12"><label class="form-label fw-bold">Balasan</label>
                             <textarea class="form-control" name="reply_text" rows="5" placeholder="Kosongkan jika memakai action khusus"></textarea>
                         </div>
+                        <hr class="my-2">
+                        <div class="col-12"><small class="text-muted fw-bold d-block mb-2">Menu WhatsApp (opsional — hanya untuk aturan dengan state=main_menu)</small></div>
+                        <div class="col-md-4"><label class="form-label">Label menu</label><input class="form-control" name="menu_label" placeholder="Tampilan di list WA"></div>
+                        <div class="col-md-4"><label class="form-label">Deskripsi menu</label><input class="form-control" name="menu_description" placeholder="Subtitle di list WA"></div>
+                        <div class="col-md-4"><label class="form-label">Urutan menu</label><input type="number" min="0" class="form-control" name="menu_order" value="0"></div>
                     </div>
                 </div>
                 <div class="modal-footer"><button type="button" class="btn btn-ghost"
@@ -1081,6 +1114,11 @@
                             <div class="col-12"><label class="form-label fw-bold">Balasan</label>
                                 <textarea class="form-control" name="reply_text" rows="5" placeholder="Kosongkan jika memakai action khusus">{{ $rule->reply_text }}</textarea>
                             </div>
+                            <hr class="my-2">
+                            <div class="col-12"><small class="text-muted fw-bold d-block mb-2">Menu WhatsApp (opsional — hanya untuk aturan dengan state=main_menu)</small></div>
+                            <div class="col-md-4"><label class="form-label">Label menu</label><input class="form-control" name="menu_label" value="{{ $rule->menu_label }}"></div>
+                            <div class="col-md-4"><label class="form-label">Deskripsi menu</label><input class="form-control" name="menu_description" value="{{ $rule->menu_description }}"></div>
+                            <div class="col-md-4"><label class="form-label">Urutan menu</label><input type="number" min="0" class="form-control" name="menu_order" value="{{ $rule->menu_order }}"></div>
                         </div>
                     </div>
                     <div class="modal-footer"><button type="button" class="btn btn-ghost"

@@ -49,6 +49,9 @@ class AdminChatbotRuleController extends Controller
             'next_state' => ['nullable', 'string', 'max:100'],
             'priority' => ['required', 'integer', 'min:1'],
             'is_active' => ['nullable', 'boolean'],
+            'menu_label' => ['nullable', 'string', 'max:255'],
+            'menu_description' => ['nullable', 'string', 'max:255'],
+            'menu_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $data['is_active'] = $request->boolean('is_active');

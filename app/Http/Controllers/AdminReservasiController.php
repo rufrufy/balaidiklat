@@ -192,9 +192,21 @@ class AdminReservasiController extends Controller
     private function generateKode(): string
     {
         do {
-            $kode = 'RSV-'.now()->format('YmdHis').'-'.random_int(100, 999);
+            $kode = 'BKPP-'.now()->format('YmdHis').'-'.random_int(100, 999);
         } while (KamarReservasi::where('kode', $kode)->exists());
 
         return $kode;
+    }
+
+    public function toggleStatus(Request $request, KamarReservasi $reservasi): RedirectResponse
+    {
+        $status = $request->input('status');
+        $allowed = ['pending', 'approved', 'rejected'];
+        if (! in_array($status, $allowed, true)) {
+            return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->withErrors(['status' => 'Status tidak valid.']);
+        }
+        $reservasi->update(['status' => $status]);
+
+        return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', "Status reservasi diubah menjadi \"{$status}\".");
     }
 }

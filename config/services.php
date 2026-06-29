@@ -48,4 +48,19 @@ return [
         'send_path' => env('ERETRIBUSI_SEND_PATH', '/api/billing'),
     ],
 
+    'bapenda' => [
+        'base_url' => env('BAPENDA_BASE_URL', 'https://eretribusi.semarangkota.go.id'),
+        'vcode' => env('BAPENDA_VCODE'),
+        'token' => env('BAPENDA_TOKEN'),
+        'store_path' => env('BAPENDA_STORE_PATH', '/api/v2/prod/retribusi/store'),
+        'kode_opd' => env('BAPENDA_KODE_OPD', '3.1.03.01'),
+        'kode_rekening' => env('BAPENDA_KODE_REKENING', '4.1.02.02.01.0005'),
+        'rekening_id' => env('BAPENDA_REKENING_ID', '76'),
+        'qris_base_url' => env('BAPENDA_QRIS_BASE_URL', 'http://103.101.52.67:13000'),
+        'qris_path' => env('BAPENDA_QRIS_PATH', '/api/bapenda/getLinkQris'),
+        'qris_user' => env('BAPENDA_QRIS_USER'),
+        'qris_pass' => env('BAPENDA_QRIS_PASS'),
+        'callback_token' => env('BAPENDA_CALLBACK_TOKEN'),
+    ],
+
 ];

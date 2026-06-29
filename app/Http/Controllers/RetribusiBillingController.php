@@ -8,6 +8,7 @@ use App\Services\ERetribusiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RetribusiBillingController extends Controller
 {
@@ -15,6 +16,8 @@ class RetribusiBillingController extends Controller
     {
         $data = $this->validatedData($request);
         $data['kamar_reservasi_id'] = $reservasi->id;
+
+        $this->populateBapendaDefaults($data, $reservasi);
 
         RetribusiBilling::create($data);
 
@@ -32,18 +35,22 @@ class RetribusiBillingController extends Controller
 
     public function send(RetribusiBilling $billing, ERetribusiService $service): RedirectResponse
     {
-        $result = $service->send($billing);
+        $result = $service->sendBapendaBilling($billing);
 
         $message = $result['success']
-            ? 'Billing berhasil dikirim ke eRetribusi.'
+            ? 'Billing berhasil dikirim ke Bapenda e-Retribusi. ID Billing: '.($billing->fresh()->id_billing ?? '-')
             : ($result['message'] ?? 'Billing gagal dikirim.');
 
         return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', $message);
     }
 
-    /**
-     * Public API for the external eRetribusi app to pull the billing payload.
-     */
+    public function fetchQris(RetribusiBilling $billing, ERetribusiService $service): JsonResponse
+    {
+        $result = $service->fetchAndSaveQris($billing);
+
+        return response()->json($result, $result['success'] ? 200 : 400);
+    }
+
     public function apiShow(RetribusiBilling $billing): JsonResponse
     {
         return response()->json($billing->toRetribusiPayload());
@@ -62,6 +69,26 @@ class RetribusiBillingController extends Controller
             't_nama' => ['nullable', 'string', 'max:255'],
             'npwrd' => ['nullable', 'string', 'max:50'],
             'rekening' => ['nullable', 'string', 'max:255'],
+            // Bapenda fields
+            'no_ketetapan' => ['nullable', 'string', 'max:50'],
+            'nominal' => ['nullable', 'integer', 'min:0'],
+            'tahun' => ['nullable', 'string', 'max:4'],
+            'tgl_expired' => ['nullable', 'date'],
+            'nama_wr' => ['nullable', 'string', 'max:255'],
+            'keterangan_bapenda' => ['nullable', 'string', 'max:255'],
         ]);
+    }
+
+    private function populateBapendaDefaults(array &$data, KamarReservasi $reservasi): void
+    {
+        $data['nominal'] = $data['nominal'] ?? $reservasi->total_harga ?? $data['kredit'] ?? 0;
+        $data['tahun'] = $data['tahun'] ?? (string) now()->year;
+        $data['tgl_expired'] = $data['tgl_expired'] ?? now()->addDays(7)->format('Y-m-d');
+        $data['nama_wr'] = $data['nama_wr'] ?? $reservasi->nama_pemesan ?? 'BKPP';
+        $data['no_ketetapan'] = $data['no_ketetapan'] ?? 'A'.$reservasi->id;
+
+        $jenisKelas = $reservasi->jenis_kelas ?? '-';
+        $durasi = $reservasi->durasi_hari ?? 1;
+        $data['keterangan_bapenda'] = $data['keterangan_bapenda'] ?? "Sewa {$jenisKelas} selama {$durasi} hari";
     }
 }

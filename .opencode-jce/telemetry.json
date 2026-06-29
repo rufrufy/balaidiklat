@@ -1136,5 +1136,919 @@
       "knownLimit": false
     },
     "at": "2026-06-29T06:08:47.954Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "release",
+    "metadata": {
+      "intent": "release",
+      "selectedSkills": [
+        "ai-optimization",
+        "release-engineering",
+        "verification-discipline",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "go",
+        "human-ui-design"
+      ],
+      "confidence": 43
+    },
+    "at": "2026-06-29T08:12:12.989Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ai-optimization",
+    "metadata": {
+      "skill": "ai-optimization",
+      "intent": "release"
+    },
+    "at": "2026-06-29T08:12:13.014Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "release-engineering",
+    "metadata": {
+      "skill": "release-engineering",
+      "intent": "release"
+    },
+    "at": "2026-06-29T08:12:13.034Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "release"
+    },
+    "at": "2026-06-29T08:12:13.056Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "release"
+    },
+    "at": "2026-06-29T08:12:13.081Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.35,
+      "reason": "question lacks explicit action-request framing",
+      "signals": [
+        "action_verb",
+        "question_mark"
+      ]
+    },
+    "at": "2026-06-29T08:12:13.105Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "ai-optimization",
+    "metadata": {
+      "skill": "ai-optimization",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:12:13.778Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "release-engineering",
+    "metadata": {
+      "skill": "release-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:12:13.815Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:12:13.856Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:12:13.891Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "laravel",
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 64
+    },
+    "at": "2026-06-29T08:12:53.052Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.075Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.097Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.116Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.136Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:12:53.157Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "planner",
+    "metadata": {
+      "plannerMode": "linear-fallback",
+      "detectedUnits": [],
+      "fallbackReason": "No strong implementation split verb detected."
+    },
+    "at": "2026-06-29T08:12:53.179Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "laravel",
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 64
+    },
+    "at": "2026-06-29T08:12:53.800Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.826Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.852Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.879Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:53.900Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:12:53.922Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "laravel",
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 64
+    },
+    "at": "2026-06-29T08:12:54.543Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:54.578Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:54.612Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:54.647Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:54.684Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:12:54.714Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "laravel",
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 64
+    },
+    "at": "2026-06-29T08:12:55.289Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:55.327Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:55.359Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:55.396Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:12:55.429Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:12:55.458Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:12:55.777Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:12:55.808Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:12:55.840Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:12:55.870Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:12:55.894Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "php",
+        "api-design-patterns",
+        "sql-database",
+        "context-preservation",
+        "human-ui-design"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:13:02.452Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.469Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.493Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.517Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.538Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:13:02.558Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "php",
+        "api-design-patterns",
+        "sql-database",
+        "context-preservation",
+        "human-ui-design"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:13:02.952Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.977Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:02.999Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.022Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.045Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:13:03.066Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "php",
+        "api-design-patterns",
+        "sql-database",
+        "context-preservation",
+        "human-ui-design"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:13:03.536Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.558Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.581Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.607Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:03.629Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:13:03.649Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [
+        "php",
+        "api-design-patterns",
+        "sql-database",
+        "context-preservation",
+        "human-ui-design"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:13:04.056Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:04.090Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:04.125Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:04.156Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:13:04.187Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:13:04.213Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-29T08:13:04.534Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:13:04.569Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:13:04.602Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T08:13:04.634Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:13:04.660Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:13:07.666Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:13:07.703Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.83,
+      "tokensUsed": 106236,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-29T08:27:13.559Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-06-29T08:44:44.973Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-29T08:44:44.994Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-06-29T08:44:45.012Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "human-ui-design",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [],
+      "confidence": 93
+    },
+    "at": "2026-06-29T08:59:07.912Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:59:07.932Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:59:07.949Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:59:07.966Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-29T08:59:07.982Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-29T08:59:08.002Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:59:09.061Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T08:59:09.090Z"
   }
 ]

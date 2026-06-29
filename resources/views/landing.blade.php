@@ -361,6 +361,13 @@
                         <div class="d-flex flex-column flex-sm-row gap-3 mt-4"><a class="btn btn-secondary-enterprise"
                                 href="#ketersediaan">Cek Ketersediaan</a><a class="btn btn-primary-enterprise"
                                 href="#lacak">Lacak Booking</a></div>
+                        <div class="kode-reservasi-info mt-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge-soft badge-primary-soft">Kode Reservasi</span>
+                                <code class="text-white">BKPP-XXXXXXXXXXXXXX-XXX</code>
+                            </div>
+                            <p class="text-white-50 small mt-2 mb-0">Format kode reservasi: BKPP diikuti tanggal-waktu-urut. Contoh: <code>BKPP-20260629143022-456</code></p>
+                        </div>
                     </div>
                     <div class="col-lg-5">
                         <div class="hero-panel">

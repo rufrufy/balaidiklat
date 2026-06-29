@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
+use App\Models\RetribusiBilling;
+use App\Services\ERetribusiService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminReservasiController extends Controller
 {
@@ -16,10 +19,16 @@ class AdminReservasiController extends Controller
         $data = $this->validatedData($request);
         $data['kode'] = $this->generateKode();
 
-        DB::transaction(function () use ($data, $request): void {
+        $reservasi = null;
+
+        DB::transaction(function () use ($data, $request, &$reservasi): void {
             $reservasi = KamarReservasi::create($this->reservationPayload($data, $request->boolean('multiple_kamar')));
             $this->syncItems($reservasi, $data, $request);
         });
+
+        if ($reservasi) {
+            $this->createAndSendBapendaBilling($reservasi);
+        }
 
         return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', 'Reservasi berhasil ditambahkan.');
     }
@@ -196,6 +205,56 @@ class AdminReservasiController extends Controller
         } while (KamarReservasi::where('kode', $kode)->exists());
 
         return $kode;
+    }
+
+    private function createAndSendBapendaBilling(KamarReservasi $reservasi): void
+    {
+        try {
+            $existing = RetribusiBilling::where('kamar_reservasi_id', $reservasi->id)
+                ->where('status', 'sent')
+                ->latest()
+                ->first();
+
+            if ($existing) {
+                return;
+            }
+
+            $jenisKelas = $reservasi->jenis_kelas ?? '-';
+            $durasi = $reservasi->durasi_hari ?? 1;
+
+            $billing = RetribusiBilling::create([
+                'kamar_reservasi_id' => $reservasi->id,
+                'tanggal' => now(),
+                'keterangan' => "Sewa {$jenisKelas} selama {$durasi} hari",
+                'kredit' => $reservasi->total_harga ?? 0,
+                'noskpd' => '1111',
+                'periode' => (string) now()->year,
+                'npwrd' => '-',
+                'nama_wr' => $reservasi->nama_pemesan ?? 'BKPP',
+                'no_ketetapan' => 'A'.$reservasi->id,
+                'nominal' => $reservasi->total_harga ?? 0,
+                'tahun' => (string) now()->year,
+                'tgl_expired' => now()->addDays(7)->format('Y-m-d'),
+                'keterangan_bapenda' => "Sewa {$jenisKelas} selama {$durasi} hari",
+                'status' => 'draft',
+            ]);
+
+            $service = app(ERetribusiService::class);
+            $result = $service->sendBapendaBilling($billing);
+
+            if (! $result['success']) {
+                Log::warning('Admin auto Bapenda billing failed (non-blocking)', [
+                    'reservasi_id' => $reservasi->id,
+                    'billing_id' => $billing->id,
+                    'error' => $result['message'] ?? 'Unknown',
+                ]);
+            }
+        } catch (\Throwable $e) {
+            Log::error('Admin auto Bapenda billing exception (non-blocking)', [
+                'reservasi_id' => $reservasi->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function toggleStatus(Request $request, KamarReservasi $reservasi): RedirectResponse

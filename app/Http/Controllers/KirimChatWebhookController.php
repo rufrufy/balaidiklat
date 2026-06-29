@@ -6,8 +6,10 @@ use App\Models\ChatbotRule;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
 use App\Models\LayananPengaduan;
+use App\Models\RetribusiBilling;
 use App\Models\WhatsappMessage;
 use App\Models\WhatsappSession;
+use App\Services\ERetribusiService;
 use App\Services\KamarAvailabilityService;
 use App\Services\KirimChatService;
 use Carbon\Carbon;
@@ -83,6 +85,12 @@ class KirimChatWebhookController extends Controller
         $session->update(['last_message_at' => now()]);
 
         $customerName = $this->extractCustomerName($payload);
+
+        if ($session->wasRecentlyCreated) {
+            $this->sendDefaultMainMenu($phoneNumber, $customerName ?: 'Sahabat Balai', $kirimChat);
+
+            return response()->json(['success' => true]);
+        }
 
         // Jika user sedang diminta upload bukti pembayaran dan mengirim gambar,
         // tangani upload-nya lebih dulu (di luar alur rule berbasis teks).
@@ -278,44 +286,7 @@ class KirimChatWebhookController extends Controller
     private function sendMainMenu(string $phoneNumber, ?string $customerName, KirimChatService $kirimChat): void
     {
         $name = $customerName ?: 'Sahabat Balai';
-
-        // Ambil aturan menu dari DB: state = 'main_menu' dan is_active = true, urut by menu_order lalu priority
-        $menuRules = ChatbotRule::where('state', 'main_menu')
-            ->where('is_active', true)
-            ->orderBy('menu_order')
-            ->orderBy('priority')
-            ->get();
-
-        // Fallback ke menu default jika tidak ada aturan
-        if ($menuRules->isEmpty()) {
-            $this->sendDefaultMainMenu($phoneNumber, $name, $kirimChat);
-
-            return;
-        }
-
-        $body = "Halo, {$name} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
-            ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
-            ."Silakan pilih menu layanan di bawah ini.";
-
-        $rows = $menuRules->map(fn (ChatbotRule $r): array => [
-            'id' => $r->keyword,
-            'title' => $r->menu_label ?: $r->nama,
-            'description' => $r->menu_description ?: '',
-        ])->values()->all();
-
-        $kirimChat->sendList(
-            $phoneNumber,
-            $body,
-            'Pilih Menu',
-            [
-                [
-                    'title' => 'Menu Layanan',
-                    'rows' => $rows,
-                ],
-            ],
-            'SAPA BALAI',
-            'Ketik "menu" kapan saja untuk kembali.'
-        );
+        $this->sendDefaultMainMenu($phoneNumber, $name, $kirimChat);
     }
 
     /**
@@ -780,6 +751,8 @@ class KirimChatWebhookController extends Controller
             ]);
         }
 
+        $this->createAndSendBapendaBilling($reservasi);
+
         $session->update([
             'state' => 'pesan_pembayaran',
             'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
@@ -1045,6 +1018,8 @@ class KirimChatWebhookController extends Controller
 
         $reservasi->update(['total_harga' => $total]);
 
+        $this->createAndSendBapendaBilling($reservasi);
+
         $session->update([
             'state' => 'pesan_pembayaran',
             'context' => array_merge($ctx, ['booking_kode' => $reservasi->kode, 'total_harga' => $total]),
@@ -1214,32 +1189,163 @@ class KirimChatWebhookController extends Controller
 
     private function sendQris(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
     {
-        // Dummy link e-Retribusi (ganti dengan integrasi API asli nanti).
-        $link = 'https://eretribusi.semarangkota.go.id/bayar/'.Str::upper(Str::random(10));
+        $kode = data_get($session->context, 'booking_kode');
+        $reservasi = $kode ? KamarReservasi::where('kode', $kode)->first() : null;
 
-        $session->update(['state' => 'pesan_upload_bukti']);
+        if (! $reservasi) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Maaf, data reservasi tidak ditemukan. Ketik *menu* untuk kembali ke menu utama."
+            );
+
+            return;
+        }
 
         $kirimChat->sendText(
             $phoneNumber,
-            "Pembayaran via QRIS\n\n"
-            ."Silakan lakukan pembayaran melalui link/QR e-Retribusi berikut:\n{$link}\n\n"
-            ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih."
+            "Sedang memproses pembayaran Anda ke sistem e-Retribusi Bapenda...\n\nMohon tunggu sebentar."
         );
+
+        $billing = $this->createBillingForReservasi($reservasi);
+
+        $service = app(ERetribusiService::class);
+        $result = $service->sendBapendaBilling($billing);
+
+        if (! $result['success']) {
+            Log::error('sendQris: Bapenda billing failed', [
+                'reservasi_id' => $reservasi->id,
+                'billing_id' => $billing->id,
+                'error' => $result['message'] ?? 'Unknown',
+            ]);
+
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Maaf, terjadi kesalahan saat membuat billing e-Retribusi. Tim kami akan menghubungi Anda shortly.\n\n"
+                ."Ketik *menu* untuk kembali, atau hubungi admin langsung."
+            );
+
+            return;
+        }
+
+        $billing->refresh();
+        $linkQris = null;
+        $qrisResult = $service->fetchAndSaveQris($billing);
+        if ($qrisResult['success'] && isset($qrisResult['link_qris'])) {
+            $linkQris = $qrisResult['link_qris'];
+        }
+
+        $session->update(['state' => 'pesan_upload_bukti']);
+
+        $message = "Pembayaran via QRIS\n\n"
+            ."Reservasi: {$reservasi->kode}\n"
+            ."Total: Rp".number_format($reservasi->total_harga, 0, ',', '.')."\n\n";
+
+        if ($linkQris) {
+            $message .= "Link QRIS:\n{$linkQris}\n\n";
+        }
+
+        if ($billing->link_ssrd) {
+            $message .= "Link SSRD e-Retribusi:\n{$billing->link_ssrd}\n\n";
+        }
+
+        if (! $linkQris && ! $billing->link_ssrd) {
+            $message .= "Kode bayar: {$billing->kodebayar}\n\n";
+        }
+
+        $message .= "Atau transfer ke:\n"
+            ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
+            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
+            ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+
+        $kirimChat->sendText($phoneNumber, $message);
     }
 
     private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
     {
-        // Dummy rekening (ganti dengan data resmi nanti).
+        $kode = data_get($session->context, 'booking_kode');
+        $reservasi = $kode ? KamarReservasi::where('kode', $kode)->first() : null;
+
         $session->update(['state' => 'pesan_upload_bukti']);
 
-        $kirimChat->sendText(
-            $phoneNumber,
-            "Pembayaran via Transfer Bank\n\n"
-            ."Silakan transfer ke salah satu rekening berikut:\n"
+        $message = "Pembayaran via Transfer Bank\n\n";
+
+        if ($reservasi) {
+            $message .= "Reservasi: {$reservasi->kode}\n"
+                ."Total: Rp".number_format($reservasi->total_harga, 0, ',', '.')."\n\n";
+        }
+
+        $message .= "Silakan transfer ke salah satu rekening berikut:\n"
             ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
-            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
-            ."Setelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih."
-        );
+            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n";
+
+        if ($reservasi) {
+            $billing = RetribusiBilling::where('kamar_reservasi_id', $reservasi->id)
+                ->whereNotNull('link_ssrd')
+                ->latest()
+                ->first();
+
+            if ($billing?->link_ssrd) {
+                $message .= "Atau bayar via portal e-Retribusi:\n{$billing->link_ssrd}\n\n";
+            }
+        }
+
+        $message .= "Setelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+
+        $kirimChat->sendText($phoneNumber, $message);
+    }
+
+    private function createBillingForReservasi(KamarReservasi $reservasi): RetribusiBilling
+    {
+        $existing = RetribusiBilling::where('kamar_reservasi_id', $reservasi->id)
+            ->where('status', 'sent')
+            ->latest()
+            ->first();
+
+        if ($existing) {
+            return $existing;
+        }
+
+        $jenisKelas = $reservasi->jenis_kelas ?? '-';
+        $durasi = $reservasi->durasi_hari ?? 1;
+
+        return RetribusiBilling::create([
+            'kamar_reservasi_id' => $reservasi->id,
+            'tanggal' => now(),
+            'keterangan' => "Sewa {$jenisKelas} selama {$durasi} hari",
+            'kredit' => $reservasi->total_harga ?? 0,
+            'noskpd' => '1111',
+            'periode' => (string) now()->year,
+            'npwrd' => '-',
+            'nama_wr' => $reservasi->nama_pemesan ?? 'BKPP',
+            'no_ketetapan' => 'A'.$reservasi->id,
+            'nominal' => $reservasi->total_harga ?? 0,
+            'tahun' => (string) now()->year,
+            'tgl_expired' => now()->addDays(7)->format('Y-m-d'),
+            'keterangan_bapenda' => "Sewa {$jenisKelas} selama {$durasi} hari",
+            'status' => 'draft',
+        ]);
+    }
+
+    private function createAndSendBapendaBilling(KamarReservasi $reservasi): void
+    {
+        try {
+            $billing = $this->createBillingForReservasi($reservasi);
+            $service = app(ERetribusiService::class);
+            $result = $service->sendBapendaBilling($billing);
+
+            if (! $result['success']) {
+                Log::warning('Auto Bapenda billing failed (non-blocking)', [
+                    'reservasi_id' => $reservasi->id,
+                    'billing_id' => $billing->id,
+                    'error' => $result['message'] ?? 'Unknown',
+                ]);
+            }
+        } catch (\Throwable $e) {
+            Log::error('Auto Bapenda billing exception (non-blocking)', [
+                'reservasi_id' => $reservasi->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────

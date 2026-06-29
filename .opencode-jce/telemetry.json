@@ -1018,5 +1018,123 @@
       "knownLimit": false
     },
     "at": "2026-06-26T17:36:41.132Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "verification-discipline",
+        "human-ui-design"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "php",
+        "devops"
+      ],
+      "confidence": 92
+    },
+    "at": "2026-06-29T06:08:20.298Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T06:08:20.315Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T06:08:20.342Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T06:08:20.358Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-29T06:08:20.379Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-06-29T06:08:20.397Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T06:08:21.651Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T06:08:21.667Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T06:08:21.684Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "source": "system_injection"
+    },
+    "at": "2026-06-29T06:08:21.704Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 1,
+      "tokensUsed": 170453,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-29T06:08:47.954Z"
   }
 ]

@@ -27,7 +27,7 @@ Route::get('/', function () {
     ]);
 })->name('landing');
 
-Route::post('/cek-ketersediaan', function () {
+Route::match(['GET', 'POST'], '/cek-ketersediaan', function () {
     $data = request()->validate([
         'tanggal_masuk' => ['required', 'date'],
         'tanggal_keluar' => ['required', 'date', 'after:tanggal_masuk'],

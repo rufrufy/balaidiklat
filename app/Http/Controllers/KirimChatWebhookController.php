@@ -198,6 +198,11 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
+            case 'cek_status':
+                $this->cekStatusPembayaran($session, $phoneNumber, $kirimChat);
+
+                return;
+
             case 'input_nomor_kamar_gangguan':
                 $this->inputNomorKamarGangguan($session, $phoneNumber, $rawInput, $kirimChat);
 
@@ -310,7 +315,8 @@ class KirimChatWebhookController extends Controller
                         ['id' => '3', 'title' => 'Laporan Gangguan', 'description' => 'Laporkan gangguan fasilitas'],
                         ['id' => '4', 'title' => 'Saran', 'description' => 'Kirim saran dan masukan'],
                         ['id' => '5', 'title' => 'Survey Kepuasan', 'description' => 'Isi survey kepuasan layanan'],
-                        ['id' => '6', 'title' => 'Customer Care', 'description' => 'Hubungi tim layanan pelanggan'],
+                        ['id' => '6', 'title' => 'Cek Pemesanan', 'description' => 'Periksa status booking Anda'],
+                                                ['id' => '7', 'title' => 'Customer Care', 'description' => 'Hubungi tim layanan pelanggan'],
                     ],
                 ],
             ],
@@ -1261,7 +1267,14 @@ class KirimChatWebhookController extends Controller
             ? Carbon::parse($billing->tgl_expired)->format('d M Y H:i')
             : now()->addDays(7)->format('d M Y H:i');
 
-        $imageUrl = $this->downloadQrisImage($linkQris, $reservasi->kode);
+        $imageUrl = $billing->link_qris_image;
+
+        if (! $imageUrl && $linkQris) {
+            $imageUrl = $this->downloadQrisImage($linkQris, $reservasi->kode);
+            if ($imageUrl) {
+                $billing->update(['link_qris_image' => $imageUrl]);
+            }
+        }
 
         if ($imageUrl) {
             $caption = "Pembayaran via QRIS\n\n"
@@ -1302,44 +1315,91 @@ class KirimChatWebhookController extends Controller
         }
 
         try {
-            $imageResponse = Http::timeout(30)->withOptions([
-                'allow_redirects' => ['max' => 5],
-            ])->get($linkQris);
+            $cleanUrl = (string) preg_replace('#(?<!:)/+#', '/', $linkQris);
+
+            $browserHeaders = [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/*,*/*;q=0.8',
+                'Accept-Language' => 'id',
+            ];
+
+            $response = Http::timeout(30)
+                ->withHeaders($browserHeaders)
+                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
+                ->get($cleanUrl);
+
+            if ($response->failed()) {
+                Log::warning('QRIS page fetch failed', [
+                    'link' => $cleanUrl,
+                    'status' => $response->status(),
+                ]);
+
+                return null;
+            }
+
+            $body = $response->body();
+            $contentType = $response->header('Content-Type') ?? '';
+
+            if (empty($body)) {
+                Log::warning('QRIS page response empty', ['link' => $cleanUrl]);
+
+                return null;
+            }
+
+            if (str_contains($contentType, 'image/') || str_starts_with($body, "\x89PNG") || str_starts_with($body, "\xFF\xD8\xFF")) {
+                return $this->saveQrisImageFile($body, $contentType, $kode);
+            }
+
+            preg_match('/<img[^>]+id="qrResults"[^>]+src="([^"]+)"/i', $body, $matches);
+            $pngUrl = $matches[1] ?? null;
+
+            if (! $pngUrl) {
+                preg_match('#/uploads/(\d+\.png)#i', $body, $fallbackMatches);
+                $pngUrl = $fallbackMatches[1]
+                    ? 'https://bimaqr.bankjateng.co.id/uploads/'.$fallbackMatches[1]
+                    : null;
+            }
+
+            if (! $pngUrl) {
+                Log::warning('QRIS page has no PNG image', [
+                    'link' => $cleanUrl,
+                    'body_preview' => substr($body, 0, 500),
+                ]);
+
+                return null;
+            }
+
+            $cleanPngUrl = (string) preg_replace('#(?<!:)/+#', '/', $pngUrl);
+
+            $imageResponse = Http::timeout(30)
+                ->withHeaders([
+                    'User-Agent' => $browserHeaders['User-Agent'],
+                    'Accept' => 'image/*',
+                    'Accept-Language' => 'id',
+                    'Referer' => 'https://bimaqr.bankjateng.co.id/',
+                ])
+                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
+                ->get($cleanPngUrl);
 
             if ($imageResponse->failed()) {
-                Log::warning('Failed to download QRIS image', [
-                    'link' => $linkQris,
+                Log::warning('QRIS PNG download failed', [
+                    'png_url' => $cleanPngUrl,
                     'status' => $imageResponse->status(),
                 ]);
 
                 return null;
             }
 
-            $contentType = $imageResponse->header('Content-Type') ?? '';
-            $body = $imageResponse->body();
+            $pngBody = $imageResponse->body();
+            $pngContentType = $imageResponse->header('Content-Type') ?? '';
 
-            if (empty($body)) {
-                Log::warning('QRIS image response empty', ['link' => $linkQris]);
-
-                return null;
-            }
-
-            if (! str_contains($contentType, 'image/') && strlen($body) > 0 && strlen($body) < 5000) {
-                Log::warning('QRIS link returned non-image content', [
-                    'link' => $linkQris,
-                    'content_type' => $contentType,
-                    'body_preview' => substr($body, 0, 200),
-                ]);
+            if (empty($pngBody)) {
+                Log::warning('QRIS PNG body empty', ['png_url' => $cleanPngUrl]);
 
                 return null;
             }
 
-            $ext = str_contains($contentType, 'png') ? 'png' : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') ? 'jpg' : 'png');
-            $filename = 'qris/'.$kode.'-'.Str::random(8).'.'.$ext;
-
-            Storage::disk('public')->put($filename, $body);
-
-            return asset('storage/'.$filename);
+            return $this->saveQrisImageFile($pngBody, $pngContentType, $kode);
         } catch (\Throwable $e) {
             Log::error('Exception downloading QRIS image', [
                 'link' => $linkQris,
@@ -1348,6 +1408,24 @@ class KirimChatWebhookController extends Controller
 
             return null;
         }
+    }
+
+    private function saveQrisImageFile(string $body, string $contentType, string $kode): ?string
+    {
+        $ext = str_contains($contentType, 'png') || str_starts_with($body, "\x89PNG")
+            ? 'png'
+            : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') || str_starts_with($body, "\xFF\xD8\xFF") ? 'jpg' : 'png');
+        $filename = 'qris/'.$kode.'-'.Str::random(8).'.'.$ext;
+
+        Storage::disk('public')->put($filename, $body);
+
+        Log::info('QRIS image saved', [
+            'kode' => $kode,
+            'filename' => $filename,
+            'size' => strlen($body),
+        ]);
+
+        return asset('storage/'.$filename);
     }
 
     private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
@@ -1588,15 +1666,15 @@ class KirimChatWebhookController extends Controller
             ."Status reservasi: {$reservasi->status}\n"
             ."Status pembayaran: {$bayar}";
 
-        // Belum dibayar -> tawarkan tombol Bayar; simpan kode untuk langkah bayar.
         if ($reservasi->payment_status !== 'paid') {
             $session->update([
                 'state' => 'pesan_pembayaran',
                 'context' => array_merge($session->context ?? [], ['booking_kode' => $reservasi->kode]),
             ]);
 
-            $kirimChat->sendButtons($phoneNumber, $detail."\n\nSilakan lanjutkan pembayaran.", [
+            $kirimChat->sendButtons($phoneNumber, $detail."\n\nSilakan pilih tindakan:", [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
+                ['id' => 'cek_status', 'title' => 'Cek Status Pembayaran'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
             ]);
 
@@ -1604,6 +1682,66 @@ class KirimChatWebhookController extends Controller
         }
 
         $this->sendReturnButtons($phoneNumber, $detail, $kirimChat);
+    }
+
+    private function cekStatusPembayaran(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $kode = data_get($session->context, 'booking_kode');
+        $reservasi = $kode ? KamarReservasi::with('retribusiBillings')->where('kode', $kode)->first() : null;
+
+        if (! $reservasi) {
+            $kirimChat->sendText($phoneNumber, "Data reservasi tidak ditemukan. Ketik *menu* untuk kembali.");
+            return;
+        }
+
+        $billing = $reservasi->retribusiBillings->last();
+
+        if (! $billing || ! $billing->id_billing) {
+            $kirimChat->sendButtons($phoneNumber, "Belum ada billing e-Retribusi untuk reservasi ini.", [
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+                ['id' => 'bayar', 'title' => 'Bayar'],
+            ]);
+            return;
+        }
+
+        $kirimChat->sendText($phoneNumber, "Sedang memeriksa status pembayaran...");
+
+        $service = app(ERetribusiService::class);
+        $result = $service->checkBilling((string) $billing->id_billing);
+
+        if ($result['success'] && isset($result['response']['data'])) {
+            $data = $result['response']['data'];
+            $tglBayar = $data['tgl_bayar'] ?? null;
+
+            if (! empty($tglBayar)) {
+                if (! $billing->isPaid()) {
+                    $paidAt = Carbon::parse($tglBayar);
+                    $billing->markPaid();
+                    if ($billing->reservasi) {
+                        $billing->reservasi->update(['payment_status' => 'paid']);
+                    }
+                }
+
+                $kirimChat->sendButtons($phoneNumber,
+                    "Status pembayaran: *LUNAS*\n"
+                    ."Tanggal bayar: {$tglBayar}\n"
+                    ."Kode booking: {$reservasi->kode}\n\n"
+                    ."Terima kasih telah melakukan pembayaran.",
+                    [['id' => 'menu', 'title' => 'Menu Utama']]
+                );
+                return;
+            }
+        }
+
+        $kirimChat->sendButtons($phoneNumber,
+            "Status pembayaran: *BELUM LUNAS*\n"
+            ."Kode booking: {$reservasi->kode}\n\n"
+            ."Silakan lanjutkan pembayaran.",
+            [
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+                ['id' => 'bayar', 'title' => 'Bayar'],
+            ]
+        );
     }
 
     /**

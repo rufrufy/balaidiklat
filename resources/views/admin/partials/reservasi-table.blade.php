@@ -68,17 +68,25 @@
                             $billing = $reservasi->retribusiBillings->last();
                         @endphp
                         @if ($billing)
-                            @if ($billing->status === 'sent' && $billing->id_billing)
+                            @if ($billing->status === 'sent' && $billing->id_billing && $reservasi->payment_status !== 'paid')
                                 <div class="d-flex flex-wrap gap-2 align-items-center mb-1">
                                     <button class="btn btn-sm btn-success btn-bayar-qris"
                                         data-url="{{ route('admin.retribusi.fetch-qris', $billing) }}"
                                         data-link="{{ $billing->link_qris ?? '' }}">Bayar QRIS</button>
-                                    @if ($reservasi->payment_status !== 'paid')
-                                        <button class="btn btn-sm btn-outline-info btn-check-billing"
-                                            data-url="{{ route('admin.retribusi.check', $billing) }}">Check Status</button>
-                                    @endif
+                                    <button class="btn btn-sm btn-outline-info btn-check-billing"
+                                        data-url="{{ route('admin.retribusi.check', $billing) }}">Check Status</button>
                                 </div>
                                 <div class="small">
+                                    <span class="text-muted">No. STS:</span>
+                                    <code class="small">{{ $billing->no_ketetapan ?: '-' }}</code>
+                                    @if ($billing->id_billing)
+                                        <br><span class="text-muted">ID Billing:</span>
+                                        <code class="small">{{ $billing->id_billing }}</code>
+                                    @endif
+                                </div>
+                            @elseif ($billing->status === 'sent' && $billing->id_billing && $reservasi->payment_status === 'paid')
+                                <span class="badge bg-success">Lunas via e-Retribusi</span>
+                                <div class="small mt-1">
                                     <span class="text-muted">No. STS:</span>
                                     <code class="small">{{ $billing->no_ketetapan ?: '-' }}</code>
                                     @if ($billing->id_billing)
@@ -209,12 +217,22 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.dataset.initialized = '1';
         btn.addEventListener('click', function () {
             var existingLink = this.dataset.link;
+            var url = this.dataset.url;
+
             if (existingLink) {
+                // Open Bank Jateng QRIS page in new tab
                 window.open(existingLink, '_blank', 'noopener,noreferrer');
+                // Fire server-side download in background (no popup needed)
+                fetch(url, { headers: { 'Accept': 'application/json' } })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.image_url) {
+                            console.log('QRIS image saved:', data.image_url);
+                        }
+                    });
                 return;
             }
 
-            var url = this.dataset.url;
             var originalText = this.textContent;
             this.textContent = 'Memanggil API...';
             this.disabled = true;
@@ -223,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
                     if (data.success && data.link_qris) {
+                        // Open Bank Jateng QRIS page (not the stored image URL)
                         window.open(data.link_qris, '_blank', 'noopener,noreferrer');
                         btn.textContent = 'Bayar QRIS';
                         btn.disabled = false;

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T14:01:02.960Z",
+  "updatedAt": "2026-06-30T15:26:18.882Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -1004,7 +1004,13 @@
     "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\BapendaCallbackController.php",
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_29_000002_add_deleted_status_to_retribusi_billings.php",
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000001_add_soft_deletes_to_kamar_reservasis.php",
-    "C:\\laragon\\www\\balaidiklat\\docker-compose.yml"
+    "C:\\laragon\\www\\balaidiklat\\docker-compose.yml",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\partials",
+    "Mozilla/5.0",
+    "C:\\laragon\\www\\balaidiklat\\test_qris_download.php",
+    "C:\\laragon\\www\\balaidiklat\\test_qris_api.php",
+    "C:\\laragon\\www\\balaidiklat\\test_qris_full.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000002_add_link_qris_image_to_retribusi_billings.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
@@ -1030,6 +1036,12 @@
         "tasks": 0
       },
       "dispatch": {
+        "originalChars": 0,
+        "compressedChars": 0,
+        "estimatedTokensSaved": 0,
+        "tasks": 0
+      },
+      "background_output": {
         "originalChars": 0,
         "compressedChars": 0,
         "estimatedTokensSaved": 0,

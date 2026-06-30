@@ -54,6 +54,7 @@ class RetribusiBilling extends Model
         'kodebayar',
         'link_ssrd',
         'link_qris',
+        'link_qris_image',
         'qris_response_payload',
         'payment_callback_status',
         'paid_at',

@@ -2767,5 +2767,1159 @@
       ]
     },
     "at": "2026-06-30T13:59:33.283Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "human-ui-design",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [],
+      "confidence": 99
+    },
+    "at": "2026-06-30T14:51:34.258Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T14:51:34.283Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T14:51:34.302Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T14:51:34.336Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T14:51:34.355Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T14:51:34.375Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "security"
+      ],
+      "suppressedSkills": [],
+      "confidence": 60
+    },
+    "at": "2026-06-30T14:59:12.076Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T14:59:12.097Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "security",
+    "metadata": {
+      "skill": "security",
+      "intent": "general"
+    },
+    "at": "2026-06-30T14:59:12.115Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-06-30T14:59:12.136Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "security",
+    "metadata": {
+      "skill": "security",
+      "source": "system_injection"
+    },
+    "at": "2026-06-30T14:59:13.129Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence"
+      ],
+      "suppressedSkills": [],
+      "confidence": 99
+    },
+    "at": "2026-06-30T15:05:06.902Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:05:06.927Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:05:06.947Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-06-30T15:05:06.968Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-06-30T15:08:49.538Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:08:49.562Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-06-30T15:08:49.585Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.836,
+      "tokensUsed": 107064,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-06-30T15:11:14.016Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "ui-pattern-library",
+        "human-ui-design",
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 41
+    },
+    "at": "2026-06-30T15:18:49.932Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:18:49.975Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:18:49.992Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:18:50.012Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:18:50.031Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:07.049Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.067Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.083Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.100Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:07.118Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:07.482Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.496Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.510Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:07.522Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:07.534Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "php",
+        "sql-database"
+      ],
+      "suppressedSkills": [
+        "context-preservation"
+      ],
+      "confidence": 99
+    },
+    "at": "2026-06-30T15:19:08.463Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:08.480Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:08.496Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:08.512Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "sql-database",
+    "metadata": {
+      "skill": "sql-database",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:08.528Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:08.543Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:08.856Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:08.876Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:08.891Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:08.910Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:08.929Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "php",
+        "sql-database"
+      ],
+      "suppressedSkills": [
+        "context-preservation"
+      ],
+      "confidence": 99
+    },
+    "at": "2026-06-30T15:19:09.241Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:09.260Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:09.279Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:09.298Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "sql-database",
+    "metadata": {
+      "skill": "sql-database",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:09.317Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:09.335Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:09.799Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:09.818Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:09.835Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:09.854Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:09.873Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "php",
+        "sql-database"
+      ],
+      "suppressedSkills": [
+        "context-preservation"
+      ],
+      "confidence": 99
+    },
+    "at": "2026-06-30T15:19:10.207Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:10.223Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:10.239Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:10.256Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "sql-database",
+    "metadata": {
+      "skill": "sql-database",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:10.275Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:10.291Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-30T15:19:10.594Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:10.612Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:10.628Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:10.646Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:10.661Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "php",
+        "sql-database"
+      ],
+      "suppressedSkills": [
+        "context-preservation"
+      ],
+      "confidence": 99
+    },
+    "at": "2026-06-30T15:19:10.994Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:11.010Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:11.027Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:11.044Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "sql-database",
+    "metadata": {
+      "skill": "sql-database",
+      "intent": "feature"
+    },
+    "at": "2026-06-30T15:19:11.060Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:11.077Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:11.661Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:11.681Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:11.698Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:11.714Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:11.730Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-30T15:19:12.134Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:12.154Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:12.173Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:12.188Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:12.208Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:12.619Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:12.638Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:12.658Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:12.677Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:12.697Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:13.010Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.027Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.046Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.064Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:13.082Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "php",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-06-30T15:19:13.433Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.453Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.473Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-06-30T15:19:13.493Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:13.512Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "php",
+    "metadata": {
+      "skill": "php",
+      "source": "system_injection"
+    },
+    "at": "2026-06-30T15:19:15.331Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "source": "system_injection"
+    },
+    "at": "2026-06-30T15:19:15.349Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-06-30T15:19:23.661Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:23.688Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:23.714Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-06-30T15:19:23.733Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T15:19:23.750Z"
   }
 ]

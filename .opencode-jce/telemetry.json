@@ -2508,5 +2508,103 @@
       ]
     },
     "at": "2026-06-30T08:45:02.288Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "devops",
+        "ui-pattern-library",
+        "human-ui-design",
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 45
+    },
+    "at": "2026-06-30T08:58:53.517Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "devops",
+    "metadata": {
+      "skill": "devops",
+      "intent": "general"
+    },
+    "at": "2026-06-30T08:58:53.539Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-06-30T08:58:53.559Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-06-30T08:58:53.577Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T08:58:53.594Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-06-30T08:58:53.614Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-06-30T09:06:40.430Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-06-30T09:06:40.449Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-06-30T09:06:40.466Z"
   }
 ]

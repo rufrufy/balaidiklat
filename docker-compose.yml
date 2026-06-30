@@ -19,6 +19,7 @@ services:
     #   dockerfile: Dockerfile
     restart: unless-stopped
     environment:
+      TZ=Asia/Jakarta
       APP_NAME: "${APP_NAME:-Balai Diklat}"
       APP_ENV: "${APP_ENV:-production}"
       APP_KEY: "${APP_KEY}"
@@ -26,6 +27,9 @@ services:
       APP_URL: "https://balaidiklat.bkpp.dev"
       APP_LOCALE: "${APP_LOCALE:-id}"
       APP_FALLBACK_LOCALE: "${APP_FALLBACK_LOCALE:-en}"
+      APP_TIMEZONE: "${APP_TIMEZONE:-Asia/Jakarta}"
+
+      TZ: "${TZ:-Asia/Jakarta}"
 
       LOG_CHANNEL: "${LOG_CHANNEL:-stack}"
       LOG_LEVEL: "${LOG_LEVEL:-error}"

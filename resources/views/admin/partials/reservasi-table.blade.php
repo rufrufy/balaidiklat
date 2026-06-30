@@ -69,13 +69,21 @@
                         @endphp
                         @if ($billing)
                             @if ($billing->status === 'sent' && $billing->id_billing)
-                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                <div class="d-flex flex-wrap gap-2 align-items-center mb-1">
                                     <button class="btn btn-sm btn-success btn-bayar-qris"
                                         data-url="{{ route('admin.retribusi.fetch-qris', $billing) }}"
                                         data-link="{{ $billing->link_qris ?? '' }}">Bayar QRIS</button>
                                     @if ($reservasi->payment_status !== 'paid')
                                         <button class="btn btn-sm btn-outline-info btn-check-billing"
                                             data-url="{{ route('admin.retribusi.check', $billing) }}">Check Status</button>
+                                    @endif
+                                </div>
+                                <div class="small">
+                                    <span class="text-muted">No. STS:</span>
+                                    <code class="small">{{ $billing->no_ketetapan ?: '-' }}</code>
+                                    @if ($billing->id_billing)
+                                        <br><span class="text-muted">ID Billing:</span>
+                                        <code class="small">{{ $billing->id_billing }}</code>
                                     @endif
                                 </div>
                             @elseif ($billing->status === 'draft' || $billing->status === 'failed')

@@ -1279,17 +1279,8 @@ class KirimChatWebhookController extends Controller
                 $message .= "Link QRIS:\n{$linkQris}\n\n";
             }
 
-            if ($billing->link_ssrd) {
-                $message .= "Link SSRD e-Retribusi:\n{$billing->link_ssrd}\n\n";
-            }
-
-            if (! $linkQris && ! $billing->link_ssrd) {
-                $message .= "Kode bayar: {$billing->kodebayar}\n\n";
-            }
-
             $message .= "Atau transfer ke:\n"
                 ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
-                ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
                 ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
 
             $kirimChat->sendText($phoneNumber, $message);

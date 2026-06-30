@@ -54,7 +54,7 @@ class RetribusiBillingController extends Controller
                 $imageUrl = $billing->link_qris_image;
 
                 if (! $imageUrl) {
-                    $imageUrl = $this->downloadQrisImage($billing->link_qris, $billing);
+                    $imageUrl = $service->downloadQrisImage($billing);
                 }
 
                 return response()->json([
@@ -67,7 +67,7 @@ class RetribusiBillingController extends Controller
             $result = $service->fetchAndSaveQris($billing);
 
             if ($result['success'] && isset($result['link_qris'])) {
-                $imageUrl = $this->downloadQrisImage($result['link_qris'], $billing);
+                $imageUrl = $service->downloadQrisImage($billing);
                 $result['image_url'] = $imageUrl;
             }
         } catch (\Throwable $e) {
@@ -84,132 +84,6 @@ class RetribusiBillingController extends Controller
         }
 
         return response()->json($result, $result['success'] ? 200 : 400);
-    }
-
-    private function downloadQrisImage(string $linkQris, RetribusiBilling $billing): ?string
-    {
-        try {
-            $cleanUrl = (string) preg_replace('#(?<!:)/+#', '/', $linkQris);
-
-            $browserHeaders = [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
-                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/*,*/*;q=0.8',
-                'Accept-Language' => 'id',
-            ];
-
-            $response = Http::timeout(30)
-                ->withHeaders($browserHeaders)
-                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
-                ->get($cleanUrl);
-
-            if ($response->failed()) {
-                Log::warning('QRIS page fetch failed', [
-                    'billing_id' => $billing->id,
-                    'url' => $cleanUrl,
-                    'status' => $response->status(),
-                ]);
-
-                return null;
-            }
-
-            $body = $response->body();
-            $contentType = $response->header('Content-Type') ?? '';
-
-            if (empty($body)) {
-                Log::warning('QRIS page response empty', ['url' => $cleanUrl]);
-
-                return null;
-            }
-
-            // If response is already an image (direct CDN URL), save it directly
-            if (str_contains($contentType, 'image/') || str_starts_with($body, "\x89PNG") || str_starts_with($body, "\xFF\xD8\xFF")) {
-                return $this->saveQrisImage($body, $contentType, $billing->no_ketetapan, $billing->id);
-            }
-
-            // Otherwise, it's an HTML page from Bank Jateng API. Extract PNG URL from <img id="qrResults">
-            preg_match('/<img[^>]+id="qrResults"[^>]+src="([^"]+)"/i', $body, $matches);
-            $pngUrl = $matches[1] ?? null;
-
-            if (! $pngUrl) {
-                preg_match('#/uploads/(\d+\.png)#i', $body, $fallbackMatches);
-                $pngUrl = $fallbackMatches[1]
-                    ? 'https://bimaqr.bankjateng.co.id/uploads/'.$fallbackMatches[1]
-                    : null;
-            }
-
-            if (! $pngUrl) {
-                Log::warning('QRIS page has no PNG image', [
-                    'billing_id' => $billing->id,
-                    'url' => $cleanUrl,
-                    'body_preview' => substr($body, 0, 500),
-                ]);
-
-                return null;
-            }
-
-            $cleanPngUrl = (string) preg_replace('#(?<!:)/+#', '/', $pngUrl);
-
-            $imageResponse = Http::timeout(30)
-                ->withHeaders([
-                    'User-Agent' => $browserHeaders['User-Agent'],
-                    'Accept' => 'image/*',
-                    'Accept-Language' => 'id',
-                    'Referer' => 'https://bimaqr.bankjateng.co.id/',
-                ])
-                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
-                ->get($cleanPngUrl);
-
-            if ($imageResponse->failed()) {
-                Log::warning('QRIS PNG download failed', [
-                    'billing_id' => $billing->id,
-                    'png_url' => $cleanPngUrl,
-                    'status' => $imageResponse->status(),
-                ]);
-
-                return null;
-            }
-
-            $pngBody = $imageResponse->body();
-            $pngContentType = $imageResponse->header('Content-Type') ?? '';
-
-            if (empty($pngBody)) {
-                Log::warning('QRIS PNG body empty', ['png_url' => $cleanPngUrl]);
-
-                return null;
-            }
-
-            return $this->saveQrisImage($pngBody, $pngContentType, $billing->no_ketetapan, $billing->id);
-        } catch (\Throwable $e) {
-            Log::error('fetchQris download image error', [
-                'billing_id' => $billing->id,
-                'link' => $linkQris,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        }
-    }
-
-    private function saveQrisImage(string $body, string $contentType, string $prefix, int $billingId): ?string
-    {
-        $ext = str_contains($contentType, 'png') || str_starts_with($body, "\x89PNG")
-            ? 'png'
-            : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') || str_starts_with($body, "\xFF\xD8\xFF") ? 'jpg' : 'png');
-        $filename = 'qris/'.$prefix.'-'.Str::random(8).'.'.$ext;
-
-        Storage::disk('public')->put($filename, $body);
-
-        $url = asset('storage/'.$filename);
-
-        RetribusiBilling::where('id', $billingId)->update(['link_qris_image' => $url]);
-
-        Log::info('QRIS image saved', [
-            'billing_id' => $billingId,
-            'filename' => $filename,
-            'size' => strlen($body),
-        ]);
-
-        return $url;
     }
 
     public function apiShow(RetribusiBilling $billing): JsonResponse

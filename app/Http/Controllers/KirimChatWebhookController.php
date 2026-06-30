@@ -1270,10 +1270,8 @@ class KirimChatWebhookController extends Controller
         $imageUrl = $billing->link_qris_image;
 
         if (! $imageUrl && $linkQris) {
-            $imageUrl = $this->downloadQrisImage($linkQris, $reservasi->kode);
-            if ($imageUrl) {
-                $billing->update(['link_qris_image' => $imageUrl]);
-            }
+            $billing->refresh();
+            $imageUrl = $service->downloadQrisImage($billing);
         }
 
         if ($imageUrl) {
@@ -1306,126 +1304,6 @@ class KirimChatWebhookController extends Controller
 
             $kirimChat->sendText($phoneNumber, $message);
         }
-    }
-
-    private function downloadQrisImage(?string $linkQris, string $kode): ?string
-    {
-        if (! $linkQris) {
-            return null;
-        }
-
-        try {
-            $cleanUrl = (string) preg_replace('#(?<!:)/+#', '/', $linkQris);
-
-            $browserHeaders = [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
-                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/*,*/*;q=0.8',
-                'Accept-Language' => 'id',
-            ];
-
-            $response = Http::timeout(30)
-                ->withHeaders($browserHeaders)
-                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
-                ->get($cleanUrl);
-
-            if ($response->failed()) {
-                Log::warning('QRIS page fetch failed', [
-                    'link' => $cleanUrl,
-                    'status' => $response->status(),
-                ]);
-
-                return null;
-            }
-
-            $body = $response->body();
-            $contentType = $response->header('Content-Type') ?? '';
-
-            if (empty($body)) {
-                Log::warning('QRIS page response empty', ['link' => $cleanUrl]);
-
-                return null;
-            }
-
-            if (str_contains($contentType, 'image/') || str_starts_with($body, "\x89PNG") || str_starts_with($body, "\xFF\xD8\xFF")) {
-                return $this->saveQrisImageFile($body, $contentType, $kode);
-            }
-
-            preg_match('/<img[^>]+id="qrResults"[^>]+src="([^"]+)"/i', $body, $matches);
-            $pngUrl = $matches[1] ?? null;
-
-            if (! $pngUrl) {
-                preg_match('#/uploads/(\d+\.png)#i', $body, $fallbackMatches);
-                $pngUrl = $fallbackMatches[1]
-                    ? 'https://bimaqr.bankjateng.co.id/uploads/'.$fallbackMatches[1]
-                    : null;
-            }
-
-            if (! $pngUrl) {
-                Log::warning('QRIS page has no PNG image', [
-                    'link' => $cleanUrl,
-                    'body_preview' => substr($body, 0, 500),
-                ]);
-
-                return null;
-            }
-
-            $cleanPngUrl = (string) preg_replace('#(?<!:)/+#', '/', $pngUrl);
-
-            $imageResponse = Http::timeout(30)
-                ->withHeaders([
-                    'User-Agent' => $browserHeaders['User-Agent'],
-                    'Accept' => 'image/*',
-                    'Accept-Language' => 'id',
-                    'Referer' => 'https://bimaqr.bankjateng.co.id/',
-                ])
-                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
-                ->get($cleanPngUrl);
-
-            if ($imageResponse->failed()) {
-                Log::warning('QRIS PNG download failed', [
-                    'png_url' => $cleanPngUrl,
-                    'status' => $imageResponse->status(),
-                ]);
-
-                return null;
-            }
-
-            $pngBody = $imageResponse->body();
-            $pngContentType = $imageResponse->header('Content-Type') ?? '';
-
-            if (empty($pngBody)) {
-                Log::warning('QRIS PNG body empty', ['png_url' => $cleanPngUrl]);
-
-                return null;
-            }
-
-            return $this->saveQrisImageFile($pngBody, $pngContentType, $kode);
-        } catch (\Throwable $e) {
-            Log::error('Exception downloading QRIS image', [
-                'link' => $linkQris,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        }
-    }
-
-    private function saveQrisImageFile(string $body, string $contentType, string $kode): ?string
-    {
-        $ext = str_contains($contentType, 'png') || str_starts_with($body, "\x89PNG")
-            ? 'png'
-            : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') || str_starts_with($body, "\xFF\xD8\xFF") ? 'jpg' : 'png');
-        $filename = 'qris/'.$kode.'-'.Str::random(8).'.'.$ext;
-
-        Storage::disk('public')->put($filename, $body);
-
-        Log::info('QRIS image saved', [
-            'kode' => $kode,
-            'filename' => $filename,
-            'size' => strlen($body),
-        ]);
-
-        return asset('storage/'.$filename);
     }
 
     private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void

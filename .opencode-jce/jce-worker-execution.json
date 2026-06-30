@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T15:26:18.882Z",
+  "updatedAt": "2026-06-30T15:38:27.786Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -16,15 +16,6 @@
     }
   ],
   "verificationEvidence": [
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
     {
       "taskId": "auto-capture",
       "type": "command",
@@ -914,6 +905,16 @@
       "command": "docker compose config --quiet 2>&1",
       "status": "unknown",
       "summary": "docker compose config --quiet 2>&1 -> unknown",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "Get-Content \"C:\\laragon\\www\\balaidiklat\\storage\\logs\\laravel.log\" -Tail 80",
+      "status": "fail",
+      "summary": "Get-Content \"C:\\laragon\\www\\balaidiklat\\storage\\logs\\laravel.log\" -Tail 80 -> fail",
       "area": "auto-capture",
       "captured": "auto",
       "workflowId": "workflow-1782720773997"

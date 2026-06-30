@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\RetribusiBilling;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ERetribusiService
 {
@@ -249,5 +251,142 @@ class ERetribusiService
         Log::info('Bapenda billing deleted', ['id_billing' => $idBilling]);
 
         return ['success' => true, 'response' => $result];
+    }
+
+    /**
+     * Download QRIS image from Bank Jateng CDN via the API page.
+     * 1. Fetch the Bank Jateng QRIS page (HTML)
+     * 2. Extract the PNG URL from <img id="qrResults">
+     * 3. Download the PNG and save to storage
+     * 4. Update billing's link_qris_image field
+     */
+    public function downloadQrisImage(RetribusiBilling $billing): ?string
+    {
+        $linkQris = $billing->link_qris;
+        if (! $linkQris) {
+            return null;
+        }
+
+        try {
+            $cleanUrl = (string) preg_replace('#(?<!:)/+#', '/', $linkQris);
+
+            $browserHeaders = [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/*,*/*;q=0.8',
+                'Accept-Language' => 'id',
+            ];
+
+            $response = Http::timeout(30)
+                ->withHeaders($browserHeaders)
+                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
+                ->get($cleanUrl);
+
+            if ($response->failed()) {
+                Log::warning('QRIS page fetch failed', [
+                    'billing_id' => $billing->id,
+                    'url' => $cleanUrl,
+                    'status' => $response->status(),
+                ]);
+
+                return null;
+            }
+
+            $body = $response->body();
+            $contentType = $response->header('Content-Type') ?? '';
+
+            if (empty($body)) {
+                Log::warning('QRIS page response empty', ['billing_id' => $billing->id, 'url' => $cleanUrl]);
+
+                return null;
+            }
+
+            if (str_contains($contentType, 'image/') || str_starts_with($body, "\x89PNG") || str_starts_with($body, "\xFF\xD8\xFF")) {
+                return $this->saveQrisToStorage($body, $contentType, $billing);
+            }
+
+            preg_match('/<img[^>]+id="qrResults"[^>]+src="([^"]+)"/i', $body, $matches);
+            $pngUrl = $matches[1] ?? null;
+
+            if (! $pngUrl) {
+                preg_match('#/uploads/(\d+\.png)#i', $body, $fallbackMatches);
+                $pngUrl = $fallbackMatches[1]
+                    ? 'https://bimaqr.bankjateng.co.id/uploads/'.$fallbackMatches[1]
+                    : null;
+            }
+
+            if (! $pngUrl) {
+                Log::warning('QRIS page has no PNG image', [
+                    'billing_id' => $billing->id,
+                    'url' => $cleanUrl,
+                    'body_preview' => substr($body, 0, 500),
+                ]);
+
+                return null;
+            }
+
+            $cleanPngUrl = (string) preg_replace('#(?<!:)/+#', '/', $pngUrl);
+
+            $imageResponse = Http::timeout(30)
+                ->withHeaders([
+                    'User-Agent' => $browserHeaders['User-Agent'],
+                    'Accept' => 'image/*',
+                    'Accept-Language' => 'id',
+                    'Referer' => 'https://bimaqr.bankjateng.co.id/',
+                ])
+                ->withOptions(['verify' => true, 'allow_redirects' => ['max' => 5]])
+                ->get($cleanPngUrl);
+
+            if ($imageResponse->failed()) {
+                Log::warning('QRIS PNG download failed', [
+                    'billing_id' => $billing->id,
+                    'png_url' => $cleanPngUrl,
+                    'status' => $imageResponse->status(),
+                ]);
+
+                return null;
+            }
+
+            $pngBody = $imageResponse->body();
+            $pngContentType = $imageResponse->header('Content-Type') ?? '';
+
+            if (empty($pngBody)) {
+                Log::warning('QRIS PNG body empty', ['billing_id' => $billing->id, 'png_url' => $cleanPngUrl]);
+
+                return null;
+            }
+
+            return $this->saveQrisToStorage($pngBody, $pngContentType, $billing);
+        } catch (\Throwable $e) {
+            Log::error('QRIS image download error', [
+                'billing_id' => $billing->id,
+                'link' => $linkQris,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    private function saveQrisToStorage(string $body, string $contentType, RetribusiBilling $billing): ?string
+    {
+        $ext = str_contains($contentType, 'png') || str_starts_with($body, "\x89PNG")
+            ? 'png'
+            : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') || str_starts_with($body, "\xFF\xD8\xFF") ? 'jpg' : 'png');
+        $filename = 'qris/'.($billing->no_ketetapan ?: 'billing-'.$billing->id).'-'.Str::random(8).'.'.$ext;
+
+        Storage::disk('public')->put($filename, $body);
+
+        $url = asset('storage/'.$filename);
+
+        $billing->update(['link_qris_image' => $url]);
+
+        Log::info('QRIS image saved to storage', [
+            'billing_id' => $billing->id,
+            'filename' => $filename,
+            'size' => strlen($body),
+            'url' => $url,
+        ]);
+
+        return $url;
     }
 }

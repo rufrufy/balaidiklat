@@ -46,7 +46,20 @@ class RetribusiBillingController extends Controller
 
     public function fetchQris(RetribusiBilling $billing, ERetribusiService $service): JsonResponse
     {
-        $result = $service->fetchAndSaveQris($billing);
+        try {
+            $result = $service->fetchAndSaveQris($billing);
+        } catch (\Throwable $e) {
+            Log::error('fetchQris exception', [
+                'billing_id' => $billing->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal terhubung ke server QRIS: '.$e->getMessage(),
+            ], 500);
+        }
 
         return response()->json($result, $result['success'] ? 200 : 400);
     }

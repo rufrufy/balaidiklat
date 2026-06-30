@@ -1212,14 +1212,17 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
-        $kirimChat->sendText(
-            $phoneNumber,
-            "Sedang memproses pembayaran Anda ke sistem e-Retribusi Bapenda...\n\nMohon tunggu sebentar."
-        );
-
         $billing = $this->createBillingForReservasi($reservasi);
-
         $service = app(ERetribusiService::class);
+
+        $needProcessing = $billing->status !== 'sent' || ! $billing->link_qris;
+
+        if ($needProcessing) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Sedang memproses pembayaran Anda ke sistem e-Retribusi Bapenda...\n\nMohon tunggu sebentar."
+            );
+        }
 
         if ($billing->status !== 'sent') {
             $result = $service->sendBapendaBilling($billing);
@@ -1264,8 +1267,13 @@ class KirimChatWebhookController extends Controller
             $caption = "Pembayaran via QRIS\n\n"
                 ."Reservasi: {$reservasi->kode}\n"
                 ."Nominal: {$nominalText}\n"
-                ."Berlaku sampai: {$expiredText}\n\n"
-                ."Scan QR code di atas untuk membayar via QRIS.\n\n"
+                ."Berlaku sampai: {$expiredText}\n\n";
+
+            if ($linkQris) {
+                $caption .= "Link Pembayaran:\n{$linkQris}\n\n";
+            }
+
+            $caption .= "Scan QR code di atas atau klik link untuk membayar.\n\n"
                 ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
 
             $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
@@ -1294,7 +1302,9 @@ class KirimChatWebhookController extends Controller
         }
 
         try {
-            $imageResponse = Http::timeout(30)->get($linkQris);
+            $imageResponse = Http::timeout(30)->withOptions([
+                'allow_redirects' => ['max' => 5],
+            ])->get($linkQris);
 
             if ($imageResponse->failed()) {
                 Log::warning('Failed to download QRIS image', [
@@ -1307,6 +1317,22 @@ class KirimChatWebhookController extends Controller
 
             $contentType = $imageResponse->header('Content-Type') ?? '';
             $body = $imageResponse->body();
+
+            if (empty($body)) {
+                Log::warning('QRIS image response empty', ['link' => $linkQris]);
+
+                return null;
+            }
+
+            if (! str_contains($contentType, 'image/') && strlen($body) > 0 && strlen($body) < 5000) {
+                Log::warning('QRIS link returned non-image content', [
+                    'link' => $linkQris,
+                    'content_type' => $contentType,
+                    'body_preview' => substr($body, 0, 200),
+                ]);
+
+                return null;
+            }
 
             $ext = str_contains($contentType, 'png') ? 'png' : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') ? 'jpg' : 'png');
             $filename = 'qris/'.$kode.'-'.Str::random(8).'.'.$ext;

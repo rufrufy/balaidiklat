@@ -9,6 +9,7 @@
                 <th>Billing</th>
                 <th>eRetribusi</th>
                 <th>Status</th>
+                <th>Dibuat</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -63,20 +64,34 @@
                         </div>
                     </td>
                     <td>
-                        @forelse ($reservasi->retribusiBillings as $billing)
-                            <div class="small mb-1">Rp{{ number_format($billing->kredit, 0, ',', '.') }} <span
-                                    class="badge-soft badge-primary-soft">{{ $billing->status }}</span>
-                                @if ($billing->status !== 'sent')
-                                    <form method="POST" action="{{ route('admin.retribusi.send', $billing) }}"
-                                        class="d-inline">@csrf<button class="btn btn-sm btn-link p-0"
-                                            type="submit">Kirim</button></form>
+                        @php
+                            $billing = $reservasi->retribusiBillings->last();
+                        @endphp
+                        @if ($billing)
+                            @if ($billing->status === 'sent' && $billing->id_billing)
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <button class="btn btn-sm btn-success btn-bayar-qris"
+                                        data-url="{{ route('admin.retribusi.fetch-qris', $billing) }}"
+                                        data-link="{{ $billing->link_qris ?? '' }}">Bayar QRIS</button>
+                                    @if ($reservasi->payment_status !== 'paid')
+                                        <button class="btn btn-sm btn-outline-info btn-check-billing"
+                                            data-url="{{ route('admin.retribusi.check', $billing) }}">Check Status</button>
+                                    @endif
+                                </div>
+                            @elseif ($billing->status === 'draft' || $billing->status === 'failed')
+                                <form method="POST" action="{{ route('admin.retribusi.send', $billing) }}" class="d-inline">@csrf
+                                    <button class="btn btn-sm btn-primary" type="submit">Kirim e-Retribusi</button>
+                                </form>
+                                @if ($billing->status === 'failed')
+                                    <span class="badge-soft badge-danger-soft small ms-1">Gagal</span>
                                 @endif
-                            </div>
-                        @empty
-                            <span class="small text-muted">-</span>
-                        @endforelse
-                        <button class="btn btn-sm btn-link p-0" data-bs-toggle="modal"
-                            data-bs-target="#retribusiModal{{ $reservasi->id }}">+ Billing</button>
+                            @elseif ($billing->status === 'deleted')
+                                <span class="badge-soft badge-secondary-soft small">Dihapus</span>
+                            @endif
+                        @else
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                                data-bs-target="#retribusiModal{{ $reservasi->id }}">+ Billing</button>
+                        @endif
                     </td>
                     <td>
                         @php
@@ -89,16 +104,6 @@
                                 'approved' => 'Approved',
                                 'rejected' => 'Rejected',
                                 default => 'Pending',
-                            };
-                            $nextStatus = match($reservasi->status) {
-                                'pending' => 'approved',
-                                'approved' => 'rejected',
-                                'rejected' => 'pending',
-                            };
-                            $nextLabel = match($nextStatus) {
-                                'approved' => 'Approve',
-                                'rejected' => 'Reject',
-                                'pending' => 'Kembalikan ke Pending',
                             };
                         @endphp
                         <div class="dropdown">
@@ -123,17 +128,21 @@
                         </div>
                     </td>
                     <td>
+                        <div class="small">{{ optional($reservasi->created_at)->format('d M Y') }}</div>
+                        <div class="small text-muted">{{ optional($reservasi->created_at)->format('H:i') }}</div>
+                    </td>
+                    <td>
                         <button class="btn btn-sm btn-ghost" data-bs-toggle="modal"
                             data-bs-target="#editReservation{{ $reservasi->id }}">Edit</button>
                         <form method="POST" action="{{ route('admin.reservasi.destroy', $reservasi) }}"
-                            class="d-inline" onsubmit="return confirm('Hapus reservasi ini?')">@csrf
+                            class="d-inline" onsubmit="return confirm('Hapus reservasi ini? Billing di e-Retribusi juga akan dihapus.')">@csrf
                             @method('DELETE')<button class="btn btn-sm btn-outline-danger" type="submit">Hapus</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-muted text-center py-4">Belum ada data reservasi.</td>
+                    <td colspan="9" class="text-muted text-center py-4">Belum ada data reservasi.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -184,3 +193,71 @@
         </div>
     </div>
 @endforeach
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.btn-bayar-qris').forEach(function (btn) {
+        if (btn.dataset.initialized) return;
+        btn.dataset.initialized = '1';
+        btn.addEventListener('click', function () {
+            var existingLink = this.dataset.link;
+            if (existingLink) {
+                window.open(existingLink, '_blank', 'noopener,noreferrer');
+                return;
+            }
+
+            var url = this.dataset.url;
+            var originalText = this.textContent;
+            this.textContent = 'Memanggil API...';
+            this.disabled = true;
+
+            fetch(url, { headers: { 'Accept': 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.success && data.link_qris) {
+                        window.open(data.link_qris, '_blank', 'noopener,noreferrer');
+                        btn.textContent = 'Bayar QRIS';
+                        btn.disabled = false;
+                    } else {
+                        alert('Gagal mendapatkan link QRIS: ' + (data.message || 'Unknown error'));
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(function () {
+                    alert('Terjadi kesalahan jaringan.');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                });
+        });
+    });
+
+    document.querySelectorAll('.btn-check-billing').forEach(function (btn) {
+        if (btn.dataset.initialized) return;
+        btn.dataset.initialized = '1';
+        btn.addEventListener('click', function () {
+            var url = this.dataset.url;
+            var originalText = this.textContent;
+            this.textContent = 'Checking...';
+            this.disabled = true;
+            fetch(url, { headers: { 'Accept': 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        alert('Status billing diperbarui. Halaman akan dimuat ulang.');
+                        location.reload();
+                    } else {
+                        alert('Gagal: ' + (data.message || 'Unknown error'));
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(function () {
+                    alert('Terjadi kesalahan jaringan.');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                });
+        });
+    });
+});
+</script>

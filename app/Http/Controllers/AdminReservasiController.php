@@ -49,9 +49,52 @@ class AdminReservasiController extends Controller
 
     public function destroy(KamarReservasi $reservasi): RedirectResponse
     {
+        $this->deleteBillingsFromBapenda($reservasi);
+
         $reservasi->delete();
 
         return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', 'Reservasi berhasil dihapus.');
+    }
+
+    private function deleteBillingsFromBapenda(KamarReservasi $reservasi): void
+    {
+        $billings = $reservasi->retribusiBillings()
+            ->whereNotNull('id_billing')
+            ->whereIn('status', ['draft', 'sent', 'failed'])
+            ->where(function ($q): void {
+                $q->where('payment_callback_status', '!=', 'paid')
+                    ->orWhereNull('payment_callback_status');
+            })
+            ->get();
+
+        if ($billings->isEmpty()) {
+            return;
+        }
+
+        $service = app(ERetribusiService::class);
+
+        foreach ($billings as $billing) {
+            try {
+                $result = $service->deleteBilling((string) $billing->id_billing);
+
+                if ($result['success']) {
+                    $billing->update(['status' => 'deleted', 'payment_callback_status' => 'deleted']);
+                } else {
+                    Log::warning('Failed to delete billing from Bapenda during reservasi destroy', [
+                        'reservasi_id' => $reservasi->id,
+                        'billing_id' => $billing->id,
+                        'id_billing' => $billing->id_billing,
+                        'error' => $result['message'] ?? 'Unknown',
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                Log::error('Exception deleting billing from Bapenda during reservasi destroy', [
+                    'reservasi_id' => $reservasi->id,
+                    'billing_id' => $billing->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
     }
 
     public function togglePayment(KamarReservasi $reservasi): RedirectResponse
@@ -74,9 +117,10 @@ class AdminReservasiController extends Controller
             'instansi' => [$isInstansi ? 'required' : 'nullable', 'string', 'max:255'],
             'kegiatan' => [$isInstansi ? 'required' : 'nullable', 'string', 'max:255'],
             'phone_number' => ['nullable', 'string', 'max:40'],
+            'kamar_id' => ['nullable', 'exists:kamars,id'],
             'jenis_kelas' => ['nullable', 'string', 'max:255'],
             'jumlah' => ['nullable', 'integer', 'min:1'],
-            'tanggal_masuk' => ['nullable', 'date'],
+            'tanggal_masuk' => ['nullable', 'date', 'after_or_equal:today'],
             'tanggal_keluar' => ['nullable', 'date', 'after_or_equal:tanggal_masuk'],
             'jumlah_unit' => ['nullable', 'integer', 'min:1'],
             'jumlah_peserta' => [$isInstansi ? 'required' : 'nullable', 'integer', 'min:1'],
@@ -84,6 +128,7 @@ class AdminReservasiController extends Controller
             'payment_status' => ['nullable', 'in:unpaid,partial,paid'],
             'catatan' => ['nullable', 'string'],
             'items' => ['nullable', 'array'],
+            'items.*.kamar_id' => ['nullable', 'exists:kamars,id'],
             'items.*.jenis_kelas' => ['nullable', 'string', 'max:255'],
             'items.*.jumlah' => ['nullable', 'integer', 'min:1'],
             'items.*.tanggal_masuk' => ['nullable', 'date'],
@@ -95,7 +140,7 @@ class AdminReservasiController extends Controller
     private function reservationPayload(array $data, bool $multipleKamar): array
     {
         $duration = $this->duration($data['tanggal_masuk'] ?? null, $data['tanggal_keluar'] ?? null);
-        $kamar = $multipleKamar ? null : Kamar::where('jenis_kelas', $data['jenis_kelas'] ?? '')->first();
+        $kamar = $multipleKamar ? null : $this->resolveKamar($data);
         $unit = $multipleKamar ? 1 : max(1, (int) ($data['jumlah'] ?? $data['jumlah_unit'] ?? 1));
         $isInstansi = ($data['tipe_penyewa'] ?? 'perorangan') === 'instansi';
 
@@ -107,6 +152,7 @@ class AdminReservasiController extends Controller
             'kegiatan' => $isInstansi ? ($data['kegiatan'] ?? null) : null,
             'phone_number' => $data['phone_number'] ?? null,
             'jenis_kelas' => $multipleKamar ? null : ($kamar?->jenis_kelas ?? ($data['jenis_kelas'] ?? null)),
+            'kamar_id' => $multipleKamar ? null : ($kamar?->id ?? ($data['kamar_id'] ?? null)),
             'jumlah' => $multipleKamar ? 1 : $unit,
             'multiple_kamar' => $multipleKamar,
             'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
@@ -120,33 +166,55 @@ class AdminReservasiController extends Controller
         ];
     }
 
+    private function resolveKamar(array $data): ?Kamar
+    {
+        if (! empty($data['kamar_id'])) {
+            return Kamar::find($data['kamar_id']);
+        }
+        if (! empty($data['jenis_kelas'])) {
+            return Kamar::where('jenis_kelas', $data['jenis_kelas'])->first();
+        }
+
+        return null;
+    }
+
+    private function resolveKamarFromItem(array $item): ?Kamar
+    {
+        if (! empty($item['kamar_id'])) {
+            return Kamar::find($item['kamar_id']);
+        }
+        if (! empty($item['jenis_kelas'])) {
+            return Kamar::where('jenis_kelas', $item['jenis_kelas'])->first();
+        }
+
+        return null;
+    }
+
     private function calcTotal(array $data, bool $multipleKamar, int $duration): int
     {
         if ($multipleKamar) {
             $total = 0;
             foreach ($data['items'] ?? [] as $item) {
-                if (empty($item['jenis_kelas'])) {
-                    continue;
-                }
-                $kamar = Kamar::where('jenis_kelas', $item['jenis_kelas'])->first();
+                $kamar = $this->resolveKamarFromItem($item);
                 if (! $kamar) {
                     continue;
                 }
                 $dur = $this->duration($item['tanggal_masuk'] ?? null, $item['tanggal_keluar'] ?? null);
-                $total += $kamar->harga_per_malam * ($item['jumlah'] ?? 1) * $dur;
+                $total += $kamar->harga_per_malam * ($item['jumlah'] ?? $item['jumlah_unit'] ?? 1) * $dur;
             }
 
             return $total;
         }
 
-        $kamar = Kamar::where('jenis_kelas', $data['jenis_kelas'] ?? '')->first();
+        $kamar = $this->resolveKamar($data);
 
-        return ($kamar?->harga_per_malam ?? 0) * ($data['jumlah'] ?? 1) * $duration;
+        return ($kamar?->harga_per_malam ?? 0) * ($data['jumlah'] ?? $data['jumlah_unit'] ?? 1) * $duration;
     }
 
     private function syncItems(KamarReservasi $reservasi, array $data, Request $request): void
     {
         $items = $request->boolean('multiple_kamar') ? ($data['items'] ?? []) : [[
+            'kamar_id' => $data['kamar_id'] ?? null,
             'jenis_kelas' => $data['jenis_kelas'] ?? null,
             'jumlah' => $data['jumlah'] ?? $data['jumlah_unit'] ?? 1,
             'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
@@ -156,12 +224,8 @@ class AdminReservasiController extends Controller
         $total = 0;
 
         foreach ($items as $item) {
-            if (empty($item['jenis_kelas']) || empty($item['tanggal_masuk']) || empty($item['tanggal_keluar'])) {
-                continue;
-            }
-
-            $kamar = Kamar::where('jenis_kelas', $item['jenis_kelas'])->first();
-            if (! $kamar) {
+            $kamar = $this->resolveKamarFromItem($item);
+            if (! $kamar || empty($item['tanggal_masuk']) || empty($item['tanggal_keluar'])) {
                 continue;
             }
 

@@ -553,6 +553,17 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
+        if (Carbon::parse($tanggal)->lt(Carbon::today())) {
+            $todayTeks = Carbon::today()->format('d-m-Y');
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Tanggal mulai tidak boleh sebelum hari ini ({$todayTeks}). Silakan kirim *Tanggal Mulai* yang benar.\n"
+                ."Contoh: {$todayTeks}"
+            );
+
+            return;
+        }
+
         $session->update([
             'state' => 'pesan_tanggal_keluar',
             'context' => array_merge($session->context ?? [], ['tanggal_masuk' => $tanggal]),
@@ -1209,55 +1220,117 @@ class KirimChatWebhookController extends Controller
         $billing = $this->createBillingForReservasi($reservasi);
 
         $service = app(ERetribusiService::class);
-        $result = $service->sendBapendaBilling($billing);
 
-        if (! $result['success']) {
-            Log::error('sendQris: Bapenda billing failed', [
-                'reservasi_id' => $reservasi->id,
-                'billing_id' => $billing->id,
-                'error' => $result['message'] ?? 'Unknown',
-            ]);
+        if ($billing->status !== 'sent') {
+            $result = $service->sendBapendaBilling($billing);
 
-            $kirimChat->sendText(
-                $phoneNumber,
-                "Maaf, terjadi kesalahan saat membuat billing e-Retribusi. Tim kami akan menghubungi Anda shortly.\n\n"
-                ."Ketik *menu* untuk kembali, atau hubungi admin langsung."
-            );
+            if (! $result['success']) {
+                Log::error('sendQris: Bapenda billing failed', [
+                    'reservasi_id' => $reservasi->id,
+                    'billing_id' => $billing->id,
+                    'error' => $result['message'] ?? 'Unknown',
+                ]);
 
-            return;
+                $kirimChat->sendText(
+                    $phoneNumber,
+                    "Maaf, terjadi kesalahan saat membuat billing e-Retribusi. Tim kami akan menghubungi Anda shortly.\n\n"
+                    ."Ketik *menu* untuk kembali, atau hubungi admin langsung."
+                );
+
+                return;
+            }
         }
 
         $billing->refresh();
-        $linkQris = null;
-        $qrisResult = $service->fetchAndSaveQris($billing);
-        if ($qrisResult['success'] && isset($qrisResult['link_qris'])) {
-            $linkQris = $qrisResult['link_qris'];
+        $linkQris = $billing->link_qris;
+
+        if (! $linkQris) {
+            $qrisResult = $service->fetchAndSaveQris($billing);
+            if ($qrisResult['success'] && isset($qrisResult['link_qris'])) {
+                $linkQris = $qrisResult['link_qris'];
+            }
         }
 
         $session->update(['state' => 'pesan_upload_bukti']);
 
-        $message = "Pembayaran via QRIS\n\n"
-            ."Reservasi: {$reservasi->kode}\n"
-            ."Total: Rp".number_format($reservasi->total_harga, 0, ',', '.')."\n\n";
+        $nominalText = 'Rp'.number_format($reservasi->total_harga, 0, ',', '.');
+        $expiredText = $billing->tgl_expired
+            ? Carbon::parse($billing->tgl_expired)->format('d M Y H:i')
+            : now()->addDays(7)->format('d M Y H:i');
 
-        if ($linkQris) {
-            $message .= "Link QRIS:\n{$linkQris}\n\n";
+        $imageUrl = $this->downloadQrisImage($linkQris, $reservasi->kode);
+
+        if ($imageUrl) {
+            $caption = "Pembayaran via QRIS\n\n"
+                ."Reservasi: {$reservasi->kode}\n"
+                ."Nominal: {$nominalText}\n"
+                ."Berlaku sampai: {$expiredText}\n\n"
+                ."Scan QR code di atas untuk membayar via QRIS.\n\n"
+                ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+
+            $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
+        } else {
+            $message = "Pembayaran via QRIS\n\n"
+                ."Reservasi: {$reservasi->kode}\n"
+                ."Nominal: {$nominalText}\n"
+                ."Berlaku sampai: {$expiredText}\n\n";
+
+            if ($linkQris) {
+                $message .= "Link QRIS:\n{$linkQris}\n\n";
+            }
+
+            if ($billing->link_ssrd) {
+                $message .= "Link SSRD e-Retribusi:\n{$billing->link_ssrd}\n\n";
+            }
+
+            if (! $linkQris && ! $billing->link_ssrd) {
+                $message .= "Kode bayar: {$billing->kodebayar}\n\n";
+            }
+
+            $message .= "Atau transfer ke:\n"
+                ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
+                ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
+                ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+
+            $kirimChat->sendText($phoneNumber, $message);
+        }
+    }
+
+    private function downloadQrisImage(?string $linkQris, string $kode): ?string
+    {
+        if (! $linkQris) {
+            return null;
         }
 
-        if ($billing->link_ssrd) {
-            $message .= "Link SSRD e-Retribusi:\n{$billing->link_ssrd}\n\n";
+        try {
+            $imageResponse = Http::timeout(30)->get($linkQris);
+
+            if ($imageResponse->failed()) {
+                Log::warning('Failed to download QRIS image', [
+                    'link' => $linkQris,
+                    'status' => $imageResponse->status(),
+                ]);
+
+                return null;
+            }
+
+            $contentType = $imageResponse->header('Content-Type') ?? '';
+            $body = $imageResponse->body();
+
+            $ext = str_contains($contentType, 'png') ? 'png' : (str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg') ? 'jpg' : 'png');
+            $filename = 'qris/'.$kode.'-'.Str::random(8).'.'.$ext;
+
+            Storage::disk('public')->put($filename, $body);
+
+            return asset('storage/'.$filename);
+        } catch (\Throwable $e) {
+            Log::error('Exception downloading QRIS image', [
+                'link' => $linkQris,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
         }
-
-        if (! $linkQris && ! $billing->link_ssrd) {
-            $message .= "Kode bayar: {$billing->kodebayar}\n\n";
-        }
-
-        $message .= "Atau transfer ke:\n"
-            ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
-            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n"
-            ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
-
-        $kirimChat->sendText($phoneNumber, $message);
     }
 
     private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
@@ -1297,7 +1370,7 @@ class KirimChatWebhookController extends Controller
     private function createBillingForReservasi(KamarReservasi $reservasi): RetribusiBilling
     {
         $existing = RetribusiBilling::where('kamar_reservasi_id', $reservasi->id)
-            ->where('status', 'sent')
+            ->whereIn('status', ['draft', 'sent', 'failed'])
             ->latest()
             ->first();
 

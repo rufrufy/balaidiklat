@@ -107,13 +107,13 @@ class ERetribusiService
             return ['success' => false, 'message' => 'Bapenda QRIS credentials belum dikonfigurasi.'];
         }
 
-        $endpoint = rtrim($baseUrl, '/').$qrisPath;
+        $endpoint = $baseUrl.$qrisPath;
 
         $response = Http::withBasicAuth($user, $pass)
             ->withHeaders(['Content-Type' => 'application/json'])
             ->timeout(30)
             ->post($endpoint, [
-                'kodebayar' => $kodebayar,
+                'kodebayar' => '73'.$kodebayar,
             ]);
 
         $result = $response->json() ?? [
@@ -123,7 +123,7 @@ class ERetribusiService
 
         if ($response->failed()) {
             Log::error('Bapenda QRIS API error', [
-                'kodebayar' => $kodebayar,
+                'kodebayar' => '73'.$kodebayar,
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
@@ -153,9 +153,7 @@ class ERetribusiService
             'qris_response_payload' => $result['response'],
         ];
 
-        $linkQris = $result['response']['data']['link_qris']
-            ?? $result['response']['link_qris']
-            ?? $result['response']['data']['link']
+        $linkQris = $result['response']['url']
             ?? null;
 
         if ($linkQris) {
@@ -165,5 +163,91 @@ class ERetribusiService
         $billing->update($updateData);
 
         return ['success' => true, 'link_qris' => $linkQris, 'response' => $result['response']];
+    }
+
+    /**
+     * Check billing status di Bapenda e-Retribusi.
+     * POST /api/v2/prod/retribusi/check?id_billing=xxxx
+     */
+    public function checkBilling(string $idBilling): array
+    {
+        $baseUrl = (string) config('services.bapenda.base_url');
+        $vcode = (string) config('services.bapenda.vcode');
+        $token = (string) config('services.bapenda.token');
+
+        if ($baseUrl === '' || $token === '' || $vcode === '') {
+            return ['success' => false, 'message' => 'Bapenda API credentials belum dikonfigurasi.'];
+        }
+
+        $endpoint = rtrim($baseUrl, '/').'/api/v2/prod/retribusi/check?id_billing='.urlencode($idBilling);
+
+        $response = Http::withHeaders([
+            'vcode' => $vcode,
+            'Authorization' => 'Bearer '.$token,
+            'Content-Type' => 'application/json',
+        ])
+            ->timeout(30)
+            ->post($endpoint);
+
+        $result = $response->json() ?? [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ];
+
+        if ($response->failed()) {
+            Log::error('Bapenda check API error', [
+                'id_billing' => $idBilling,
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return ['success' => false, 'message' => 'Gagal check status billing.', 'response' => $result];
+        }
+
+        return ['success' => true, 'response' => $result];
+    }
+
+    /**
+     * Delete billing di Bapenda e-Retribusi.
+     * POST /api/v2/prod/retribusi/delete?id_billing=xxxx
+     */
+    public function deleteBilling(string $idBilling): array
+    {
+        $baseUrl = (string) config('services.bapenda.base_url');
+        $vcode = (string) config('services.bapenda.vcode');
+        $token = (string) config('services.bapenda.token');
+
+        if ($baseUrl === '' || $token === '' || $vcode === '') {
+            return ['success' => false, 'message' => 'Bapenda API credentials belum dikonfigurasi.'];
+        }
+
+        $endpoint = rtrim($baseUrl, '/').'/api/v2/prod/retribusi/delete?id_billing='.urlencode($idBilling);
+
+        $response = Http::withHeaders([
+            'vcode' => $vcode,
+            'Authorization' => 'Bearer '.$token,
+            'Content-Type' => 'application/json',
+        ])
+            ->timeout(30)
+            ->post($endpoint);
+
+        $result = $response->json() ?? [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ];
+
+        if ($response->failed()) {
+            Log::error('Bapenda delete API error', [
+                'id_billing' => $idBilling,
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return ['success' => false, 'message' => 'Gagal menghapus billing di Bapenda.', 'response' => $result];
+        }
+
+        Log::info('Bapenda billing deleted', ['id_billing' => $idBilling]);
+
+        return ['success' => true, 'response' => $result];
     }
 }

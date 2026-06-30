@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 Route::match(['GET', 'POST'], '/cek-ketersediaan', function () {
     $data = request()->validate([
-        'tanggal_masuk' => ['required', 'date'],
+        'tanggal_masuk' => ['required', 'date', 'after_or_equal:today'],
         'tanggal_keluar' => ['required', 'date', 'after:tanggal_masuk'],
     ]);
 
@@ -69,7 +69,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
         'tipe_penyewa' => ['required', 'in:perorangan,instansi'],
         'instansi' => ['nullable', 'string', 'max:255'],
         'kegiatan' => ['nullable', 'string', 'max:255'],
-        'tanggal_masuk' => ['required', 'date'],
+        'tanggal_masuk' => ['required', 'date', 'after_or_equal:today'],
         'tanggal_keluar' => ['required', 'date', 'after:tanggal_masuk'],
         'kamar_id' => ['required', 'exists:kamars,id'],
         'jumlah_unit' => ['required', 'integer', 'min:1'],
@@ -173,6 +173,9 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/admin/reservasi/{reservasi}/retribusi', [RetribusiBillingController::class, 'store'])->name('admin.retribusi.store');
     Route::patch('/admin/retribusi/{billing}', [RetribusiBillingController::class, 'update'])->name('admin.retribusi.update');
     Route::post('/admin/retribusi/{billing}/send', [RetribusiBillingController::class, 'send'])->name('admin.retribusi.send');
+    Route::get('/admin/retribusi/{billing}/check', [RetribusiBillingController::class, 'checkStatus'])->name('admin.retribusi.check');
+    Route::delete('/admin/retribusi/{billing}', [RetribusiBillingController::class, 'destroyBilling'])->name('admin.retribusi.destroy');
+    Route::get('/admin/retribusi/{billing}/fetch-qris', [RetribusiBillingController::class, 'fetchQris'])->name('admin.retribusi.fetch-qris');
     Route::post('/admin/chatbot-rules', [AdminChatbotRuleController::class, 'store'])->name('admin.chatbot-rules.store');
     Route::patch('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'update'])->name('admin.chatbot-rules.update');
     Route::post('/admin/chatbot-rules/{rule}/toggle', [AdminChatbotRuleController::class, 'toggle'])->name('admin.chatbot-rules.toggle');

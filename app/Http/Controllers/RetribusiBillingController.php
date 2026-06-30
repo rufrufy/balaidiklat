@@ -91,4 +91,58 @@ class RetribusiBillingController extends Controller
         $durasi = $reservasi->durasi_hari ?? 1;
         $data['keterangan_bapenda'] = $data['keterangan_bapenda'] ?? "Sewa {$jenisKelas} selama {$durasi} hari";
     }
+
+    public function checkStatus(RetribusiBilling $billing, ERetribusiService $service): JsonResponse
+    {
+        if (! $billing->id_billing) {
+            return response()->json(['success' => false, 'message' => 'Billing belum memiliki id_billing.'], 422);
+        }
+
+        $result = $service->checkBilling((string) $billing->id_billing);
+
+        if ($result['success'] && isset($result['response']['data'])) {
+            $data = $result['response']['data'];
+            $tglBayar = $data['tgl_bayar'] ?? null;
+
+            if (! empty($tglBayar)) {
+                if (! $billing->isPaid()) {
+                    $paidAt = \Illuminate\Support\Carbon::parse($tglBayar);
+
+                    $billing->update([
+                        'payment_callback_status' => 'paid',
+                        'paid_at' => $paidAt,
+                    ]);
+
+                    if ($billing->reservasi) {
+                        $billing->reservasi->update(['payment_status' => 'paid']);
+                    }
+                }
+
+                $result['payment_status'] = 'paid';
+                $result['paid_at'] = $tglBayar;
+            } else {
+                $result['payment_status'] = 'unpaid';
+            }
+        }
+
+        return response()->json($result, $result['success'] ? 200 : 400);
+    }
+
+    public function destroyBilling(RetribusiBilling $billing, ERetribusiService $service): JsonResponse
+    {
+        if (! $billing->id_billing) {
+            return response()->json(['success' => false, 'message' => 'Billing belum memiliki id_billing.'], 422);
+        }
+
+        $result = $service->deleteBilling((string) $billing->id_billing);
+
+        if ($result['success']) {
+            $billing->update([
+                'status' => 'deleted',
+                'payment_callback_status' => 'deleted',
+            ]);
+        }
+
+        return response()->json($result, $result['success'] ? 200 : 400);
+    }
 }

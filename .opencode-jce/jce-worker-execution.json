@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-30T05:07:55.649Z",
+  "updatedAt": "2026-06-30T08:46:52.043Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -16,15 +16,6 @@
     }
   ],
   "verificationEvidence": [
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
     {
       "taskId": "auto-capture",
       "type": "command",
@@ -916,6 +907,16 @@
       "area": "auto-capture",
       "captured": "auto",
       "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "docker compose config --quiet 2>&1",
+      "status": "unknown",
+      "summary": "docker compose config --quiet 2>&1 -> unknown",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
     }
   ],
   "retryHistory": [],
@@ -1002,7 +1003,8 @@
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_29_000001_add_bapenda_fields_to_retribusi_billings.php",
     "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\BapendaCallbackController.php",
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_29_000002_add_deleted_status_to_retribusi_billings.php",
-    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000001_add_soft_deletes_to_kamar_reservasis.php"
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000001_add_soft_deletes_to_kamar_reservasis.php",
+    "C:\\laragon\\www\\balaidiklat\\docker-compose.yml"
   ],
   "workflowRuns": [],
   "wisdom": [],
@@ -1011,15 +1013,15 @@
   "contextBudgetSummary": {
     "originalChars": 0,
     "compressedChars": 0,
-    "estimatedTokensSaved": 1048576,
-    "estimatedSavingsPercent": 4,
-    "tasks": 1048576,
+    "estimatedTokensSaved": 0,
+    "estimatedSavingsPercent": 0,
+    "tasks": 0,
     "byTool": {
       "bash": {
         "originalChars": 0,
         "compressedChars": 0,
-        "estimatedTokensSaved": 1048576,
-        "tasks": 1048576
+        "estimatedTokensSaved": 0,
+        "tasks": 0
       },
       "grep": {
         "originalChars": 0,

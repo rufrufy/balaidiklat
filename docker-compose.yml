@@ -63,6 +63,24 @@ services:
       ERETRIBUSI_API_KEY: "${ERETRIBUSI_API_KEY:-}"
       ERETRIBUSI_SEND_PATH: "${ERETRIBUSI_SEND_PATH:-/api/billing}"
 
+      # Bapenda e-Retribusi API
+      BAPENDA_BASE_URL: "${BAPENDA_BASE_URL:-https://eretribusi.semarangkota.go.id}"
+      BAPENDA_VCODE: "${BAPENDA_VCODE:-FLzq6tI6}"
+      BAPENDA_TOKEN: "${BAPENDA_TOKEN:-QGnyjTnfSR1G76V1bDKEIAcXZ1UOeYi6qR2wiajcgjjC39fTR7E3gtHZ0jVwzwyfF2IGuFvxEykwtzdxwsiJD4fMO8FdMSfeP0nQ}"
+      BAPENDA_STORE_PATH: "${BAPENDA_STORE_PATH:-/api/v2/prod/retribusi/store}"
+      BAPENDA_KODE_OPD: "${BAPENDA_KODE_OPD:-3.1.03.01}"
+      BAPENDA_KODE_REKENING: "${BAPENDA_KODE_REKENING:-4.1.02.02.01.0005}"
+      BAPENDA_REKENING_ID: "${BAPENDA_REKENING_ID:-76}"
+
+      # Bapenda QRIS API
+      BAPENDA_QRIS_BASE_URL: "${BAPENDA_QRIS_BASE_URL:-http://103.101.52.67:13000}"
+      BAPENDA_QRIS_PATH: "${BAPENDA_QRIS_PATH:-/api/bapenda/getLinkQris}"
+      BAPENDA_QRIS_USER: "${BAPENDA_QRIS_USER:-B4p3ndasmG}"
+      BAPENDA_QRIS_PASS: "${BAPENDA_QRIS_PASS:-\"LOtO]^aQ}5bsOS+WjZ'(\"}"
+
+      # Bapenda callback (notifikasi status terbayar)
+      BAPENDA_CALLBACK_TOKEN: "${BAPENDA_CALLBACK_TOKEN:-bapenda_balaidiklat_2026_secret_token}"
+
       RUN_MIGRATIONS: "${RUN_MIGRATIONS:-true}"
     volumes:
       - app_storage:/var/www/html/storage

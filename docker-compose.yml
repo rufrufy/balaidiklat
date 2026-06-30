@@ -29,7 +29,6 @@ services:
       APP_FALLBACK_LOCALE: "${APP_FALLBACK_LOCALE:-en}"
       APP_TIMEZONE: "${APP_TIMEZONE:-Asia/Jakarta}"
 
-      TZ: "${TZ:-Asia/Jakarta}"
 
       LOG_CHANNEL: "${LOG_CHANNEL:-stack}"
       LOG_LEVEL: "${LOG_LEVEL:-error}"

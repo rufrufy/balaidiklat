@@ -71,10 +71,10 @@
                             @if ($billing->status === 'sent' && $billing->id_billing && $reservasi->payment_status !== 'paid')
                                 <div class="d-flex flex-wrap gap-2 align-items-center mb-1">
                                     <button class="btn btn-sm btn-success btn-bayar-qris"
-                                        data-url="{{ route('admin.retribusi.fetch-qris', $billing) }}"
+                                        data-url="{{ url('/admin/retribusi/'.$billing->id.'/fetch-qris') }}"
                                         data-link="{{ $billing->link_qris ?? '' }}">Bayar QRIS</button>
                                     <button class="btn btn-sm btn-outline-info btn-check-billing"
-                                        data-url="{{ route('admin.retribusi.check', $billing) }}">Check Status</button>
+                                        data-url="{{ url('/admin/retribusi/'.$billing->id.'/check') }}">Check Status</button>
                                 </div>
                                 <div class="small">
                                     <span class="text-muted">No. STS:</span>

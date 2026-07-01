@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-01T02:18:53.078Z",
+  "updatedAt": "2026-07-01T02:39:35.772Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -16,15 +16,6 @@
     }
   ],
   "verificationEvidence": [
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
     {
       "taskId": "auto-capture",
       "type": "command",
@@ -918,6 +909,16 @@
       "area": "auto-capture",
       "captured": "auto",
       "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\"",
+      "status": "unknown",
+      "summary": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\" -> unknown",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
     }
   ],
   "retryHistory": [],
@@ -1018,17 +1019,17 @@
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 0,
-    "compressedChars": 0,
-    "estimatedTokensSaved": 0,
-    "estimatedSavingsPercent": 0,
-    "tasks": 0,
+    "originalChars": 3042048,
+    "compressedChars": 3012864,
+    "estimatedTokensSaved": 8192,
+    "estimatedSavingsPercent": 1,
+    "tasks": 4352,
     "byTool": {
       "bash": {
-        "originalChars": 0,
-        "compressedChars": 0,
-        "estimatedTokensSaved": 0,
-        "tasks": 0
+        "originalChars": 3042048,
+        "compressedChars": 3012864,
+        "estimatedTokensSaved": 8192,
+        "tasks": 4352
       },
       "grep": {
         "originalChars": 0,

@@ -4104,5 +4104,109 @@
       "source": "system_injection"
     },
     "at": "2026-07-01T02:16:26.878Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "devops",
+        "ui-pattern-library",
+        "software-engineering",
+        "human-ui-design"
+      ],
+      "suppressedSkills": [],
+      "confidence": 53
+    },
+    "at": "2026-07-01T02:36:01.105Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "devops",
+    "metadata": {
+      "skill": "devops",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:36:01.136Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:36:01.161Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:36:01.185Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:36:01.207Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-07-01T02:36:01.233Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "devops",
+    "metadata": {
+      "skill": "devops",
+      "source": "system_injection"
+    },
+    "at": "2026-07-01T02:36:02.084Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "source": "system_injection"
+    },
+    "at": "2026-07-01T02:36:02.103Z"
+  },
+  {
+    "kind": "verification_used",
+    "name": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\"",
+    "metadata": {
+      "command": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\"",
+      "status": "unknown"
+    },
+    "at": "2026-07-01T02:39:06.953Z"
+  },
+  {
+    "kind": "verification_result",
+    "name": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\"",
+    "metadata": {
+      "skill": "devops",
+      "passed": false,
+      "command": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\""
+    },
+    "at": "2026-07-01T02:39:06.994Z"
   }
 ]

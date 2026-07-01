@@ -1337,7 +1337,7 @@
 
         let selectedPhone = null;
         async function refreshChat() {
-            const url = new URL('{{ route('admin.whatsapp.messages') }}', location.origin);
+            const url = new URL('{{ url('/admin/whatsapp/messages') }}', window.location.origin);
             if (selectedPhone) {
                 url.searchParams.set('phone_number', selectedPhone)
             }
@@ -1372,7 +1372,7 @@
             event.preventDefault();
             if (!selectedPhone) return;
             const form = event.currentTarget;
-            const response = await fetch('{{ route('admin.whatsapp.send') }}', {
+            const response = await fetch('{{ url('/admin/whatsapp/send') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': csrf,

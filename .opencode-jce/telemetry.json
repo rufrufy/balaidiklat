@@ -4208,5 +4208,64 @@
       "command": "php artisan route:list --name=retribusi 2>&1 | findstr \"retribusi\""
     },
     "at": "2026-07-01T02:39:06.994Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "ui-pattern-library",
+        "human-ui-design",
+        "software-engineering"
+      ],
+      "suppressedSkills": [
+        "api-design-patterns"
+      ],
+      "confidence": 33
+    },
+    "at": "2026-07-01T02:51:53.654Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:51:53.678Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:51:53.695Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-07-01T02:51:53.715Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-07-01T02:51:53.734Z"
   }
 ]

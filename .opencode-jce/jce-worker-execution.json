@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-01T02:39:35.772Z",
+  "updatedAt": "2026-07-01T02:55:08.699Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -1012,24 +1012,26 @@
     "C:\\laragon\\www\\balaidiklat\\test_qris_download.php",
     "C:\\laragon\\www\\balaidiklat\\test_qris_api.php",
     "C:\\laragon\\www\\balaidiklat\\test_qris_full.php",
-    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000002_add_link_qris_image_to_retribusi_billings.php"
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000002_add_link_qris_image_to_retribusi_billings.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Providers\\AppServiceProvider.php",
+    "C:\\laragon\\www\\balaidiklat\\bootstrap\\app.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 3042048,
-    "compressedChars": 3012864,
-    "estimatedTokensSaved": 8192,
-    "estimatedSavingsPercent": 1,
-    "tasks": 4352,
+    "originalChars": 36608,
+    "compressedChars": 35072,
+    "estimatedTokensSaved": 256,
+    "estimatedSavingsPercent": 4,
+    "tasks": 256,
     "byTool": {
       "bash": {
-        "originalChars": 3042048,
-        "compressedChars": 3012864,
-        "estimatedTokensSaved": 8192,
-        "tasks": 4352
+        "originalChars": 36608,
+        "compressedChars": 35072,
+        "estimatedTokensSaved": 256,
+        "tasks": 256
       },
       "grep": {
         "originalChars": 0,

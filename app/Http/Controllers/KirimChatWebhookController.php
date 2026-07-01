@@ -776,20 +776,32 @@ class KirimChatWebhookController extends Controller
         ]);
 
         $hargaText = number_format($total, 0, ',', '.');
-        $kirimChat->sendButtons(
-            $phoneNumber,
-            "Reservasi berhasil dibuat!\n\n"
+        $summary = "Reservasi berhasil dibuat!\n\n"
             ."Kode booking: {$reservasi->kode}\n"
             .($jenisKelas ? "Jenis kelas: {$jenisKelas} ({$jumlah} unit)\n" : '')
             .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
             ."Total: Rp{$hargaText}\n"
             ."Status: menunggu konfirmasi & pembayaran.\n\n"
-            ."Terima kasih telah memesan di Balai Diklat Kota Semarang.",
+            ."Terima kasih telah memesan di Balai Diklat Kota Semarang.";
+
+        $result = $kirimChat->sendButtons(
+            $phoneNumber,
+            $summary,
             [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
             ]
         );
+
+        // Fallback: kalau interactive button gagal, kirim teks biasa
+        if (! ($result['success'] ?? true)) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                $summary . "\n\n"
+                ."Balas *bayar* untuk melanjutkan pembayaran.\n"
+                ."Balas *menu* untuk kembali ke menu utama."
+            );
+        }
     }
 
     /**
@@ -1194,7 +1206,7 @@ class KirimChatWebhookController extends Controller
 
     private function sendPaymentChoice(string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $kirimChat->sendButtons(
+        $result = $kirimChat->sendButtons(
             $phoneNumber,
             "Silakan pilih metode pembayaran:",
             [
@@ -1202,6 +1214,16 @@ class KirimChatWebhookController extends Controller
                 ['id' => 'transfer', 'title' => 'Transfer Bank'],
             ]
         );
+
+        // Fallback: jika KirimChat API gagal mengirim interactive button, kirim teks
+        if (! ($result['success'] ?? true)) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Silakan pilih metode pembayaran:\n\n"
+                ."Balas *qris* untuk pembayaran via QRIS\n"
+                ."Balas *transfer* untuk transfer bank"
+            );
+        }
     }
 
     private function sendQris(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
@@ -1681,18 +1703,54 @@ class KirimChatWebhookController extends Controller
             Storage::disk('public')->delete($reservasi->bukti_pembayaran);
         }
 
+        // Simpan bukti dulu (selalu), lalu cek status ke Bapenda.
         $reservasi->update([
             'bukti_pembayaran' => $path,
-            'payment_status' => 'paid',
         ]);
+
+        // Cek status pembayaran ke Bapenda e-Retribusi.
+        $billing = $reservasi->retribusiBillings()->latest()->first();
+        $verifiedByBapenda = false;
+
+        if ($billing && $billing->id_billing) {
+            $service = app(ERetribusiService::class);
+            $statusResult = $service->checkBilling((string) $billing->id_billing);
+
+            if ($statusResult['success'] && isset($statusResult['response']['data'])) {
+                $data = $statusResult['response']['data'];
+                $tglBayar = $data['tgl_bayar'] ?? null;
+
+                if (! empty($tglBayar)) {
+                    // Bapenda konfirmasi sudah dibayar → auto lunas.
+                    if (! $billing->isPaid()) {
+                        $billing->markPaid();
+                    }
+                    $reservasi->update(['payment_status' => 'paid']);
+                    $verifiedByBapenda = true;
+                }
+            }
+        }
 
         $session->update(['state' => 'main_menu']);
 
-        $this->sendReturnButtons(
-            $phoneNumber,
-            "Terima kasih! Bukti pembayaran untuk booking {$reservasi->kode} sudah kami terima dan status pembayaran kini *Lunas*.",
-            $kirimChat
-        );
+        if ($verifiedByBapenda) {
+            $this->sendReturnButtons(
+                $phoneNumber,
+                "Terima kasih! Bukti pembayaran untuk booking *{$reservasi->kode}* sudah kami terima.\n\n"
+                ."Status pembayaran: *LUNAS* ✅\n"
+                ."Pembayaran Anda telah terverifikasi otomatis oleh sistem.",
+                $kirimChat
+            );
+        } else {
+            $this->sendReturnButtons(
+                $phoneNumber,
+                "Terima kasih! Bukti pembayaran untuk booking *{$reservasi->kode}* sudah kami terima.\n\n"
+                ."Bukti pembayaran Anda akan *diverifikasi oleh admin*.\n"
+                ."Kami akan mengonfirmasi setelah pembayaran diverifikasi.\n\n"
+                ."Ketik *menu* untuk kembali ke menu utama.",
+                $kirimChat
+            );
+        }
     }
 
     private function guessImageExtension(?string $contentType, string $url): string

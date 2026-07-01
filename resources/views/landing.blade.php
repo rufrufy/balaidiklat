@@ -343,7 +343,7 @@
             <div id="nav" class="collapse navbar-collapse">
                 <div class="navbar-nav ms-auto align-items-lg-center"><a class="nav-link" href="#layanan">Layanan</a><a
                         class="nav-link" href="#ketersediaan">Cek Kamar</a><a class="nav-link"
-                        href="#booking">Booking</a><a class="nav-link" href="#lacak">Lacak Booking</a><a
+                        href="#pemesanan">Pemesanan</a><a class="nav-link" href="#lacak">Lacak Pemesanan</a><a
                         class="nav-link" href="#kamar">Kamar</a><a class="btn btn-ghost ms-lg-2"
                         href="{{ route('admin.dashboard') }}">Dashboard Admin</a></div>
             </div>
@@ -355,19 +355,13 @@
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-7">
                         <div class="eyebrow">Reservasi asrama diklat</div>
-                        <h1>Booking asrama lebih cepat via WhatsApp.</h1>
-                        <p class="hero-copy">Landing publik untuk peserta diklat dan instansi. Data kamar dan status
-                            booking terhubung langsung ke dashboard admin.</p>
+                        <h1>Pesan asrama lebih cepat via WhatsApp.</h1>
+                        <p class="hero-copy">Halaman publik untuk peserta diklat dan instansi. Data kamar dan status
+                            pemesanan terintegrasi.</p>
                         <div class="d-flex flex-column flex-sm-row gap-3 mt-4"><a class="btn btn-secondary-enterprise"
                                 href="#ketersediaan">Cek Ketersediaan</a><a class="btn btn-primary-enterprise"
-                                href="#lacak">Lacak Booking</a></div>
-                        <div class="kode-reservasi-info mt-4">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge-soft badge-primary-soft">Kode Reservasi</span>
-                                <code class="text-white">BKPP-XXXXXXXXXXXXXX-XXX</code>
-                            </div>
-                            <p class="text-white-50 small mt-2 mb-0">Format kode reservasi: BKPP diikuti tanggal-waktu-urut. Contoh: <code>BKPP-20260629143022-456</code></p>
-                        </div>
+                                href="#lacak">Lacak Pemesanan</a></div>
+
                     </div>
                     <div class="col-lg-5">
                         <div class="hero-panel">
@@ -375,7 +369,7 @@
                             <h2 class="text-white display-5">Asrama BKPP siap menerima tamu pelatihan.</h2>
                             <div class="row g-3 mt-3">
                                 <div class="col-6">
-                                    <div class="metric"><strong>{{ $kamars->count() }}</strong><span>Jenis kelas</span>
+                                    <div class="metric"><strong>{{ $kamars->count() }}</strong><span>Jenis Ruangan/Kamar</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -402,14 +396,14 @@
                         <div class="card-enterprise p-4 h-100"><span
                                 class="badge-soft badge-primary-soft mb-3">02</span>
                             <h4>Kirim WhatsApp</h4>
-                            <p class="text-muted mb-0">Sistem membuat format pesan otomatis ke WhatsApp pengelola
-                                asrama.</p>
+                            <p class="text-muted mb-0">Sistem membuat format pesan otomatis ke WhatsApp bot Sapa Balai.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-enterprise p-4 h-100"><span
                                 class="badge-soft badge-primary-soft mb-3">03</span>
-                            <h4>Lacak booking</h4>
+                            <h4>Lacak Pemesanan
+                            </h4>
                             <p class="text-muted mb-0">Gunakan kode reservasi dari admin untuk melihat status terbaru.
                             </p>
                         </div>
@@ -456,7 +450,7 @@
             </div>
         </section>
 
-        <section id="booking" class="section-pad pt-0">
+        <section id="pemesanan" class="section-pad pt-0">
             <div class="container">
                 <div class="card-enterprise p-4 p-md-5">
                     <div class="eyebrow">Form Pemesanan WhatsApp</div>
@@ -538,18 +532,18 @@
                 <div class="card-enterprise p-4 p-md-5">
                     <div class="row g-4">
                         <div class="col-lg-5">
-                            <div class="eyebrow">Lacak booking kamar</div>
+                            <div class="eyebrow">Lacak pemesanan kamar</div>
                             <h2 class="display-5">Cek status reservasi.</h2>
-                            <p class="text-muted">Masukkan kode booking dari admin. Nomor WhatsApp opsional untuk
+                            <p class="text-muted">Masukkan kode pemesanan dari admin. Nomor WhatsApp opsional untuk
                                 memverifikasi pencarian.</p>
                             <form method="POST" action="{{ route('booking.track') }}" class="row g-3">@csrf<div
-                                    class="col-12"><label class="form-label fw-bold">Kode booking</label><input
+                                    class="col-12"><label class="form-label fw-bold">Kode pemesanan</label><input
                                         class="form-control" name="kode" value="{{ $trackingCode ?? '' }}"
                                         placeholder="RSV-202606110001" required></div>
                                 <div class="col-12"><label class="form-label fw-bold">No WhatsApp</label><input
                                         class="form-control" name="phone_number" placeholder="628xxxx"></div>
                                 <div class="col-12"><button class="btn btn-primary-enterprise" type="submit">Lacak
-                                        Booking</button></div>
+                                        Pemesanan</button></div>
                             </form>
                         </div>
                         <div class="col-lg-7">
@@ -592,7 +586,7 @@
                                         <p class="mb-0"><strong>Catatan:</strong> {{ $trackingResult->catatan ?: '-' }}
                                     </p>@else<div class="eyebrow">Tidak ditemukan</div>
                                         <h3>Kode {{ $trackingCode }} belum terdaftar.</h3>
-                                        <p class="text-muted mb-0">Pastikan kode booking sesuai atau hubungi admin melalui
+                                        <p class="text-muted mb-0">Pastikan kode pemesanan sesuai atau hubungi admin melalui
                                             WhatsApp.</p>
                                     @endif
                                 </div>

@@ -115,7 +115,6 @@ class ERetribusiService
 
         $payload = json_encode(['kodebayar' => $fullKodebayar]);
 
-        // Log info server untuk debugging IP source
         $serverIp = $_SERVER['SERVER_ADDR'] ?? 'CLI';
         $clientIp = $_SERVER['REMOTE_ADDR'] ?? 'CLI';
         $hostname = gethostname();
@@ -124,6 +123,12 @@ class ERetribusiService
         Log::info('Bapenda QRIS request context', [
             'kodebayar' => $fullKodebayar,
             'endpoint' => $endpoint,
+            'payload' => $payload,
+            'auth_header' => 'Basic '.$basicAuth,
+            'qris_user' => $user,
+            'qris_pass_length' => strlen($pass),
+            'base_url_config' => $baseUrl,
+            'qris_path_config' => $qrisPath,
             'server_addr' => $serverIp,
             'client_ip' => $clientIp,
             'hostname' => $hostname,

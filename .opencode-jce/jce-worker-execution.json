@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-01T03:13:32.436Z",
+  "updatedAt": "2026-07-01T03:54:27.160Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -16,24 +16,6 @@
     }
   ],
   "verificationEvidence": [
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
     {
       "taskId": "auto-capture",
       "type": "command",
@@ -919,6 +901,26 @@
       "area": "auto-capture",
       "captured": "auto",
       "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "php test_qris.php 2>&1",
+      "status": "fail",
+      "summary": "php test_qris.php 2>&1 -> fail",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "php -l app\\Console\\Commands\\TestBapendaConnection.php; php artisan bapenda:test 2>&1",
+      "status": "pass",
+      "summary": "php -l app\\Console\\Commands\\TestBapendaConnection.php; php artisan bapenda:test 2>&1 -> pass",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
     }
   ],
   "retryHistory": [],
@@ -1015,30 +1017,32 @@
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_30_000002_add_link_qris_image_to_retribusi_billings.php",
     "C:\\laragon\\www\\balaidiklat\\app\\Providers\\AppServiceProvider.php",
     "C:\\laragon\\www\\balaidiklat\\bootstrap\\app.php",
-    "C:\\laragon\\www\\balaidiklat\\config"
+    "C:\\laragon\\www\\balaidiklat\\config",
+    "C:\\laragon\\www\\balaidiklat\\test_qris.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Console\\Commands\\TestBapendaConnection.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 25344,
-    "compressedChars": 24832,
+    "originalChars": 1019904,
+    "compressedChars": 995328,
     "estimatedTokensSaved": 0,
     "estimatedSavingsPercent": 2,
-    "tasks": 256,
+    "tasks": 4096,
     "byTool": {
       "bash": {
-        "originalChars": 25344,
-        "compressedChars": 24832,
-        "estimatedTokensSaved": 0,
-        "tasks": 256
-      },
-      "grep": {
         "originalChars": 0,
         "compressedChars": 0,
         "estimatedTokensSaved": 0,
         "tasks": 0
+      },
+      "grep": {
+        "originalChars": 1019904,
+        "compressedChars": 995328,
+        "estimatedTokensSaved": 8192,
+        "tasks": 4096
       },
       "dispatch": {
         "originalChars": 0,

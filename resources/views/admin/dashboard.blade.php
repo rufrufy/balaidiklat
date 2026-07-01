@@ -1386,7 +1386,7 @@
             }
         });
         refreshChat();
-        setInterval(refreshChat, 5000);
+        setInterval(refreshChat, 30000);
 
         // ═══ Pengaduan filter tabs ═══
         document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {

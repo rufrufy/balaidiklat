@@ -112,56 +112,72 @@ class ERetribusiService
         $endpoint = $baseUrl.$qrisPath;
         $fullKodebayar = '73'.$kodebayar;
 
-        $response = Http::withBasicAuth($user, $pass)
-            ->withHeaders(['Content-Type' => 'application/json'])
-            ->timeout(30)
-            ->post($endpoint, [
-                'kodebayar' => $fullKodebayar,
-            ]);
+        // Retry sampai 3x dengan delay 2 detik (Bapenda butuh waktu sinkronisasi setelah billing di-send)
+        $maxAttempts = 3;
+        $result = null;
 
-        $result = $response->json() ?? [
-            'status' => $response->status(),
-            'body' => $response->body(),
-        ];
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            $response = Http::withBasicAuth($user, $pass)
+                ->withHeaders(['Content-Type' => 'application/json'])
+                ->timeout(30)
+                ->post($endpoint, [
+                    'kodebayar' => $fullKodebayar,
+                ]);
 
-        Log::info('Bapenda QRIS API response', [
-            'kodebayar' => $fullKodebayar,
-            'http_status' => $response->status(),
-            'resp_code' => $result['resp_code'] ?? null,
-            'resp_desc' => $result['resp_desc'] ?? null,
-            'url_returned' => $result['url'] ?? null,
-        ]);
-
-        if ($response->failed()) {
-            Log::error('Bapenda QRIS API HTTP error', [
-                'kodebayar' => $fullKodebayar,
+            $result = $response->json() ?? [
                 'status' => $response->status(),
                 'body' => $response->body(),
-            ]);
+            ];
 
-            return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS (HTTP '.$response->status().').', 'response' => $result];
-        }
+            $respCode = $result['resp_code'] ?? null;
+            $linkQris = $result['url'] ?? null;
 
-        // Bapenda return HTTP 200 tapi resp_code "01" = Failed
-        $respCode = $result['resp_code'] ?? null;
-        $linkQris = $result['url'] ?? null;
-
-        if ($respCode !== '00' || empty($linkQris)) {
-            Log::warning('Bapenda QRIS API returned Failed', [
+            Log::info('Bapenda QRIS API response', [
                 'kodebayar' => $fullKodebayar,
+                'attempt' => $attempt.'/'.$maxAttempts,
+                'http_status' => $response->status(),
                 'resp_code' => $respCode,
                 'resp_desc' => $result['resp_desc'] ?? null,
-                'url' => $linkQris,
+                'url_returned' => $linkQris,
+                'raw_body' => $response->body(),
+                'endpoint' => $endpoint,
+                'qris_user' => $user ? 'SET' : 'NOT SET',
             ]);
 
-            return [
-                'success' => false,
-                'message' => 'Bapenda gagal generate QRIS: '.($result['resp_desc'] ?? 'Unknown error'),
-                'response' => $result,
-            ];
+            // Sukses: resp_code "00" + URL tidak kosong
+            if ($respCode === '00' && ! empty($linkQris)) {
+                return ['success' => true, 'response' => $result, 'link_qris' => $linkQris];
+            }
+
+            // HTTP error = stop retry
+            if ($response->failed()) {
+                Log::error('Bapenda QRIS API HTTP error', [
+                    'kodebayar' => $fullKodebayar,
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+
+                return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS (HTTP '.$response->status().').', 'response' => $result];
+            }
+
+            // resp_code bukan "00" = retry (mungkin billing belum sinkron)
+            if ($attempt < $maxAttempts) {
+                sleep(2);
+            }
         }
 
-        return ['success' => true, 'response' => $result, 'link_qris' => $linkQris];
+        // Semua attempt gagal
+        Log::warning('Bapenda QRIS API failed after '.$maxAttempts.' attempts', [
+            'kodebayar' => $fullKodebayar,
+            'resp_code' => $result['resp_code'] ?? null,
+            'resp_desc' => $result['resp_desc'] ?? null,
+        ]);
+
+        return [
+            'success' => false,
+            'message' => 'Bapenda gagal generate QRIS setelah '.$maxAttempts.' percobaan: '.($result['resp_desc'] ?? 'Unknown error'),
+            'response' => $result,
+        ];
     }
 
     /**

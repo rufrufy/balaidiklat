@@ -60,6 +60,7 @@ return [
         'qris_path' => env('BAPENDA_QRIS_PATH', '/api/bapenda/getLinkQris'),
         'qris_user' => env('BAPENDA_QRIS_USER'),
         'qris_pass' => env('BAPENDA_QRIS_PASS'),
+        'qris_proxy_url' => env('BAPENDA_QRIS_PROXY_URL', ''),
         'callback_token' => env('BAPENDA_CALLBACK_TOKEN'),
     ],
 

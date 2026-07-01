@@ -111,63 +111,79 @@ class ERetribusiService
 
         $endpoint = $baseUrl.$qrisPath;
         $fullKodebayar = '73'.$kodebayar;
+        $basicAuth = base64_encode($user.':'.$pass);
 
-        // Retry sampai 3x dengan delay 2 detik (Bapenda butuh waktu sinkronisasi setelah billing di-send)
+        $payload = json_encode(['kodebayar' => $fullKodebayar]);
+
         $maxAttempts = 3;
         $result = null;
+        $rawResponse = '';
+        $httpStatus = 0;
 
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
-            $response = Http::withBasicAuth($user, $pass)
-                ->withHeaders(['Content-Type' => 'application/json'])
-                ->timeout(30)
-                ->post($endpoint, [
-                    'kodebayar' => $fullKodebayar,
-                ]);
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $endpoint,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Authorization: Basic '.$basicAuth,
+                ],
+            ]);
 
-            $result = $response->json() ?? [
-                'status' => $response->status(),
-                'body' => $response->body(),
+            $rawResponse = (string) curl_exec($curl);
+            $httpStatus = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($curl);
+            curl_close($curl);
+
+            $result = json_decode($rawResponse, true) ?? [
+                'status' => $httpStatus,
+                'body' => $rawResponse,
             ];
 
             $respCode = $result['resp_code'] ?? null;
             $linkQris = $result['url'] ?? null;
 
-            Log::info('Bapenda QRIS API response', [
+            Log::info('Bapenda QRIS cURL response', [
                 'kodebayar' => $fullKodebayar,
                 'attempt' => $attempt.'/'.$maxAttempts,
-                'http_status' => $response->status(),
+                'http_status' => $httpStatus,
                 'resp_code' => $respCode,
                 'resp_desc' => $result['resp_desc'] ?? null,
                 'url_returned' => $linkQris,
-                'raw_body' => $response->body(),
+                'raw_body' => $rawResponse,
+                'curl_error' => $curlError !== '' ? $curlError : null,
                 'endpoint' => $endpoint,
-                'qris_user' => $user ? 'SET' : 'NOT SET',
             ]);
 
-            // Sukses: resp_code "00" + URL tidak kosong
             if ($respCode === '00' && ! empty($linkQris)) {
                 return ['success' => true, 'response' => $result, 'link_qris' => $linkQris];
             }
 
-            // HTTP error = stop retry
-            if ($response->failed()) {
-                Log::error('Bapenda QRIS API HTTP error', [
+            if ($curlError !== '' || $httpStatus >= 400) {
+                Log::error('Bapenda QRIS cURL error', [
                     'kodebayar' => $fullKodebayar,
-                    'status' => $response->status(),
-                    'body' => $response->body(),
+                    'http_status' => $httpStatus,
+                    'curl_error' => $curlError,
+                    'raw_body' => $rawResponse,
                 ]);
 
-                return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS (HTTP '.$response->status().').', 'response' => $result];
+                return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS (HTTP '.$httpStatus.'): '.$curlError, 'response' => $result];
             }
 
-            // resp_code bukan "00" = retry (mungkin billing belum sinkron)
             if ($attempt < $maxAttempts) {
                 sleep(2);
             }
         }
 
-        // Semua attempt gagal
-        Log::warning('Bapenda QRIS API failed after '.$maxAttempts.' attempts', [
+        Log::warning('Bapenda QRIS cURL failed after '.$maxAttempts.' attempts', [
             'kodebayar' => $fullKodebayar,
             'resp_code' => $result['resp_code'] ?? null,
             'resp_desc' => $result['resp_desc'] ?? null,

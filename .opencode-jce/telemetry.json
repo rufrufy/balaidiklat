@@ -4480,5 +4480,128 @@
       ]
     },
     "at": "2026-07-01T03:53:51.247Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "release",
+    "metadata": {
+      "intent": "release",
+      "selectedSkills": [
+        "release-engineering",
+        "verification-discipline"
+      ],
+      "suppressedSkills": [],
+      "confidence": 50
+    },
+    "at": "2026-07-01T04:02:55.440Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "release-engineering",
+    "metadata": {
+      "skill": "release-engineering",
+      "intent": "release"
+    },
+    "at": "2026-07-01T04:02:55.460Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "release"
+    },
+    "at": "2026-07-01T04:02:55.478Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-07-01T04:02:55.499Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "release-engineering",
+    "metadata": {
+      "skill": "release-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-07-01T04:02:56.709Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "source": "system_injection"
+    },
+    "at": "2026-07-01T04:02:56.743Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "release",
+    "metadata": {
+      "intent": "release",
+      "selectedSkills": [
+        "release-engineering",
+        "verification-discipline"
+      ],
+      "suppressedSkills": [],
+      "confidence": 50
+    },
+    "at": "2026-07-01T05:02:19.802Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "release-engineering",
+    "metadata": {
+      "skill": "release-engineering",
+      "intent": "release"
+    },
+    "at": "2026-07-01T05:02:19.827Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "release"
+    },
+    "at": "2026-07-01T05:02:19.846Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-07-01T05:02:19.862Z"
+  },
+  {
+    "kind": "verification_used",
+    "name": "php artisan bapenda:test 2>&1",
+    "metadata": {
+      "command": "php artisan bapenda:test 2>&1",
+      "status": "pass"
+    },
+    "at": "2026-07-01T05:03:48.690Z"
+  },
+  {
+    "kind": "verification_result",
+    "name": "php artisan bapenda:test 2>&1",
+    "metadata": {
+      "skill": "release-engineering",
+      "passed": true,
+      "command": "php artisan bapenda:test 2>&1"
+    },
+    "at": "2026-07-01T05:03:48.729Z"
   }
 ]

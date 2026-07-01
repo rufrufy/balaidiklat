@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-01T05:04:01.868Z",
+  "updatedAt": "2026-07-01T05:25:13.828Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [
@@ -16,15 +16,6 @@
     }
   ],
   "verificationEvidence": [
-    {
-      "taskId": "auto-capture",
-      "type": "command",
-      "command": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}}",
-      "status": "unknown",
-      "summary": "Invoke-WebRequest -Uri \"http://balaidiklat.test\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode, @{N='Length';E={$_.Content.Length}} -> unknown",
-      "area": "auto-capture",
-      "captured": "auto"
-    },
     {
       "taskId": "auto-capture",
       "type": "command",
@@ -922,6 +913,16 @@
       "area": "auto-capture",
       "captured": "auto",
       "workflowId": "workflow-1782720773997"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "php artisan bapenda:test 2>&1",
+      "status": "pass",
+      "summary": "php artisan bapenda:test 2>&1 -> pass",
+      "area": "auto-capture",
+      "captured": "auto",
+      "workflowId": "workflow-1782720773997"
     }
   ],
   "retryHistory": [],
@@ -1027,17 +1028,17 @@
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 195328,
-    "compressedChars": 190720,
-    "estimatedTokensSaved": 1024,
+    "originalChars": 3371264,
+    "compressedChars": 3297024,
+    "estimatedTokensSaved": 16640,
     "estimatedSavingsPercent": 2,
-    "tasks": 0,
+    "tasks": 4352,
     "byTool": {
       "bash": {
-        "originalChars": 195328,
-        "compressedChars": 190720,
-        "estimatedTokensSaved": 1024,
-        "tasks": 256
+        "originalChars": 3371264,
+        "compressedChars": 3297024,
+        "estimatedTokensSaved": 16640,
+        "tasks": 4352
       },
       "grep": {
         "originalChars": 0,

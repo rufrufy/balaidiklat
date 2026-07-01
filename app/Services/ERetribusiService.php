@@ -115,6 +115,22 @@ class ERetribusiService
 
         $payload = json_encode(['kodebayar' => $fullKodebayar]);
 
+        // Log info server untuk debugging IP source
+        $serverIp = $_SERVER['SERVER_ADDR'] ?? 'CLI';
+        $clientIp = $_SERVER['REMOTE_ADDR'] ?? 'CLI';
+        $hostname = gethostname();
+        $outboundIp = $this->detectOutboundIp();
+
+        Log::info('Bapenda QRIS request context', [
+            'kodebayar' => $fullKodebayar,
+            'endpoint' => $endpoint,
+            'server_addr' => $serverIp,
+            'client_ip' => $clientIp,
+            'hostname' => $hostname,
+            'outbound_ip' => $outboundIp,
+            'php_sapi' => PHP_SAPI,
+        ]);
+
         $maxAttempts = 3;
         $result = null;
         $rawResponse = '';
@@ -141,6 +157,9 @@ class ERetribusiService
             $rawResponse = (string) curl_exec($curl);
             $httpStatus = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
             $curlError = curl_error($curl);
+            $primaryIp = curl_getinfo($curl, CURLINFO_PRIMARY_IP);
+            $localIp = curl_getinfo($curl, CURLINFO_LOCAL_IP);
+            $localPort = curl_getinfo($curl, CURLINFO_LOCAL_PORT);
             curl_close($curl);
 
             $result = json_decode($rawResponse, true) ?? [
@@ -161,6 +180,9 @@ class ERetribusiService
                 'raw_body' => $rawResponse,
                 'curl_error' => $curlError !== '' ? $curlError : null,
                 'endpoint' => $endpoint,
+                'curl_primary_ip' => $primaryIp,
+                'curl_local_ip' => $localIp,
+                'curl_local_port' => $localPort,
             ]);
 
             if ($respCode === '00' && ! empty($linkQris)) {
@@ -448,5 +470,21 @@ class ERetribusiService
         ]);
 
         return $url;
+    }
+
+    private function detectOutboundIp(): string
+    {
+        if (PHP_SAPI === 'cli') {
+            $sock = @fsockopen('8.8.8.8', 53, $errno, $errstr, 3);
+            if (! $sock) {
+                return 'unknown';
+            }
+            $ip = stream_socket_get_name($sock, false);
+            fclose($sock);
+
+            return $ip;
+        }
+
+        return $_SERVER['SERVER_ADDR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     }
 }

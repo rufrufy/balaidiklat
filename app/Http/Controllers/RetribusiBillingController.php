@@ -66,9 +66,15 @@ class RetribusiBillingController extends Controller
 
             $result = $service->fetchAndSaveQris($billing);
 
-            if ($result['success'] && isset($result['link_qris'])) {
+            if ($result['success'] && ! empty($result['link_qris'])) {
                 $imageUrl = $service->downloadQrisImage($billing);
                 $result['image_url'] = $imageUrl;
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => $result['message'] ?? 'Bapenda gagal generate link QRIS. Silakan coba beberapa saat lagi.',
+                    'response' => $result['response'] ?? null,
+                ], 200);
             }
         } catch (\Throwable $e) {
             Log::error('fetchQris exception', [
@@ -83,7 +89,7 @@ class RetribusiBillingController extends Controller
             ], 500);
         }
 
-        return response()->json($result, $result['success'] ? 200 : 400);
+        return response()->json($result);
     }
 
     public function apiShow(RetribusiBilling $billing): JsonResponse

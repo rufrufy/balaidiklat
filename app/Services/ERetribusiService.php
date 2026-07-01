@@ -110,12 +110,13 @@ class ERetribusiService
         }
 
         $endpoint = $baseUrl.$qrisPath;
+        $fullKodebayar = '73'.$kodebayar;
 
         $response = Http::withBasicAuth($user, $pass)
             ->withHeaders(['Content-Type' => 'application/json'])
             ->timeout(30)
             ->post($endpoint, [
-                'kodebayar' => '73'.$kodebayar,
+                'kodebayar' => $fullKodebayar,
             ]);
 
         $result = $response->json() ?? [
@@ -123,17 +124,44 @@ class ERetribusiService
             'body' => $response->body(),
         ];
 
+        Log::info('Bapenda QRIS API response', [
+            'kodebayar' => $fullKodebayar,
+            'http_status' => $response->status(),
+            'resp_code' => $result['resp_code'] ?? null,
+            'resp_desc' => $result['resp_desc'] ?? null,
+            'url_returned' => $result['url'] ?? null,
+        ]);
+
         if ($response->failed()) {
-            Log::error('Bapenda QRIS API error', [
-                'kodebayar' => '73'.$kodebayar,
+            Log::error('Bapenda QRIS API HTTP error', [
+                'kodebayar' => $fullKodebayar,
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
 
-            return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS.', 'response' => $result];
+            return ['success' => false, 'message' => 'Gagal mendapatkan link QRIS (HTTP '.$response->status().').', 'response' => $result];
         }
 
-        return ['success' => true, 'response' => $result];
+        // Bapenda return HTTP 200 tapi resp_code "01" = Failed
+        $respCode = $result['resp_code'] ?? null;
+        $linkQris = $result['url'] ?? null;
+
+        if ($respCode !== '00' || empty($linkQris)) {
+            Log::warning('Bapenda QRIS API returned Failed', [
+                'kodebayar' => $fullKodebayar,
+                'resp_code' => $respCode,
+                'resp_desc' => $result['resp_desc'] ?? null,
+                'url' => $linkQris,
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Bapenda gagal generate QRIS: '.($result['resp_desc'] ?? 'Unknown error'),
+                'response' => $result,
+            ];
+        }
+
+        return ['success' => true, 'response' => $result, 'link_qris' => $linkQris];
     }
 
     /**
@@ -151,12 +179,12 @@ class ERetribusiService
             return $result;
         }
 
+        $linkQris = $result['link_qris']
+            ?? ($result['response']['url'] ?? null);
+
         $updateData = [
             'qris_response_payload' => $result['response'],
         ];
-
-        $linkQris = $result['response']['url']
-            ?? null;
 
         if ($linkQris) {
             $updateData['link_qris'] = $linkQris;

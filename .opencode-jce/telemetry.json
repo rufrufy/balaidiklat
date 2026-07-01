@@ -4267,5 +4267,69 @@
       ]
     },
     "at": "2026-07-01T02:51:53.734Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "codebase-intelligence",
+        "ui-pattern-library"
+      ],
+      "suppressedSkills": [],
+      "confidence": 100
+    },
+    "at": "2026-07-01T03:10:13.595Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-07-01T03:10:13.615Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-07-01T03:10:13.631Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ui-pattern-library",
+    "metadata": {
+      "skill": "ui-pattern-library",
+      "intent": "feature"
+    },
+    "at": "2026-07-01T03:10:13.651Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-01T03:10:13.673Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "source": "system_injection"
+    },
+    "at": "2026-07-01T03:10:14.512Z"
   }
 ]

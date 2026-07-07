@@ -5,10 +5,17 @@ namespace Tests\Feature;
 use App\Models\ChatbotRule;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
+use App\Models\LayananPengaduan;
+use App\Models\RetribusiBilling;
 use App\Models\User;
 use App\Models\WhatsappMessage;
+use App\Models\WhatsappSession;
+use App\Services\KamarAvailabilityService;
+use Database\Seeders\ChatbotRuleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -121,7 +128,7 @@ class ExampleTest extends TestCase
         Http::fake();
         config(['services.kirimchat.require_webhook_secret' => false]);
 
-        $this->seed(\Database\Seeders\ChatbotRuleSeeder::class);
+        $this->seed(ChatbotRuleSeeder::class);
 
         $kamar = Kamar::create([
             'kode' => 'KM-FLOW',
@@ -148,14 +155,14 @@ class ExampleTest extends TestCase
 
         $send('menu');
         $send('1'); // Informasi layanan -> list_kamar -> state pilih_kamar
-        $this->assertSame('pilih_kamar', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pilih_kamar', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         $send('1'); // pilih kamar nomor 1 -> detail fasilitas -> state pesan_isi_data
-        $this->assertSame('pesan_isi_data', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pesan_isi_data', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         // Form key-value multiline + "WA: sama" -> pakai nomor pengirim.
         $send("Nama: Budi Santoso\nMasuk: 15-06-2026\nKeluar: 17-06-2026\nWA: sama");
-        $this->assertSame('pesan_pembayaran', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pesan_pembayaran', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         // Reservasi tersimpan ke DB dari chatbot.
         $this->assertDatabaseHas(KamarReservasi::class, [
@@ -176,21 +183,33 @@ class ExampleTest extends TestCase
 
         // Klik Bayar -> pilih metode -> QRIS.
         $send('bayar');
-        $this->assertSame('pesan_metode_bayar', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pesan_metode_bayar', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         $send('qris'); // QRIS -> minta upload bukti pembayaran
-        $this->assertSame('pesan_upload_bukti', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pesan_upload_bukti', WhatsappSession::where('phone_number', $phone)->value('state'));
     }
 
     public function test_sapa_balai_payment_proof_upload_marks_paid(): void
     {
         Http::fake([
-            'cdn.example.test/*' => Http::response('FAKEIMAGEBYTES', 200, ['Content-Type' => 'image/jpeg']),
+            'cdn.example.test/*' => Http::response("\xFF\xD8\xFFFAKEJPEG", 200, ['Content-Type' => 'image/jpeg']),
+            'eretribusi.semarangkota.go.id/api/v2/prod/retribusi/store*' => Http::response([
+                'success' => true,
+                'data' => [
+                    'id_billing' => 740000000001221,
+                    'link_ssrd' => 'https://eretribusi.semarangkota.go.id/ssrd/test',
+                    'no_ketetapan' => 'A123',
+                ],
+            ], 200),
+            'eretribusi.semarangkota.go.id/api/v2/prod/retribusi/check*' => Http::response([
+                'success' => true,
+                'data' => ['tgl_bayar' => '2026-06-15 10:00:00'],
+            ], 200),
             '*' => Http::response(['success' => true], 200),
         ]);
         config(['services.kirimchat.require_webhook_secret' => false]);
 
-        $this->seed(\Database\Seeders\ChatbotRuleSeeder::class);
+        $this->seed(ChatbotRuleSeeder::class);
 
         $kamar = Kamar::create([
             'kode' => 'KM-PAY',
@@ -228,11 +247,11 @@ class ExampleTest extends TestCase
         // Customer care -> kode booking -> unpaid -> tombol Bayar.
         $send(['message_type' => 'text', 'content' => '6']);
         $send(['message_type' => 'text', 'content' => 'RSV-PAYTEST-1']);
-        $this->assertSame('pesan_pembayaran', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('pesan_pembayaran', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         $send(['message_type' => 'text', 'content' => 'bayar']);
-        $send(['message_type' => 'text', 'content' => 'transfer']);
-        $this->assertSame('pesan_upload_bukti', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $send(['message_type' => 'text', 'content' => 'bank_bri']);
+        $this->assertSame('pesan_upload_bukti', WhatsappSession::where('phone_number', $phone)->value('state'));
 
         // Kirim foto bukti -> tersimpan + status paid.
         $send(['message_type' => 'image', 'media_url' => 'https://cdn.example.test/bukti.jpg']);
@@ -240,15 +259,15 @@ class ExampleTest extends TestCase
         $reservasi->refresh();
         $this->assertSame('paid', $reservasi->payment_status);
         $this->assertNotNull($reservasi->bukti_pembayaran);
-        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($reservasi->bukti_pembayaran);
-        $this->assertSame('main_menu', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        Storage::disk('public')->assertExists($reservasi->bukti_pembayaran);
+        $this->assertSame('main_menu', WhatsappSession::where('phone_number', $phone)->value('state'));
     }
 
     public function test_sapa_balai_laporan_gangguan_saved_to_db(): void
     {
         Http::fake();
         config(['services.kirimchat.require_webhook_secret' => false]);
-        $this->seed(\Database\Seeders\ChatbotRuleSeeder::class);
+        $this->seed(ChatbotRuleSeeder::class);
 
         $phone = '6285600000002';
         $send = function (string $content) use ($phone): void {
@@ -269,20 +288,20 @@ class ExampleTest extends TestCase
         $send('3'); // Laporan gangguan
         $send('AC kamar 2 tidak dingin');
 
-        $this->assertDatabaseHas(\App\Models\LayananPengaduan::class, [
+        $this->assertDatabaseHas(LayananPengaduan::class, [
             'jenis' => 'gangguan',
             'nama' => 'Andi',
             'phone_number' => $phone,
             'isi' => 'AC kamar 2 tidak dingin',
         ]);
-        $this->assertSame('main_menu', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('main_menu', WhatsappSession::where('phone_number', $phone)->value('state'));
     }
 
     public function test_sapa_balai_customer_care_cek_booking(): void
     {
         Http::fake();
         config(['services.kirimchat.require_webhook_secret' => false]);
-        $this->seed(\Database\Seeders\ChatbotRuleSeeder::class);
+        $this->seed(ChatbotRuleSeeder::class);
 
         KamarReservasi::create([
             'kode' => 'RSV-CC-001',
@@ -317,7 +336,7 @@ class ExampleTest extends TestCase
             'direction' => 'outbound',
             'message_type' => 'interactive',
         ]);
-        $this->assertSame('main_menu', \App\Models\WhatsappSession::where('phone_number', $phone)->value('state'));
+        $this->assertSame('main_menu', WhatsappSession::where('phone_number', $phone)->value('state'));
     }
 
     public function test_kirimchat_webhook_ignores_outbound_status_events(): void
@@ -483,7 +502,7 @@ class ExampleTest extends TestCase
             'status' => 'approved',
         ]);
 
-        $billing = \App\Models\RetribusiBilling::create([
+        $billing = RetribusiBilling::create([
             'kamar_reservasi_id' => $reservasi->id,
             'tanggal' => '2026-06-11',
             'keterangan' => 'Sewa Diklat',
@@ -512,7 +531,7 @@ class ExampleTest extends TestCase
             'status' => 'approved',
         ]);
 
-        $billing = \App\Models\RetribusiBilling::create([
+        $billing = RetribusiBilling::create([
             'kamar_reservasi_id' => $reservasi->id,
             'tanggal' => '2026-06-11',
             'keterangan' => 'Sewa Diklat',
@@ -527,7 +546,7 @@ class ExampleTest extends TestCase
 
     public function test_availability_service_parses_date_range(): void
     {
-        $service = new \App\Services\KamarAvailabilityService();
+        $service = new KamarAvailabilityService;
 
         $this->assertSame(['2026-06-15', '2026-06-17'], $service->parseDateInput('15-06-2026 sampai 17-06-2026'));
         $this->assertSame(['2026-06-15', '2026-06-16'], $service->parseDateInput('15-06-2026'));
@@ -540,7 +559,7 @@ class ExampleTest extends TestCase
         Kamar::create(['kode' => 'AV-2', 'nama' => 'Penuh', 'tipe' => 'kamar', 'harga_per_malam' => 100000, 'status' => 'full']);
         Kamar::create(['kode' => 'AV-3', 'nama' => 'Perawatan', 'tipe' => 'kamar', 'harga_per_malam' => 100000, 'status' => 'maintenance']);
 
-        $service = new \App\Services\KamarAvailabilityService();
+        $service = new KamarAvailabilityService;
         $rooms = $service->availableRooms('2026-06-15', '2026-06-17');
 
         $this->assertCount(1, $rooms);
@@ -549,7 +568,7 @@ class ExampleTest extends TestCase
 
     public function test_admin_can_upload_kamar_photo(): void
     {
-        \Illuminate\Support\Facades\Storage::fake('public');
+        Storage::fake('public');
         $this->actingAs(User::factory()->create());
 
         $response = $this->post(route('admin.kamar.store'), [
@@ -558,7 +577,7 @@ class ExampleTest extends TestCase
             'tipe' => 'kamar',
             'harga_per_malam' => 150000,
             'status' => 'available',
-            'foto' => \Illuminate\Http\UploadedFile::fake()->create('foto.jpg', 500, 'image/jpeg'),
+            'foto' => UploadedFile::fake()->create('foto.jpg', 500, 'image/jpeg'),
         ]);
 
         $response->assertRedirect(route('admin.dashboard', ['section' => 'kamar']));
@@ -566,12 +585,12 @@ class ExampleTest extends TestCase
         $kamar = Kamar::where('kode', 'KM-FOTO')->first();
         $this->assertNotNull($kamar);
         $this->assertNotNull($kamar->foto_path);
-        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($kamar->foto_path);
+        Storage::disk('public')->assertExists($kamar->foto_path);
     }
 
     public function test_admin_kamar_store_rejects_oversized_photo(): void
     {
-        \Illuminate\Support\Facades\Storage::fake('public');
+        Storage::fake('public');
         $this->actingAs(User::factory()->create());
 
         $response = $this->post(route('admin.kamar.store'), [
@@ -580,7 +599,7 @@ class ExampleTest extends TestCase
             'tipe' => 'kamar',
             'harga_per_malam' => 150000,
             'status' => 'available',
-            'foto' => \Illuminate\Http\UploadedFile::fake()->create('big.jpg', 3000, 'image/jpeg'),
+            'foto' => UploadedFile::fake()->create('big.jpg', 3000, 'image/jpeg'),
         ]);
 
         $response->assertSessionHasErrors('foto');

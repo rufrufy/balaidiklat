@@ -25,8 +25,7 @@ class KirimChatWebhookController extends Controller
 {
     public function __construct(
         private readonly KamarAvailabilityService $availability,
-    ) {
-    }
+    ) {}
 
     public function handle(Request $request, KirimChatService $kirimChat): JsonResponse
     {
@@ -194,7 +193,7 @@ class KirimChatWebhookController extends Controller
                 return;
 
             case 'bayar_transfer':
-                $this->sendTransfer($session, $phoneNumber, $kirimChat);
+                $this->sendTransfer($session, $phoneNumber, $rawInput, $kirimChat);
 
                 return;
 
@@ -301,7 +300,7 @@ class KirimChatWebhookController extends Controller
     {
         $body = "Halo, {$name} Selamat Datang di SAPA BALAI \u{1F44B}.\n"
             ."Smart Chatbot Layanan Balai Diklat Kota Semarang.\n\n"
-            ."Silakan pilih menu layanan di bawah ini.";
+            .'Silakan pilih menu layanan di bawah ini.';
 
         $kirimChat->sendList(
             $phoneNumber,
@@ -316,7 +315,7 @@ class KirimChatWebhookController extends Controller
                         ['id' => '4', 'title' => 'Saran', 'description' => 'Kirim saran dan masukan'],
                         ['id' => '5', 'title' => 'Survey Kepuasan', 'description' => 'Isi survey kepuasan layanan'],
                         ['id' => '6', 'title' => 'Cek Pemesanan', 'description' => 'Periksa status booking Anda'],
-                                                ['id' => '7', 'title' => 'Customer Care', 'description' => 'Hubungi tim layanan pelanggan'],
+                        ['id' => '7', 'title' => 'Customer Care', 'description' => 'Hubungi tim layanan pelanggan'],
                     ],
                 ],
             ],
@@ -378,7 +377,7 @@ class KirimChatWebhookController extends Controller
             "Kamar/kelas Tersedia {$masuk} s/d {$keluar}:\n{$lines}\n\n"
             ."Silakan isi data pemesanan dengan format:\n"
             ."Nama, Instansi, Kegiatan, Jumlah peserta\n"
-            ."Contoh: Budi, BKPP, Diklat ASN, 20"
+            .'Contoh: Budi, BKPP, Diklat ASN, 20'
         );
     }
 
@@ -400,7 +399,7 @@ class KirimChatWebhookController extends Controller
         $kamars = Kamar::orderBy('jenis_kelas')->get();
 
         if ($kamars->isEmpty()) {
-            $this->sendReturnButtons($phoneNumber, "Mohon maaf, belum ada data jenis kelas yang tersedia saat ini.", $kirimChat);
+            $this->sendReturnButtons($phoneNumber, 'Mohon maaf, belum ada data jenis kelas yang tersedia saat ini.', $kirimChat);
 
             return;
         }
@@ -444,7 +443,7 @@ class KirimChatWebhookController extends Controller
         if (! $jenisKelas) {
             $this->sendReturnButtons(
                 $phoneNumber,
-                "Pilihan tidak dikenali. Ketik nomor jenis kelas yang ada di daftar, atau kembali ke menu utama.",
+                'Pilihan tidak dikenali. Ketik nomor jenis kelas yang ada di daftar, atau kembali ke menu utama.',
                 $kirimChat
             );
 
@@ -473,7 +472,7 @@ class KirimChatWebhookController extends Controller
             ."Tersedia: {$tersedia} unit\n"
             ."Fasilitas: {$fasilitas}\n\n"
             ."Silakan kirim *Jumlah unit* yang ingin dipesan.\n"
-            ."Contoh: 1"
+            .'Contoh: 1'
         );
     }
 
@@ -490,11 +489,11 @@ class KirimChatWebhookController extends Controller
 
         $baseUrl = rtrim((string) config('app.url'), '/');
         if (! str_starts_with($baseUrl, 'http')) {
-            $baseUrl = 'https://' . $baseUrl;
+            $baseUrl = 'https://'.$baseUrl;
         }
 
         foreach ($fotoPaths->take(3) as $index => $path) {
-            $mediaUrl = $baseUrl . '/storage/' . ltrim($path, '/');
+            $mediaUrl = $baseUrl.'/storage/'.ltrim($path, '/');
 
             $caption = $index === 0
                 ? "Foto {$kamar->jenis_kelas}"
@@ -538,7 +537,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Jumlah unit: *{$jumlah}*\n\n"
             ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-            ."Contoh: 15-06-2026"
+            .'Contoh: 15-06-2026'
         );
     }
 
@@ -553,7 +552,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Format tanggal tidak sesuai. Silakan kirim *Tanggal Mulai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-                ."Contoh: 15-06-2026"
+                .'Contoh: 15-06-2026'
             );
 
             return;
@@ -580,7 +579,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Tanggal mulai: *{$tanggalTeks}*\n\n"
             ."Silakan kirim *Tanggal Selesai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-            ."Contoh: 17-06-2026"
+            .'Contoh: 17-06-2026'
         );
     }
 
@@ -595,7 +594,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Format tanggal tidak sesuai. Silakan kirim *Tanggal Selesai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-                ."Contoh: 17-06-2026"
+                .'Contoh: 17-06-2026'
             );
 
             return;
@@ -607,7 +606,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Tanggal selesai harus setelah tanggal mulai ({$masukTeks}). Silakan kirim *Tanggal Selesai* yang benar.\n"
-                ."Contoh: 17-06-2026"
+                .'Contoh: 17-06-2026'
             );
 
             return;
@@ -623,7 +622,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Tanggal selesai: *{$tanggalTeks}*\n\n"
             ."Silakan kirim *Nama* pemesan.\n"
-            ."Contoh: Budi Santoso"
+            .'Contoh: Budi Santoso'
         );
     }
 
@@ -726,7 +725,7 @@ class KirimChatWebhookController extends Controller
                     "Maaf, jumlah pemesanan kamar melebihi ketersediaan.\n\n"
                     ."Jenis Kelas: {$jenisKelas}\nTanggal: {$masuk} s/d {$keluar}\n"
                     ."Diminta: {$jumlah} unit\nTersedia: {$tersedia} unit\n\n"
-                    ."Silakan kurangi jumlah unit atau pilih tanggal lain. Ketik *menu* untuk kembali."
+                    .'Silakan kurangi jumlah unit atau pilih tanggal lain. Ketik *menu* untuk kembali.'
                 );
 
                 return;
@@ -782,7 +781,7 @@ class KirimChatWebhookController extends Controller
             .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
             ."Total: Rp{$hargaText}\n"
             ."Status: menunggu konfirmasi & pembayaran.\n\n"
-            ."Terima kasih telah memesan di Balai Diklat Kota Semarang.";
+            .'Terima kasih telah memesan di Balai Diklat Kota Semarang.';
 
         $result = $kirimChat->sendButtons(
             $phoneNumber,
@@ -797,9 +796,9 @@ class KirimChatWebhookController extends Controller
         if (! ($result['success'] ?? true)) {
             $kirimChat->sendText(
                 $phoneNumber,
-                $summary . "\n\n"
+                $summary."\n\n"
                 ."Balas *bayar* untuk melanjutkan pembayaran.\n"
-                ."Balas *menu* untuk kembali ke menu utama."
+                .'Balas *menu* untuk kembali ke menu utama.'
             );
         }
     }
@@ -821,7 +820,7 @@ class KirimChatWebhookController extends Controller
         if (! $data) {
             $this->sendReturnButtons(
                 $phoneNumber,
-                "Maaf, format pemesanan dari landing tidak dikenali. Silakan kirim ulang formulir dari halaman web atau ketik *menu*.",
+                'Maaf, format pemesanan dari landing tidak dikenali. Silakan kirim ulang formulir dari halaman web atau ketik *menu*.',
                 $kirimChat
             );
 
@@ -848,7 +847,7 @@ class KirimChatWebhookController extends Controller
         if (! $kamar || ! $masuk || ! $keluar) {
             $this->sendReturnButtons(
                 $phoneNumber,
-                "Data pemesanan tidak lengkap (jenis kelas/tanggal belum diisi). Silakan lengkapi formulir di landing page.",
+                'Data pemesanan tidak lengkap (jenis kelas/tanggal belum diisi). Silakan lengkapi formulir di landing page.',
                 $kirimChat
             );
 
@@ -864,7 +863,7 @@ class KirimChatWebhookController extends Controller
                 ."Tanggal: {$masuk} s/d {$keluar}\n"
                 ."Diminta: {$jumlahUnit} unit\n"
                 ."Tersedia: {$tersedia} unit\n\n"
-                ."Silakan kurangi jumlah unit atau pilih tanggal/kamar lain. Ketik *menu* untuk kembali."
+                .'Silakan kurangi jumlah unit atau pilih tanggal/kamar lain. Ketik *menu* untuk kembali.'
             );
 
             return;
@@ -882,10 +881,10 @@ class KirimChatWebhookController extends Controller
                     $phoneNumber,
                     "Maaf, jumlah pemesanan kamar melebihi ketersediaan untuk item tambahan.\n\n"
                     ."Jenis Kelas: {$ikamar->jenis_kelas}\n"
-                    ."Tanggal: ".($item['tanggal_masuk'] ?? '-')." s/d ".($item['tanggal_keluar'] ?? '-')."\n"
+                    .'Tanggal: '.($item['tanggal_masuk'] ?? '-').' s/d '.($item['tanggal_keluar'] ?? '-')."\n"
                     ."Diminta: {$iUnit} unit\n"
                     ."Tersedia: {$iTersedia} unit\n\n"
-                    ."Silakan sesuaikan pemesanan. Ketik *menu* untuk kembali."
+                    .'Silakan sesuaikan pemesanan. Ketik *menu* untuk kembali.'
                 );
 
                 return;
@@ -925,10 +924,10 @@ class KirimChatWebhookController extends Controller
         $ringkasan = "RINGKASAN PEMESANAN (dari Landing Page)\n\n"
             ."Nama: {$nama}\n"
             ."No WA: {$waNumber}\n"
-            ."Tipe Penyewa: ".($isInstansi ? 'Instansi' : 'Perorangan')."\n";
+            .'Tipe Penyewa: '.($isInstansi ? 'Instansi' : 'Perorangan')."\n";
         if ($isInstansi) {
-            $ringkasan .= "Instansi: ".($instansi ?: '-')."\n";
-            $ringkasan .= "Kegiatan: ".($kegiatan ?: '-')."\n";
+            $ringkasan .= 'Instansi: '.($instansi ?: '-')."\n";
+            $ringkasan .= 'Kegiatan: '.($kegiatan ?: '-')."\n";
         }
         $ringkasan .= "Tanggal: {$masuk} s/d {$keluar}\n"
             ."Jenis Kelas: {$kamar->jenis_kelas}\n"
@@ -981,7 +980,7 @@ class KirimChatWebhookController extends Controller
                     $phoneNumber,
                     "Maaf, saat konfirmasi ketersediaan kamar berkurang.\n\n"
                     ."Jenis Kelas: {$kamar->jenis_kelas}\nTersedia: {$tersedia} unit\nDiminta: {$jumlahUnit} unit\n\n"
-                    ."Silakan ulangi pemesanan dengan jumlah yang lebih kecil. Ketik *menu* untuk kembali."
+                    .'Silakan ulangi pemesanan dengan jumlah yang lebih kecil. Ketik *menu* untuk kembali.'
                 );
 
                 return;
@@ -1063,7 +1062,7 @@ class KirimChatWebhookController extends Controller
             .(($masuk && $keluar) ? "Tanggal: {$masuk} s/d {$keluar}\n" : '')
             ."Total: Rp{$hargaText}\n"
             ."Status: menunggu pembayaran.\n\n"
-            ."Pilih metode pembayaran atau kembali ke menu utama.",
+            .'Pilih metode pembayaran atau kembali ke menu utama.',
             [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
@@ -1105,6 +1104,7 @@ class KirimChatWebhookController extends Controller
             }
             if (str_starts_with($line, '--- Item Tambahan ---')) {
                 $inItems = true;
+
                 continue;
             }
 
@@ -1115,6 +1115,7 @@ class KirimChatWebhookController extends Controller
                     'tanggal_keluar' => $this->normalizeDate(trim($m[3])),
                     'jumlah_unit' => (int) $m[4],
                 ];
+
                 continue;
             }
 
@@ -1206,22 +1207,39 @@ class KirimChatWebhookController extends Controller
 
     private function sendPaymentChoice(string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $result = $kirimChat->sendButtons(
+        $result = $kirimChat->sendList(
             $phoneNumber,
-            "Silakan pilih metode pembayaran:",
+            'Silakan pilih metode pembayaran:',
+            'Pilih Metode',
             [
-                ['id' => 'qris', 'title' => 'QRIS'],
-                ['id' => 'transfer', 'title' => 'Transfer Bank'],
-            ]
+                [
+                    'title' => 'Metode Pembayaran',
+                    'rows' => [
+                        ['id' => 'qris', 'title' => 'QRIS', 'description' => 'Bayar dengan QRIS e-Retribusi'],
+                        ['id' => 'bank_jateng', 'title' => 'Bank Jateng', 'description' => 'I-Banking Bank Jateng'],
+                        ['id' => 'bank_bri', 'title' => 'Bank BRI', 'description' => 'BRI Mobile transfer Bank Jateng'],
+                        ['id' => 'bank_mandiri', 'title' => 'Bank Mandiri', 'description' => "Livin' transfer Bank Jateng"],
+                        ['id' => 'bank_bni', 'title' => 'Bank BNI', 'description' => 'ATM BNI transfer bank lain'],
+                        ['id' => 'bank_bca', 'title' => 'Bank BCA', 'description' => 'M-Banking BCA antar bank'],
+                    ],
+                ],
+            ],
+            'Pembayaran',
+            'Kode bayar transfer: 73 + id billing.'
         );
 
-        // Fallback: jika KirimChat API gagal mengirim interactive button, kirim teks
+        // Fallback: jika KirimChat API gagal mengirim interactive list, kirim teks.
         if (! ($result['success'] ?? true)) {
             $kirimChat->sendText(
                 $phoneNumber,
                 "Silakan pilih metode pembayaran:\n\n"
-                ."Balas *qris* untuk pembayaran via QRIS\n"
-                ."Balas *transfer* untuk transfer bank"
+                ."O QRIS\n"
+                ."O Bank Jateng\n"
+                ."O Bank BRI\n"
+                ."O Bank Mandiri\n"
+                ."O Bank BNI\n"
+                ."O Bank BCA\n\n"
+                .'Balas nama metode, contoh: *QRIS* atau *Bank BRI*.'
             );
         }
     }
@@ -1234,7 +1252,7 @@ class KirimChatWebhookController extends Controller
         if (! $reservasi) {
             $kirimChat->sendText(
                 $phoneNumber,
-                "Maaf, data reservasi tidak ditemukan. Ketik *menu* untuk kembali ke menu utama."
+                'Maaf, data reservasi tidak ditemukan. Ketik *menu* untuk kembali ke menu utama.'
             );
 
             return;
@@ -1265,7 +1283,7 @@ class KirimChatWebhookController extends Controller
                 $kirimChat->sendText(
                     $phoneNumber,
                     "Maaf, terjadi kesalahan saat membuat billing e-Retribusi. Tim kami akan menghubungi Anda shortly.\n\n"
-                    ."Ketik *menu* untuk kembali, atau hubungi admin langsung."
+                    .'Ketik *menu* untuk kembali, atau hubungi admin langsung.'
                 );
 
                 return;
@@ -1307,7 +1325,7 @@ class KirimChatWebhookController extends Controller
             }
 
             $caption .= "Scan QR code di atas atau klik link untuk membayar.\n\n"
-                ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+                .'Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
         } else {
@@ -1320,46 +1338,154 @@ class KirimChatWebhookController extends Controller
                 $message .= "Link QRIS:\n{$linkQris}\n\n";
             }
 
-            $message .= "Atau transfer ke:\n"
-                ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
-                ."Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+            if (! $linkQris) {
+                $message .= "Link QRIS belum tersedia. Silakan ketik *bayar* lagi beberapa saat lagi atau hubungi admin.\n\n";
+            }
+
+            $message .= 'Setelah membayar via QRIS, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendText($phoneNumber, $message);
         }
     }
 
-    private function sendTransfer(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
+    private function sendTransfer(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
         $kode = data_get($session->context, 'booking_kode');
         $reservasi = $kode ? KamarReservasi::where('kode', $kode)->first() : null;
 
+        if (! $reservasi) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                'Maaf, data reservasi tidak ditemukan. Ketik *menu* untuk kembali ke menu utama.'
+            );
+
+            return;
+        }
+
+        $billing = $this->createBillingForReservasi($reservasi);
+        $service = app(ERetribusiService::class);
+
+        if ($billing->status !== 'sent' || ! $billing->id_billing) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Sedang membuat kode bayar e-Retribusi Bapenda untuk transfer bank...\n\nMohon tunggu sebentar."
+            );
+
+            $result = $service->sendBapendaBilling($billing);
+
+            if (! $result['success']) {
+                Log::error('sendTransfer: Bapenda billing failed', [
+                    'reservasi_id' => $reservasi->id,
+                    'billing_id' => $billing->id,
+                    'error' => $result['message'] ?? 'Unknown',
+                ]);
+
+                $kirimChat->sendText(
+                    $phoneNumber,
+                    "Maaf, terjadi kesalahan saat membuat kode bayar e-Retribusi. Tim kami akan menghubungi Anda.\n\nKetik *menu* untuk kembali, atau hubungi admin langsung."
+                );
+
+                return;
+            }
+
+            $billing->refresh();
+        }
+
         $session->update(['state' => 'pesan_upload_bukti']);
 
-        $message = "Pembayaran via Transfer Bank\n\n";
+        $bank = $this->resolveTransferBank($rawInput);
+        $kodeBayar = '73'.(string) ($billing->kodebayar ?: $billing->id_billing);
+        $nominalText = 'Rp'.number_format($reservasi->total_harga, 0, ',', '.');
 
-        if ($reservasi) {
-            $message .= "Reservasi: {$reservasi->kode}\n"
-                ."Total: Rp".number_format($reservasi->total_harga, 0, ',', '.')."\n\n";
-        }
-
-        $message .= "Silakan transfer ke salah satu rekening berikut:\n"
-            ."- Bank Jateng: 3-001-12345-6 a.n. BKPP Kota Semarang\n"
-            ."- BRI: 0123-01-001234-50-1 a.n. BKPP Kota Semarang\n\n";
-
-        if ($reservasi) {
-            $billing = RetribusiBilling::where('kamar_reservasi_id', $reservasi->id)
-                ->whereNotNull('link_ssrd')
-                ->latest()
-                ->first();
-
-            if ($billing?->link_ssrd) {
-                $message .= "Atau bayar via portal e-Retribusi:\n{$billing->link_ssrd}\n\n";
-            }
-        }
-
-        $message .= "Setelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.";
+        $message = "Pembayaran via {$bank['label']}\n\n"
+            ."Reservasi: {$reservasi->kode}\n"
+            ."Nominal: {$nominalText}\n"
+            ."Kode bayar: {$kodeBayar}\n\n"
+            .$this->buildTransferInstruction($bank['key'], $kodeBayar, $nominalText)
+            ."\n\nSetelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Sistem akan menyimpan bukti dan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Terima kasih.";
 
         $kirimChat->sendText($phoneNumber, $message);
+    }
+
+    /**
+     * @return array{key:string,label:string}
+     */
+    private function resolveTransferBank(string $rawInput): array
+    {
+        $input = Str::lower($rawInput);
+
+        if (str_contains($input, 'bri')) {
+            return ['key' => 'bri', 'label' => 'Bank BRI'];
+        }
+        if (str_contains($input, 'mandiri')) {
+            return ['key' => 'mandiri', 'label' => 'Bank Mandiri'];
+        }
+        if (str_contains($input, 'bni')) {
+            return ['key' => 'bni', 'label' => 'Bank BNI'];
+        }
+        if (str_contains($input, 'bca')) {
+            return ['key' => 'bca', 'label' => 'Bank BCA'];
+        }
+
+        return ['key' => 'jateng', 'label' => 'Bank Jateng'];
+    }
+
+    private function buildTransferInstruction(string $bankKey, string $kodeBayar, string $nominalText): string
+    {
+        return match ($bankKey) {
+            'bri' => "BRI MOBILE\n"
+                ."1. Login Aplikasi BRI MOBILE\n"
+                ."2. Klik Menu Transfer\n"
+                ."3. Klik Tombol Tambah Daftar Baru\n"
+                ."4. Pilih Bank Jateng\n"
+                ."5. Masukkan Nomor Rekening dengan kode bayar penulisan 73+kodebayar ({$kodeBayar})\n"
+                ."6. Cek Nama yang Muncul didalam tampilan\n"
+                ."7. Masukkan nominal transfer sesuai dengan tagihan pajak yang tertera di cetakan kode bayar terbaru ({$nominalText})\n"
+                ."8. Klik Transfer\n"
+                ."9. Cek Kembali Nomor Tujuan\n"
+                .'10. Klik Transfer',
+            'mandiri' => "Livin' Bank Mandiri\n"
+                ."1. Masuk menu transfer\n"
+                ."2. Masuk menu ke bank lain dalam negeri\n"
+                ."3. Klik rekening tujuan\n"
+                ."4. Pilih nama bank pilih bank jateng\n"
+                ."5. Input format 73+kodebayar ({$kodeBayar})\n"
+                ."6. Input nominal pajak sesuai cetakan kode bayar terbaru ({$nominalText})\n"
+                ."7. Masukkan deskripsi dengan kode bayar\n"
+                ."8. Klik lanjutkan\n"
+                ."9. Lalu periksa nominal pajaknya dan nama Rekening\n"
+                .'10. Klik lanjutkan',
+            'bni' => "ATM Bank BNI\n"
+                ."1. Klik menu lainnya\n"
+                ."2. Pilih Transfer\n"
+                ."3. Pilih Dari rekening tabungan\n"
+                ."4. Pilih Ke rekening bank lain\n"
+                ."5. Masukkan kode bayar 11373+kodebayar (113{$kodeBayar})\n"
+                ."6. Input nominal pajak sesuai cetakan kode bayar terbaru ({$nominalText})\n"
+                ."7. Pilih Dari rekening tabungan\n"
+                ."8. Pilih tekan jika benar\n"
+                ."9. Pastikan kodebayar, nama penerima, nominal pajak sama dengan cetakan kode bayar.\n"
+                .'10. Lalu tekan Ya',
+            'bca' => "M-Banking Bank BCA\n"
+                ."1. Buka Aplikasi M-Banking Bank BCA\n"
+                ."2. Klik menu m-Transfer\n"
+                ."3. Klik menu Antar Bank pada kolom Daftar Transfer\n"
+                ."4. Masukkan kode bayar pada No. Rekening Tujuan dengan kode awal 73+kodebayar ({$kodeBayar})\n"
+                ."5. Pilih Bank Jateng, lalu Send\n"
+                ."6. Klik menu Antar Bank pada kolom Transfer\n"
+                ."7. Pilih Bank Jateng\n"
+                ."8. Pilih Ke Rekening Tujuan, pilih sesuai kode bayar\n"
+                ."9. Masukkan jumlah bayar sesuai yang tercantum di lembar Kode Bayar ({$nominalText})\n"
+                .'10. Klik Send',
+            default => "I-Banking Bank Jateng\n"
+                ."1. Masuk i-banking Bank Jateng\n"
+                ."2. Klik menu pembayaran\n"
+                ."3. Klik pajak/retribusi\n"
+                ."4. Pilih penyedia jasa Retribusi\n"
+                ."5. Periksa data konfirmasi pembayaran pajak\n"
+                ."6. Masukkan pin\n"
+                .'7. Klik proses',
+        };
     }
 
     private function createBillingForReservasi(KamarReservasi $reservasi): RetribusiBilling
@@ -1489,7 +1615,7 @@ class KirimChatWebhookController extends Controller
                 ."2 ⭐⭐ Tidak Puas\n"
                 ."3 ⭐⭐⭐ Cukup\n"
                 ."4 ⭐⭐⭐⭐ Puas\n"
-                ."5 ⭐⭐⭐⭐⭐ Sangat Puas"
+                .'5 ⭐⭐⭐⭐⭐ Sangat Puas'
             );
 
             return;
@@ -1527,7 +1653,7 @@ class KirimChatWebhookController extends Controller
 
         $this->sendReturnButtons(
             $phoneNumber,
-            "Terima kasih atas survey kepuasan Anda! Masukan Anda sangat berarti untuk peningkatan layanan kami. 🙏",
+            'Terima kasih atas survey kepuasan Anda! Masukan Anda sangat berarti untuk peningkatan layanan kami. 🙏',
             $kirimChat
         );
     }
@@ -1590,21 +1716,23 @@ class KirimChatWebhookController extends Controller
         $reservasi = $kode ? KamarReservasi::with('retribusiBillings')->where('kode', $kode)->first() : null;
 
         if (! $reservasi) {
-            $kirimChat->sendText($phoneNumber, "Data reservasi tidak ditemukan. Ketik *menu* untuk kembali.");
+            $kirimChat->sendText($phoneNumber, 'Data reservasi tidak ditemukan. Ketik *menu* untuk kembali.');
+
             return;
         }
 
         $billing = $reservasi->retribusiBillings->last();
 
         if (! $billing || ! $billing->id_billing) {
-            $kirimChat->sendButtons($phoneNumber, "Belum ada billing e-Retribusi untuk reservasi ini.", [
+            $kirimChat->sendButtons($phoneNumber, 'Belum ada billing e-Retribusi untuk reservasi ini.', [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
             ]);
+
             return;
         }
 
-        $kirimChat->sendText($phoneNumber, "Sedang memeriksa status pembayaran...");
+        $kirimChat->sendText($phoneNumber, 'Sedang memeriksa status pembayaran...');
 
         $service = app(ERetribusiService::class);
         $result = $service->checkBilling((string) $billing->id_billing);
@@ -1626,9 +1754,10 @@ class KirimChatWebhookController extends Controller
                     "Status pembayaran: *LUNAS*\n"
                     ."Tanggal bayar: {$tglBayar}\n"
                     ."Kode booking: {$reservasi->kode}\n\n"
-                    ."Terima kasih telah melakukan pembayaran.",
+                    .'Terima kasih telah melakukan pembayaran.',
                     [['id' => 'menu', 'title' => 'Menu Utama']]
                 );
+
                 return;
             }
         }
@@ -1636,7 +1765,7 @@ class KirimChatWebhookController extends Controller
         $kirimChat->sendButtons($phoneNumber,
             "Status pembayaran: *BELUM LUNAS*\n"
             ."Kode booking: {$reservasi->kode}\n\n"
-            ."Silakan lanjutkan pembayaran.",
+            .'Silakan lanjutkan pembayaran.',
             [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
@@ -1654,7 +1783,7 @@ class KirimChatWebhookController extends Controller
         $reservasi = $kode ? KamarReservasi::where('kode', $kode)->first() : null;
 
         if (! $reservasi) {
-            $this->sendReturnButtons($phoneNumber, "Maaf, kami tidak menemukan reservasi terkait. Silakan kembali ke menu utama.", $kirimChat);
+            $this->sendReturnButtons($phoneNumber, 'Maaf, kami tidak menemukan reservasi terkait. Silakan kembali ke menu utama.', $kirimChat);
 
             return;
         }
@@ -1667,7 +1796,7 @@ class KirimChatWebhookController extends Controller
         }
 
         if (! $response || ! $response->successful()) {
-            $kirimChat->sendText($phoneNumber, "Maaf, bukti pembayaran gagal diproses. Silakan kirim ulang fotonya.");
+            $kirimChat->sendText($phoneNumber, 'Maaf, bukti pembayaran gagal diproses. Silakan kirim ulang fotonya.');
 
             return;
         }
@@ -1676,7 +1805,7 @@ class KirimChatWebhookController extends Controller
 
         // Batasi maksimal 2MB.
         if (strlen($body) > 2 * 1024 * 1024) {
-            $kirimChat->sendText($phoneNumber, "Ukuran foto melebihi 2MB. Silakan kirim foto bukti pembayaran yang lebih kecil.");
+            $kirimChat->sendText($phoneNumber, 'Ukuran foto melebihi 2MB. Silakan kirim foto bukti pembayaran yang lebih kecil.');
 
             return;
         }
@@ -1689,7 +1818,7 @@ class KirimChatWebhookController extends Controller
                 'size' => strlen($body),
                 'first_bytes' => bin2hex(substr($body, 0, 16)),
             ]);
-            $kirimChat->sendText($phoneNumber, "Maaf, file yang dikirim bukan gambar yang valid. Silakan kirim foto bukti pembayaran asli (JPG/PNG/WebP).");
+            $kirimChat->sendText($phoneNumber, 'Maaf, file yang dikirim bukan gambar yang valid. Silakan kirim foto bukti pembayaran asli (JPG/PNG/WebP).');
 
             return;
         }
@@ -1738,7 +1867,7 @@ class KirimChatWebhookController extends Controller
                 $phoneNumber,
                 "Terima kasih! Bukti pembayaran untuk booking *{$reservasi->kode}* sudah kami terima.\n\n"
                 ."Status pembayaran: *LUNAS* ✅\n"
-                ."Pembayaran Anda telah terverifikasi otomatis oleh sistem.",
+                .'Pembayaran Anda telah terverifikasi otomatis oleh sistem.',
                 $kirimChat
             );
         } else {
@@ -1747,7 +1876,7 @@ class KirimChatWebhookController extends Controller
                 "Terima kasih! Bukti pembayaran untuk booking *{$reservasi->kode}* sudah kami terima.\n\n"
                 ."Bukti pembayaran Anda akan *diverifikasi oleh admin*.\n"
                 ."Kami akan mengonfirmasi setelah pembayaran diverifikasi.\n\n"
-                ."Ketik *menu* untuk kembali ke menu utama.",
+                .'Ketik *menu* untuk kembali ke menu utama.',
                 $kirimChat
             );
         }

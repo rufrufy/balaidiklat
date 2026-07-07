@@ -17,7 +17,7 @@ class ChatbotRuleSeeder extends Seeder
             ."3. Laporan Gangguan\n"
             ."4. Saran\n"
             ."5. Survey kepuasan\n"
-            ."6. Customer Care";
+            .'6. Customer Care';
 
         $rules = [
             ['nama' => 'Global - Menu utama', 'keyword' => 'menu', 'match_type' => 'contains', 'state' => null, 'reply_text' => $menuUtama, 'action' => 'main_menu', 'next_state' => 'main_menu', 'priority' => 1, 'menu_label' => null, 'menu_description' => null, 'menu_order' => 0],
@@ -38,9 +38,14 @@ class ChatbotRuleSeeder extends Seeder
             ['nama' => 'Pesan - Step No HP', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_no_hp', 'reply_text' => null, 'action' => 'input_no_hp', 'next_state' => null, 'priority' => 34],
 
             ['nama' => 'Bayar - Pilihan', 'keyword' => 'bayar', 'match_type' => 'contains', 'state' => 'pesan_pembayaran', 'reply_text' => null, 'action' => 'bayar_pilihan', 'next_state' => 'pesan_metode_bayar', 'priority' => 40],
-            ['nama' => 'Bayar - QRIS', 'keyword' => 'qris', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_qris', 'next_state' => 'pesan_upload_bukti', 'priority' => 41],
-            ['nama' => 'Bayar - Transfer', 'keyword' => 'transfer', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => 'pesan_upload_bukti', 'priority' => 42],
-            ['nama' => 'Bayar - Reminder upload bukti', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_upload_bukti', 'reply_text' => "Silakan kirim *foto bukti pembayaran* (maksimal 2MB) langsung ke chat ini, atau ketik *menu* untuk kembali.", 'action' => null, 'next_state' => 'pesan_upload_bukti', 'priority' => 43],
+            ['nama' => 'Bayar - QRIS', 'keyword' => 'qris', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_qris', 'next_state' => null, 'priority' => 41],
+            ['nama' => 'Bayar - Bank Jateng', 'keyword' => 'jateng', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 42],
+            ['nama' => 'Bayar - Bank BRI', 'keyword' => 'bri', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 43],
+            ['nama' => 'Bayar - Bank Mandiri', 'keyword' => 'mandiri', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 44],
+            ['nama' => 'Bayar - Bank BNI', 'keyword' => 'bni', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 45],
+            ['nama' => 'Bayar - Bank BCA', 'keyword' => 'bca', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 46],
+            ['nama' => 'Bayar - Transfer Legacy', 'keyword' => 'transfer', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 47],
+            ['nama' => 'Bayar - Reminder upload bukti', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_upload_bukti', 'reply_text' => 'Silakan kirim *foto bukti pembayaran* (maksimal 2MB) langsung ke chat ini. Setelah bukti diterima, sistem akan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Ketik *menu* untuk kembali.', 'action' => null, 'next_state' => 'pesan_upload_bukti', 'priority' => 48],
 
             ['nama' => 'Gangguan - Simpan', 'keyword' => '', 'match_type' => 'any', 'state' => 'laporan_gangguan', 'reply_text' => null, 'action' => 'simpan_laporan', 'next_state' => null, 'priority' => 60],
             ['nama' => 'Saran - Simpan', 'keyword' => '', 'match_type' => 'any', 'state' => 'saran', 'reply_text' => null, 'action' => 'simpan_saran', 'next_state' => null, 'priority' => 61],

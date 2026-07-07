@@ -1209,18 +1209,18 @@ class KirimChatWebhookController extends Controller
     {
         $result = $kirimChat->sendList(
             $phoneNumber,
-            'Silakan pilih metode pembayaran:',
+            'Silahkan pilih metode pembayaran:',
             'Pilih Metode',
             [
                 [
                     'title' => 'Metode Pembayaran',
                     'rows' => [
                         ['id' => 'qris', 'title' => 'QRIS', 'description' => 'Bayar dengan QRIS e-Retribusi'],
-                        ['id' => 'bank_jateng', 'title' => 'Bank Jateng', 'description' => 'I-Banking Bank Jateng'],
-                        ['id' => 'bank_bri', 'title' => 'Bank BRI', 'description' => 'BRI Mobile transfer Bank Jateng'],
-                        ['id' => 'bank_mandiri', 'title' => 'Bank Mandiri', 'description' => "Livin' transfer Bank Jateng"],
-                        ['id' => 'bank_bni', 'title' => 'Bank BNI', 'description' => 'ATM BNI transfer bank lain'],
-                        ['id' => 'bank_bca', 'title' => 'Bank BCA', 'description' => 'M-Banking BCA antar bank'],
+                        ['id' => 'jateng', 'title' => 'Bank Jateng', 'description' => 'I-Banking Bank Jateng'],
+                        ['id' => 'bri', 'title' => 'Bank BRI', 'description' => 'BRI Mobile transfer Bank Jateng'],
+                        ['id' => 'mandiri', 'title' => 'Bank Mandiri', 'description' => "Livin' transfer Bank Jateng"],
+                        ['id' => 'bni', 'title' => 'Bank BNI', 'description' => 'ATM BNI transfer bank lain'],
+                        ['id' => 'bca', 'title' => 'Bank BCA', 'description' => 'M-Banking BCA antar bank'],
                     ],
                 ],
             ],
@@ -1232,13 +1232,13 @@ class KirimChatWebhookController extends Controller
         if (! ($result['success'] ?? true)) {
             $kirimChat->sendText(
                 $phoneNumber,
-                "Silakan pilih metode pembayaran:\n\n"
-                ."O QRIS\n"
-                ."O Bank Jateng\n"
-                ."O Bank BRI\n"
-                ."O Bank Mandiri\n"
-                ."O Bank BNI\n"
-                ."O Bank BCA\n\n"
+                "Silahkan pilih metode pembayaran:\n\n"
+                ."QRIS\n"
+                ."Bank Jateng\n"
+                ."Bank BRI\n"
+                ."Bank Mandiri\n"
+                ."Bank BNI\n"
+                ."Bank BCA\n\n"
                 .'Balas nama metode, contoh: *QRIS* atau *Bank BRI*.'
             );
         }

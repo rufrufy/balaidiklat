@@ -5493,5 +5493,95 @@
       "command": "php artisan test --filter=sapa_balai_payment_proof_upload_marks_paid"
     },
     "at": "2026-07-06T18:09:00.129Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-07-07T01:55:09.272Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-07-07T01:55:09.291Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "general"
+    },
+    "at": "2026-07-07T01:55:09.311Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-07-07T01:55:09.333Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "source": "system_injection"
+    },
+    "at": "2026-07-07T01:55:10.960Z"
+  },
+  {
+    "kind": "verification_used",
+    "name": "vendor\\bin\\pint --test \"app/Http/Controllers/KirimChatWebhookController.php\"",
+    "metadata": {
+      "command": "vendor\\bin\\pint --test \"app/Http/Controllers/KirimChatWebhookController.php\"",
+      "status": "pass"
+    },
+    "at": "2026-07-07T01:56:46.690Z"
+  },
+  {
+    "kind": "verification_result",
+    "name": "vendor\\bin\\pint --test \"app/Http/Controllers/KirimChatWebhookController.php\"",
+    "metadata": {
+      "skill": "software-engineering",
+      "passed": true,
+      "command": "vendor\\bin\\pint --test \"app/Http/Controllers/KirimChatWebhookController.php\""
+    },
+    "at": "2026-07-07T01:56:46.716Z"
+  },
+  {
+    "kind": "verification_used",
+    "name": "php artisan test --filter=sapa_balai_payment_proof_upload_marks_paid",
+    "metadata": {
+      "command": "php artisan test --filter=sapa_balai_payment_proof_upload_marks_paid",
+      "status": "fail"
+    },
+    "at": "2026-07-07T01:57:45.269Z"
+  },
+  {
+    "kind": "verification_result",
+    "name": "php artisan test --filter=sapa_balai_payment_proof_upload_marks_paid",
+    "metadata": {
+      "skill": "software-engineering",
+      "passed": false,
+      "command": "php artisan test --filter=sapa_balai_payment_proof_upload_marks_paid"
+    },
+    "at": "2026-07-07T01:57:45.292Z"
   }
 ]

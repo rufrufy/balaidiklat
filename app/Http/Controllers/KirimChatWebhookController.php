@@ -120,6 +120,10 @@ class KirimChatWebhookController extends Controller
         ?string $customerName,
         KirimChatService $kirimChat
     ): void {
+        if ($session->state === 'pesan_metode_bayar' && $this->handlePaymentMethodInput($session, $phoneNumber, $input, $rawInput, $kirimChat)) {
+            return;
+        }
+
         $rule = ChatbotRule::where('is_active', true)
             ->orderBy('priority')
             ->get()
@@ -1405,6 +1409,34 @@ class KirimChatWebhookController extends Controller
             ."\n\nSetelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Sistem akan menyimpan bukti dan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Terima kasih.";
 
         $kirimChat->sendText($phoneNumber, $message);
+    }
+
+    private function handlePaymentMethodInput(WhatsappSession $session, string $phoneNumber, string $input, string $rawInput, KirimChatService $kirimChat): bool
+    {
+        if (str_contains($input, 'qris')) {
+            $this->sendQris($session, $phoneNumber, $kirimChat);
+
+            return true;
+        }
+
+        if ($this->isTransferBankInput($input)) {
+            $this->sendTransfer($session, $phoneNumber, $rawInput, $kirimChat);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isTransferBankInput(string $input): bool
+    {
+        foreach (['jateng', 'bri', 'mandiri', 'bni', 'bca', 'transfer', 'bank_jateng', 'bank_bri', 'bank_mandiri', 'bank_bni', 'bank_bca'] as $needle) {
+            if (str_contains($input, $needle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -636,8 +636,9 @@ class KirimChatWebhookController extends Controller
         $jumlahHari = (int) ($ctx['jumlah_hari'] ?? 0);
 
         if ($jumlahHari > 0) {
-            // Non-kamar: auto hitung tanggal_keluar dari jumlah_hari
-            $tanggalKeluar = Carbon::parse($tanggal)->addDays($jumlahHari)->format('Y-m-d');
+            // Non-kamar: auto hitung tanggal_keluar dari jumlah_hari.
+            // 1 hari = tanggal yang sama, 2 hari = besok, dst.
+            $tanggalKeluar = Carbon::parse($tanggal)->addDays($jumlahHari - 1)->format('Y-m-d');
 
             $session->update([
                 'state' => 'pesan_nama',

@@ -6270,5 +6270,716 @@
       "source": "system_injection"
     },
     "at": "2026-07-23T04:23:23.505Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "sql-database"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-07-23T05:10:48.541Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-07-23T05:10:48.568Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "sql-database",
+    "metadata": {
+      "skill": "sql-database",
+      "intent": "general"
+    },
+    "at": "2026-07-23T05:10:48.592Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:10:48.616Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "verification-discipline",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 94
+    },
+    "at": "2026-07-23T05:11:00.336Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.360Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.381Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.402Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.423Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:00.445Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "verification-discipline",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 94
+    },
+    "at": "2026-07-23T05:11:00.824Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.847Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.870Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.893Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:00.915Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:00.937Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "verification-discipline",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 94
+    },
+    "at": "2026-07-23T05:11:01.333Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.354Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.372Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.394Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.416Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:01.438Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "verification-discipline",
+        "context-preservation"
+      ],
+      "suppressedSkills": [],
+      "confidence": 94
+    },
+    "at": "2026-07-23T05:11:01.805Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.828Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.846Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.863Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "context-preservation",
+    "metadata": {
+      "skill": "context-preservation",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:01.880Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:01.897Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 88
+    },
+    "at": "2026-07-23T05:11:02.104Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:02.127Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:02.143Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:02.166Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:02.182Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "android-kotlin",
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "sql-database",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-07-23T05:11:04.165Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "android-kotlin",
+    "metadata": {
+      "skill": "android-kotlin",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.189Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.206Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.229Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.251Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:04.272Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "android-kotlin",
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "sql-database",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-07-23T05:11:04.665Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "android-kotlin",
+    "metadata": {
+      "skill": "android-kotlin",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.687Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.708Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.727Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:04.747Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:04.764Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "android-kotlin",
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "sql-database",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-07-23T05:11:05.157Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "android-kotlin",
+    "metadata": {
+      "skill": "android-kotlin",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.177Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.200Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.223Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.246Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:05.266Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "android-kotlin",
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "sql-database",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-07-23T05:11:05.658Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "android-kotlin",
+    "metadata": {
+      "skill": "android-kotlin",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.680Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.696Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.713Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-07-23T05:11:05.730Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:05.749Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "astro-remix"
+      ],
+      "suppressedSkills": [],
+      "confidence": 88
+    },
+    "at": "2026-07-23T05:11:05.958Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:05.978Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:05.999Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T05:11:06.021Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T05:11:06.042Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "astro-remix",
+    "metadata": {
+      "skill": "astro-remix",
+      "source": "system_injection"
+    },
+    "at": "2026-07-23T05:11:07.591Z"
+  },
+  {
+    "kind": "context_autocompaction",
+    "name": "checkpoint",
+    "metadata": {
+      "usagePercent": 0.833,
+      "tokensUsed": 106578,
+      "contextLimit": 128000,
+      "knownLimit": false
+    },
+    "at": "2026-07-23T05:11:35.009Z"
   }
 ]

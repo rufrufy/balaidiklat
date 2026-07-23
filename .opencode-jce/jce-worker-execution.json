@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-23T04:24:18.200Z",
+  "updatedAt": "2026-07-23T05:14:11.110Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [],
@@ -1257,7 +1257,11 @@
     "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddIsKamarFlowRulesSeeder.php",
     "C:\\laragon\\www\\balaidiklat\\vite.config.js",
     "C:\\laragon\\www\\balaidiklat\\Dockerfile",
-    "C:\\laragon\\www\\balaidiklat\\resources\\css\\app.css"
+    "C:\\laragon\\www\\balaidiklat\\resources\\css\\app.css",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_11_000011_create_layanan_pengaduans_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_17_000002_add_survey_and_nomor_kamar_to_layanan_pengaduans.php",
+    "C:\\laragon\\www\\balaidiklat\\database",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\UpdateChatbotRulesSeeder.php"
   ],
   "workflowRuns": [],
   "wisdom": [],

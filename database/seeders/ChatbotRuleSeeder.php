@@ -31,11 +31,12 @@ class ChatbotRuleSeeder extends Seeder
 
             ['nama' => 'Pilih jenis - Pilih', 'keyword' => '', 'match_type' => 'any', 'state' => 'pilih_jenis', 'reply_text' => null, 'action' => 'pilih_jenis', 'next_state' => null, 'priority' => 20],
 
-            ['nama' => 'Pesan - Step Jumlah', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_jumlah', 'reply_text' => null, 'action' => 'input_jumlah', 'next_state' => null, 'priority' => 30],
-            ['nama' => 'Pesan - Step Tanggal masuk', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_tanggal_masuk', 'reply_text' => null, 'action' => 'input_tanggal_masuk', 'next_state' => null, 'priority' => 31],
-            ['nama' => 'Pesan - Step Tanggal keluar', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_tanggal_keluar', 'reply_text' => null, 'action' => 'input_tanggal_keluar', 'next_state' => null, 'priority' => 32],
-            ['nama' => 'Pesan - Step Nama', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_nama', 'reply_text' => null, 'action' => 'input_nama', 'next_state' => null, 'priority' => 33],
-            ['nama' => 'Pesan - Step No HP', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_no_hp', 'reply_text' => null, 'action' => 'input_no_hp', 'next_state' => null, 'priority' => 34],
+            ['nama' => 'Pesan - Step Jumlah (kamar)', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_jumlah', 'reply_text' => null, 'action' => 'input_jumlah', 'next_state' => null, 'priority' => 30],
+            ['nama' => 'Pesan - Step Jumlah hari (non-kamar)', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_jumlah_hari', 'reply_text' => null, 'action' => 'input_jumlah_hari', 'next_state' => null, 'priority' => 31],
+            ['nama' => 'Pesan - Step Tanggal masuk', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_tanggal_masuk', 'reply_text' => null, 'action' => 'input_tanggal_masuk', 'next_state' => null, 'priority' => 32],
+            ['nama' => 'Pesan - Step Tanggal keluar', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_tanggal_keluar', 'reply_text' => null, 'action' => 'input_tanggal_keluar', 'next_state' => null, 'priority' => 33],
+            ['nama' => 'Pesan - Step Nama', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_nama', 'reply_text' => null, 'action' => 'input_nama', 'next_state' => null, 'priority' => 34],
+            ['nama' => 'Pesan - Step No HP', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_no_hp', 'reply_text' => null, 'action' => 'input_no_hp', 'next_state' => null, 'priority' => 35],
 
             ['nama' => 'Bayar - Pilihan', 'keyword' => 'bayar', 'match_type' => 'contains', 'state' => 'pesan_pembayaran', 'reply_text' => null, 'action' => 'bayar_pilihan', 'next_state' => 'pesan_metode_bayar', 'priority' => 40],
             ['nama' => 'Bayar - QRIS', 'keyword' => 'qris', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_qris', 'next_state' => null, 'priority' => 41],

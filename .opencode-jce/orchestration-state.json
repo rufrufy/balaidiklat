@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-07-23T05:14:11.117Z",
+  "updatedAt": "2026-07-23T05:26:21.677Z",
   "memoryTiers": {
     "session": {
       "currentTask": "perbaiki kenapa ketika di build oleh dokploy jadi gini\n1. **Summary**: Docker build failing. Composer install (vendor stage) runs, but Vite build (assets stage) fails with network timeout. Build aborts, cancels subsequent stages.\n\n2. **Issues Found**:\n   - `npm run build` fails in step `[assets 8/8]",
@@ -96,7 +96,7 @@
       "startedAt": "2026-07-23T02:55:31.856Z",
       "nodesCompleted": 0,
       "nodesFailed": 0,
-      "endedAt": "2026-07-23T05:14:11.116Z"
+      "endedAt": "2026-07-23T05:26:21.677Z"
     }
   ],
   "graph": {

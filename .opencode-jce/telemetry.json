@@ -6157,5 +6157,118 @@
       "signals": []
     },
     "at": "2026-07-23T04:03:48.830Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "bugfix",
+    "metadata": {
+      "intent": "bugfix",
+      "selectedSkills": [
+        "software-engineering",
+        "verification-discipline",
+        "laravel",
+        "devops"
+      ],
+      "suppressedSkills": [
+        "typescript"
+      ],
+      "confidence": 96
+    },
+    "at": "2026-07-23T04:23:22.946Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T04:23:22.971Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T04:23:22.988Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T04:23:23.006Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "devops",
+    "metadata": {
+      "skill": "devops",
+      "intent": "bugfix"
+    },
+    "at": "2026-07-23T04:23:23.028Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-07-23T04:23:23.047Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "planner",
+    "metadata": {
+      "plannerMode": "linear-fallback",
+      "detectedUnits": [],
+      "fallbackReason": "Intent not eligible for parallel fan-out."
+    },
+    "at": "2026-07-23T04:23:23.066Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-07-23T04:23:23.441Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "verification-discipline",
+    "metadata": {
+      "skill": "verification-discipline",
+      "source": "system_injection"
+    },
+    "at": "2026-07-23T04:23:23.464Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "source": "system_injection"
+    },
+    "at": "2026-07-23T04:23:23.486Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "devops",
+    "metadata": {
+      "skill": "devops",
+      "source": "system_injection"
+    },
+    "at": "2026-07-23T04:23:23.505Z"
   }
 ]

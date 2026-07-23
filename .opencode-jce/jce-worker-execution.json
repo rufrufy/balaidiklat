@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-23T04:04:36.769Z",
+  "updatedAt": "2026-07-23T04:24:18.200Z",
   "activeTasks": [],
   "completedSummaries": [],
   "blockers": [],
@@ -1140,6 +1140,17 @@
         "compressedChars": 46,
         "estimatedTokensSaved": 0
       }
+    },
+    {
+      "type": "planner.explain",
+      "message": "Planner kept linear plan. Intent not eligible for parallel fan-out.",
+      "at": "2026-07-23T04:23:23.056Z",
+      "metadata": {
+        "workflowId": "graph-1784780603053-xf86",
+        "plannerMode": "linear-fallback",
+        "detectedUnits": [],
+        "fallbackReason": "Intent not eligible for parallel fan-out."
+      }
     }
   ],
   "changedFiles": [
@@ -1243,24 +1254,27 @@
     "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_07_23_000001_add_is_kamar_to_kamars.php",
     "C:\\laragon\\www\\balaidiklat\\database\\seeders",
     "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddMenuTitleKeywordRulesSeeder.php",
-    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddIsKamarFlowRulesSeeder.php"
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddIsKamarFlowRulesSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\vite.config.js",
+    "C:\\laragon\\www\\balaidiklat\\Dockerfile",
+    "C:\\laragon\\www\\balaidiklat\\resources\\css\\app.css"
   ],
   "workflowRuns": [],
   "wisdom": [],
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 12032,
-    "compressedChars": 11776,
+    "originalChars": 0,
+    "compressedChars": 0,
     "estimatedTokensSaved": 0,
-    "estimatedSavingsPercent": 2,
-    "tasks": 256,
+    "estimatedSavingsPercent": 0,
+    "tasks": 0,
     "byTool": {
       "bash": {
-        "originalChars": 12032,
-        "compressedChars": 11776,
+        "originalChars": 0,
+        "compressedChars": 0,
         "estimatedTokensSaved": 0,
-        "tasks": 256
+        "tasks": 0
       },
       "grep": {
         "originalChars": 0,

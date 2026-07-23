@@ -8,13 +8,14 @@ use Illuminate\Support\Collection;
 
 class Kamar extends Model
 {
-    // DB produksi: jenis_kelas + kuota_total + stok_total + fasilitas + harga_per_malam.
+    // DB produksi: jenis_kelas + kuota_total + stok_total + fasilitas + harga_per_malam + is_kamar.
     protected $fillable = [
         'jenis_kelas',
         'kuota_total',
         'stok_total',
         'fasilitas',
         'harga_per_malam',
+        'is_kamar',
     ];
 
     protected function casts(): array
@@ -23,7 +24,18 @@ class Kamar extends Model
             'harga_per_malam' => 'integer',
             'kuota_total' => 'integer',
             'stok_total' => 'integer',
+            'is_kamar' => 'boolean',
         ];
+    }
+
+    public function hargaLabel(): string
+    {
+        return $this->is_kamar ? 'per malam' : 'per hari';
+    }
+
+    public function isKamar(): bool
+    {
+        return (bool) $this->is_kamar;
     }
 
     public function reservasiItems(): HasMany
@@ -51,7 +63,11 @@ class Kamar extends Model
 
     public function tipeLabel(): string
     {
-        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'Ruang Kelas' : 'Kamar';
+        if ($this->is_kamar) {
+            return 'Kamar';
+        }
+
+        return str_contains(strtolower((string) $this->jenis_kelas), 'kelas') ? 'Ruang Kelas' : 'Aula / Non-Kamar';
     }
 
     // Kompatibilitas code lama yang akses kode/nama/tipe/status.

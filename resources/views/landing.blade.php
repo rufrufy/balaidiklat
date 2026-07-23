@@ -455,7 +455,7 @@
                 <div class="card-enterprise p-4 p-md-5">
                     <div class="eyebrow">Form Pemesanan WhatsApp</div>
                     <h2 class="display-5 mb-2">Ajukan reservasi.</h2>
-                    <p class="text-muted mb-4">Isi formulir berikut untuk mengajukan pemesanan kamar. Data akan dikirim ke WhatsApp Bot untuk diproses.</p>
+                    <p class="text-muted mb-4">Isi formulir berikut untuk mengajukan pemesanan. Pilih jenis dulu, lalu isi tanggal. Data akan dikirim ke WhatsApp Bot untuk diproses.</p>
                     <form id="landingOrderForm">
                         <div class="row g-3">
                             {{-- Nama & No WA --}}
@@ -476,27 +476,38 @@
                             <div class="col-md-6 order-instansi-field d-none"><label class="form-label fw-bold">Kegiatan</label><input
                                     id="orderKegiatan" class="form-control" placeholder="Diklat Manajemen ASN"></div>
 
-                            {{-- Tanggal --}}
-                            <div class="col-md-6"><label class="form-label fw-bold">Tanggal Masuk <span class="text-danger">*</span></label><input
-                                    id="orderCheckin" type="date" class="form-control" required></div>
-                            <div class="col-md-6"><label class="form-label fw-bold">Tanggal Keluar <span class="text-danger">*</span></label><input
-                                    id="orderCheckout" type="date" class="form-control" required></div>
-
-                            {{-- Jenis Kamar & Jumlah --}}
+                            {{-- Jenis Kamar / Kelas (dipilih dulu) --}}
                             <div class="col-md-6"><label class="form-label fw-bold">Jenis Kamar / Kelas <span class="text-danger">*</span></label>
                                 <select id="orderKamar" class="form-select" required>
-                                    <option value="">Pilih jenis kamar</option>
+                                    <option value="">Pilih jenis</option>
                                     @foreach ($availableKamars as $k)
-                                        <option value="{{ $k->id }}" data-jenis="{{ $k->jenis_kelas }}">{{ $k->jenis_kelas }} — Rp{{ number_format($k->harga_per_malam, 0, ',', '.') }}/malam</option>
+                                        <option value="{{ $k->id }}"
+                                            data-jenis="{{ $k->jenis_kelas }}"
+                                            data-is-kamar="{{ $k->is_kamar ? '1' : '0' }}"
+                                            data-harga="{{ $k->harga_per_malam }}">
+                                            {{ $k->jenis_kelas }} — Rp{{ number_format($k->harga_per_malam, 0, ',', '.') }}/{{ $k->is_kamar ? 'malam' : 'hari' }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6"><label class="form-label fw-bold">Jumlah Unit <span class="text-danger">*</span></label><input
                                     id="orderJumlahUnit" type="number" min="1" value="1" class="form-control" required></div>
 
-                            {{-- Info ketersediaan real-time --}}
+                            {{-- Tanggal (dynamic: kamar = date range, non-kamar = jumlah hari + tanggal) --}}
+                            <div id="orderTanggalKamar" class="col-md-6"><label class="form-label fw-bold">Tanggal Masuk <span class="text-danger">*</span></label><input
+                                    id="orderCheckin" type="date" class="form-control" required></div>
+                            <div class="col-md-6" id="orderTanggalKeluarWrap"><label class="form-label fw-bold">Tanggal Keluar <span class="text-danger">*</span></label><input
+                                    id="orderCheckout" type="date" class="form-control" required></div>
+
+                            {{-- Non-kamar: jumlah hari + tanggal (hidden by default) --}}
+                            <div id="orderNonKamarHari" class="col-md-6 d-none"><label class="form-label fw-bold">Jumlah Hari <span class="text-danger">*</span></label><input
+                                    id="orderJumlahHari" type="number" min="1" value="1" class="form-control"></div>
+                            <div id="orderNonKamarTgl" class="col-md-6 d-none"><label class="form-label fw-bold">Tanggal Mulai <span class="text-danger">*</span></label><input
+                                    id="orderNonKamarTanggal" type="date" class="form-control"></div>
+
+                            {{-- Info ketersediaan & harga --}}
                             <div class="col-12">
-                                <div id="orderStokInfo" class="small text-muted mt-1">Pilih kamar & tanggal untuk lihat ketersediaan.</div>
+                                <div id="orderStokInfo" class="small text-muted mt-1">Pilih jenis & isi tanggal untuk lihat ketersediaan.</div>
                             </div>
 
                             {{-- Toggle Multi Items --}}
@@ -659,7 +670,7 @@
                                         <h4>{{ $kamar->jenis_kelas }}</h4>
                                         <p class="text-muted mb-2">{{ $kamar->tipeLabel() }}</p>
                                         <p class="fw-bold mb-2">
-                                            Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} / malam</p>
+                                            Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} / {{ $kamar->is_kamar ? 'malam' : 'hari' }}</p>
                                         <p class="text-muted mb-2">Tersedia: {{ $kamar->stok_total ?: $kamar->kuota_total }} unit</p>
                                         @if ($kamar->fasilitas)
                                             <span
@@ -818,7 +829,7 @@
                     ${fotoHtml}
                     <h4 style="font-size:1rem;margin-bottom:4px">${room.jenis_kelas}</h4>
                     <div class="text-muted small mb-1">${room.tipe}</div>
-                    <div class="fw-bold" style="color:var(--primary)">Rp${room.harga} / malam</div>
+                    <div class="fw-bold" style="color:var(--primary)">Rp${room.harga} / ${room.is_kamar ? 'malam' : 'hari'}</div>
                     ${room.fasilitas ? `<div class="small text-muted mt-1">${room.fasilitas}</div>` : ''}
                     <div class="mt-1">${stokBadge}</div>
                 </div>
@@ -838,6 +849,7 @@
         const orderItemList = document.getElementById('orderItemList');
         const orderStokInfo = document.getElementById('orderStokInfo');
         const orderFeedback = document.getElementById('orderFeedback');
+        const orderKamarSelect = document.getElementById('orderKamar');
 
         function toggleInstansiFields() {
             document.querySelectorAll('.order-instansi-field').forEach(el => el.classList.toggle('d-none', !
@@ -850,10 +862,47 @@
         orderInstansiToggle?.addEventListener('change', toggleInstansiFields);
         orderMultipleToggle?.addEventListener('change', toggleMultiItems);
 
+        // ═══ Dynamic date fields based on is_kamar ═══
+        function getSelectedKamarData() {
+            const opt = orderKamarSelect.selectedOptions[0];
+            if (!opt || !opt.value) return null;
+            return {
+                id: opt.value,
+                jenis_kelas: opt.dataset.jenis,
+                is_kamar: opt.dataset.isKamar === '1',
+                harga: parseInt(opt.dataset.harga || '0', 10),
+            };
+        }
+
+        function toggleDateFields() {
+            const k = getSelectedKamarData();
+            const isKamar = k ? k.is_kamar : true;
+            document.getElementById('orderTanggalKamar').classList.toggle('d-none', !isKamar);
+            document.getElementById('orderTanggalKeluarWrap').classList.toggle('d-none', !isKamar);
+            document.getElementById('orderNonKamarHari').classList.toggle('d-none', isKamar);
+            document.getElementById('orderNonKamarTgl').classList.toggle('d-none', isKamar);
+            if (!isKamar) {
+                document.getElementById('orderCheckin').removeAttribute('required');
+                document.getElementById('orderCheckout').removeAttribute('required');
+                document.getElementById('orderJumlahHari').setAttribute('required', 'required');
+                document.getElementById('orderNonKamarTanggal').setAttribute('required', 'required');
+            } else {
+                document.getElementById('orderCheckin').setAttribute('required', 'required');
+                document.getElementById('orderCheckout').setAttribute('required', 'required');
+                document.getElementById('orderJumlahHari').removeAttribute('required');
+                document.getElementById('orderNonKamarTanggal').removeAttribute('required');
+            }
+        }
+        orderKamarSelect?.addEventListener('change', () => {
+            toggleDateFields();
+            checkOrderStock();
+        });
+        toggleDateFields();
+
         @php
             $kamarsJson = json_encode(
                 $availableKamars->map(function ($k) {
-                    return ['id' => $k->id, 'jenis_kelas' => $k->jenis_kelas, 'tipe' => $k->tipeLabel(), 'harga' => $k->harga_per_malam];
+                    return ['id' => $k->id, 'jenis_kelas' => $k->jenis_kelas, 'tipe' => $k->tipeLabel(), 'harga' => $k->harga_per_malam, 'is_kamar' => $k->is_kamar];
                 }),
             );
         @endphp
@@ -877,14 +926,30 @@
             if (e.target.classList.contains('remove-order-item')) e.target.closest('.order-item-row').remove();
         });
 
-        // Cek stok real-time saat kamar/tanggal/jumlah berubah
+        // Cek stok real-time
         async function checkOrderStock() {
-                const kamarId = document.getElementById('orderKamar').value;
-                const masuk = document.getElementById('orderCheckin').value;
-                const keluar = document.getElementById('orderCheckout').value;
+                const k = getSelectedKamarData();
+                if (!k) {
+                    orderStokInfo.textContent = 'Pilih jenis & isi tanggal untuk lihat ketersediaan.';
+                    orderStokInfo.className = 'small text-muted mt-1';
+                    return;
+                }
+                let masuk, keluar;
+                if (k.is_kamar) {
+                    masuk = document.getElementById('orderCheckin').value;
+                    keluar = document.getElementById('orderCheckout').value;
+                } else {
+                    masuk = document.getElementById('orderNonKamarTanggal').value;
+                    const hari = parseInt(document.getElementById('orderJumlahHari').value || '1', 10);
+                    if (masuk && hari > 0) {
+                        const d = new Date(masuk);
+                        d.setDate(d.getDate() + hari);
+                        keluar = d.toISOString().split('T')[0];
+                    }
+                }
                 const unit = parseInt(document.getElementById('orderJumlahUnit').value || '1', 10);
-                if (!kamarId || !masuk || !keluar) {
-                    orderStokInfo.textContent = 'Pilih kamar & tanggal untuk lihat ketersediaan.';
+                if (!masuk || !keluar) {
+                    orderStokInfo.textContent = 'Isi tanggal untuk lihat ketersediaan.';
                     orderStokInfo.className = 'small text-muted mt-1';
                     return;
                 }
@@ -907,23 +972,24 @@
                         })
                     });
                     const data = await res.json();
-                    const room = (data.rooms || []).find(r => String(r.id) === String(kamarId));
+                    const room = (data.rooms || []).find(r => String(r.id) === String(k.id));
                     if (!room) {
-                        orderStokInfo.textContent = 'Kamar tidak ditemukan.';
+                        orderStokInfo.textContent = 'Jenis tidak ditemukan.';
                         orderStokInfo.className = 'small text-danger mt-1';
                         return;
                     }
+                    const hargaLabel = k.is_kamar ? 'malam' : 'hari';
+                    const durasi = Math.max(1, Math.round((new Date(keluar) - new Date(masuk)) / 86400000));
+                    const estimasi = k.harga * durasi * unit;
+                    const estimasiText = new Intl.NumberFormat('id-ID').format(estimasi);
                     if (room.tersedia >= unit) {
-                        orderStokInfo.textContent =
-                            `Tersedia: ${room.tersedia} unit (dari ${room.stok_total} total). Cukup untuk ${unit} unit.`;
+                        orderStokInfo.innerHTML = `Tersedia: ${room.tersedia} unit. Estimasi: <strong>Rp${estimasiText}</strong> (${durasi} ${hargaLabel} × ${unit} unit)`;
                         orderStokInfo.className = 'small text-success mt-1';
                     } else if (room.tersedia > 0) {
-                        orderStokInfo.textContent =
-                            `Tersedia hanya ${room.tersedia} unit (dari ${room.stok_total} total). Permintaan ${unit} unit melebihi ketersediaan!`;
+                        orderStokInfo.innerHTML = `Tersedia hanya ${room.tersedia} unit. Permintaan ${unit} unit melebihi ketersediaan!`;
                         orderStokInfo.className = 'small text-warning mt-1';
                     } else {
-                        orderStokInfo.textContent =
-                            `Kamar penuh pada tanggal ini (0 Tersedia dari ${room.stok_total} total).`;
+                        orderStokInfo.textContent = `Penuh pada tanggal ini.`;
                         orderStokInfo.className = 'small text-danger mt-1';
                     }
                 } catch (e) {
@@ -932,10 +998,12 @@
                 }
             }
             ['change', 'input'].forEach(ev => {
-                document.getElementById('orderKamar')?.addEventListener(ev, checkOrderStock);
+                orderKamarSelect?.addEventListener(ev, checkOrderStock);
                 document.getElementById('orderCheckin')?.addEventListener(ev, checkOrderStock);
                 document.getElementById('orderCheckout')?.addEventListener(ev, checkOrderStock);
                 document.getElementById('orderJumlahUnit')?.addEventListener(ev, checkOrderStock);
+                document.getElementById('orderJumlahHari')?.addEventListener(ev, checkOrderStock);
+                document.getElementById('orderNonKamarTanggal')?.addEventListener(ev, checkOrderStock);
             });
 
         function showOrderFeedback(msg, type) {
@@ -955,15 +1023,30 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Memproses...';
 
+            const k = getSelectedKamarData();
+            let masuk, keluar;
+            if (k && k.is_kamar) {
+                masuk = document.getElementById('orderCheckin').value;
+                keluar = document.getElementById('orderCheckout').value;
+            } else {
+                masuk = document.getElementById('orderNonKamarTanggal').value;
+                const hari = parseInt(document.getElementById('orderJumlahHari').value || '1', 10);
+                if (masuk && hari > 0) {
+                    const d = new Date(masuk);
+                    d.setDate(d.getDate() + hari);
+                    keluar = d.toISOString().split('T')[0];
+                }
+            }
+
             const payload = {
                 nama_pemesan: document.getElementById('orderNama').value.trim(),
                 phone_number: document.getElementById('orderWa').value.trim(),
                 tipe_penyewa: orderInstansiToggle.checked ? 'instansi' : 'perorangan',
                 instansi: document.getElementById('orderInstansi').value.trim(),
                 kegiatan: document.getElementById('orderKegiatan').value.trim(),
-                tanggal_masuk: document.getElementById('orderCheckin').value,
-                tanggal_keluar: document.getElementById('orderCheckout').value,
-                kamar_id: document.getElementById('orderKamar').value,
+                tanggal_masuk: masuk,
+                tanggal_keluar: keluar,
+                kamar_id: orderKamarSelect.value,
                 jumlah_unit: parseInt(document.getElementById('orderJumlahUnit').value || '1', 10),
                 multiple: orderMultipleToggle.checked,
                 items: [],

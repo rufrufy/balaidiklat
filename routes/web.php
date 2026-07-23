@@ -48,7 +48,9 @@ Route::match(['GET', 'POST'], '/cek-ketersediaan', function () {
                 'kode' => $room->kode,
                 'nama' => $room->nama,
                 'tipe' => $room->tipeLabel(),
+                'is_kamar' => (bool) $room->is_kamar,
                 'harga' => number_format($room->harga_per_malam, 0, ',', '.'),
+                'harga_raw' => (int) $room->harga_per_malam,
                 'fasilitas' => $room->fasilitas,
                 'status' => $room->status,
                 'fotos' => $fotos,
@@ -82,6 +84,9 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
     ]);
 
     $kamar = \App\Models\Kamar::find($data['kamar_id']);
+    $isKamar = $kamar->is_kamar;
+    $hargaLabel = $isKamar ? 'malam' : 'hari';
+
     $lines = [
         'FORM_PEMESANAN_LANDING',
         'Nama: '.$data['nama_pemesan'],
@@ -98,6 +103,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
     $lines[] = 'Tanggal Keluar: '.$data['tanggal_keluar'];
     $lines[] = 'Jenis Kelas: '.$kamar->jenis_kelas;
     $lines[] = 'Jumlah Unit: '.$data['jumlah_unit'];
+    $lines[] = 'Tipe: '.($isKamar ? 'Kamar (per malam)' : 'Non-Kamar (per hari)');
 
     if (! empty($data['multiple']) && ! empty($data['items'])) {
         $lines[] = '--- Item Tambahan ---';

@@ -543,7 +543,7 @@
                                     <p class="mb-1 small">Fasilitas: {{ $kamar->fasilitas }}</p>
                                 @endif
                                 <p class="fw-bold mb-3">Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} /
-                                    malam</p>
+                                    {{ $kamar->is_kamar ? 'malam' : 'hari' }}</p>
                                 <div class="small text-muted mb-2">{{ $fotos->count() }} foto</div>
                                 <button class="btn btn-sm btn-ghost mb-2" data-bs-toggle="modal"
                                     data-bs-target="#editRoom{{ $kamar->id }}">Edit</button>
@@ -837,7 +837,7 @@
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label fw-bold">Jenis Kelas / Nama Kamar <span class="text-danger">*</span></label><input
                                 class="form-control" name="jenis_kelas" required placeholder="Contoh: Kamar 1 / Ruang Kelas Kecil"></div>
-                        <div class="col-md-6"><label class="form-label fw-bold">Harga/malam <span class="text-danger">*</span></label><input
+                        <div class="col-md-6"><label class="form-label fw-bold">Harga <span id="hargaLabelBaru">/malam</span> <span class="text-danger">*</span></label><input
                                 type="number" min="0" class="form-control" name="harga_per_malam" required>
                         </div>
                         <div class="col-md-6"><label class="form-label fw-bold">Total Unit</label><input
@@ -845,6 +845,13 @@
                         </div>
                         <div class="col-md-6"><label class="form-label fw-bold">Tersedia</label><input
                                 type="number" min="1" class="form-control" name="stok_total" value="1">
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end pb-1">
+                            <div class="form-check">
+                                <input type="hidden" name="is_kamar" value="0">
+                                <input class="form-check-input is-kamar-toggle" type="checkbox" name="is_kamar" value="1" id="isKamarBaru" checked onchange="document.getElementById('hargaLabelBaru').textContent = this.checked ? '/malam' : '/hari'">
+                                <label class="form-check-label fw-bold" for="isKamarBaru">Tipe Kamar (check = kamar, uncheck = aula/ruang non-kamar)</label>
+                            </div>
                         </div>
                         <div class="col-12"><label class="form-label fw-bold">Keterangan / Fasilitas</label>
                             <textarea class="form-control" name="fasilitas" rows="2" placeholder="Contoh: AC, kamar mandi dalam, TV"></textarea>
@@ -877,7 +884,7 @@
                         <div class="row g-3">
                             <div class="col-md-6"><label class="form-label fw-bold">Jenis Kelas / Nama Kamar <span class="text-danger">*</span></label><input
                                     class="form-control" name="jenis_kelas" value="{{ $kamar->jenis_kelas }}" required></div>
-                            <div class="col-md-6"><label class="form-label fw-bold">Harga/malam <span class="text-danger">*</span></label><input
+                            <div class="col-md-6"><label class="form-label fw-bold">Harga <span id="hargaLabelEdit{{ $kamar->id }}">{{ $kamar->is_kamar ? '/malam' : '/hari' }}</span> <span class="text-danger">*</span></label><input
                                     type="number" min="0" class="form-control" name="harga_per_malam"
                                     value="{{ $kamar->harga_per_malam }}" required></div>
                             <div class="col-md-6"><label class="form-label fw-bold">Total Unit</label><input
@@ -886,6 +893,13 @@
                             <div class="col-md-6"><label class="form-label fw-bold">Tersedia</label><input
                                     type="number" min="1" class="form-control" name="stok_total"
                                     value="{{ $kamar->stok_total ?? 1 }}" required></div>
+                            <div class="col-md-6 d-flex align-items-end pb-1">
+                                <div class="form-check">
+                                    <input type="hidden" name="is_kamar" value="0">
+                                    <input class="form-check-input is-kamar-toggle" type="checkbox" name="is_kamar" value="1" id="isKamarEdit{{ $kamar->id }}" @checked($kamar->is_kamar) onchange="document.getElementById('hargaLabelEdit{{ $kamar->id }}').textContent = this.checked ? '/malam' : '/hari'">
+                                    <label class="form-check-label fw-bold" for="isKamarEdit{{ $kamar->id }}">Tipe Kamar (check = kamar, uncheck = aula/ruang non-kamar)</label>
+                                </div>
+                            </div>
                             <div class="col-12"><label class="form-label fw-bold">Keterangan / Fasilitas</label>
                                 <textarea class="form-control" name="fasilitas" rows="2">{{ $kamar->fasilitas }}</textarea>
                             </div>

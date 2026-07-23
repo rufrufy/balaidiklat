@@ -181,6 +181,11 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
+            case 'input_jumlah_hari':
+                $this->inputJumlahHari($session, $phoneNumber, $rawInput, $kirimChat);
+
+                return;
+
             case 'simpan_reservasi':
                 $this->simpanReservasi($session, $phoneNumber, $rawInput, $customerName, $kirimChat);
 
@@ -415,7 +420,8 @@ class KirimChatWebhookController extends Controller
             $map[(string) $no] = $kamar->jenis_kelas;
             $harga = number_format((int) $kamar->harga_per_malam, 0, ',', '.');
             $stok = (int) ($kamar->stok_total ?: ($kamar->kuota_total ?: 1));
-            $lines[] = "{$no}. {$kamar->jenis_kelas} - Rp{$harga}/malam (Tersedia: {$stok} unit)";
+            $hargaLabel = $kamar->is_kamar ? 'malam' : 'hari';
+            $lines[] = "{$no}. {$kamar->jenis_kelas} - Rp{$harga}/{$hargaLabel} (Tersedia: {$stok} unit)";
         }
 
         $session->update([
@@ -436,7 +442,7 @@ class KirimChatWebhookController extends Controller
 
     /**
      * User memilih jenis kelas (dari nomor di list). Simpan jenis_kelas ke
-     * context, lalu minta jumlah unit. State -> pesan_jumlah.
+     * context, lalu minta jumlah unit. State -> pesan_jumlah (kamar) atau pesan_jumlah_hari (non-kamar).
      */
     private function pilihJenis(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
@@ -458,26 +464,47 @@ class KirimChatWebhookController extends Controller
         $tersedia = (int) ($kamar?->stok_total ?: ($kamar?->kuota_total ?? 0));
         $harga = $kamar ? number_format((int) $kamar->harga_per_malam, 0, ',', '.') : '0';
         $fasilitas = $kamar?->fasilitas ?: '-';
+        $isKamar = $kamar?->is_kamar ?? true;
+        $hargaLabel = $isKamar ? 'malam' : 'hari';
+
+        if ($isKamar) {
+            $nextState = 'pesan_jumlah';
+        } else {
+            $nextState = 'pesan_jumlah_hari';
+        }
 
         $session->update([
-            'state' => 'pesan_jumlah',
+            'state' => $nextState,
             'context' => array_merge($session->context ?? [], [
                 'jenis_kelas' => $jenisKelas,
                 'kuota_total' => $tersedia,
+                'is_kamar' => $isKamar,
             ]),
         ]);
 
         $this->sendKamarPhotos($kamar, $phoneNumber, $kirimChat);
 
-        $kirimChat->sendText(
-            $phoneNumber,
-            "Jenis kelas terpilih: *{$jenisKelas}*\n"
-            ."Tarif: Rp{$harga}/malam\n"
-            ."Tersedia: {$tersedia} unit\n"
-            ."Fasilitas: {$fasilitas}\n\n"
-            ."Silakan kirim *Jumlah unit* yang ingin dipesan.\n"
-            .'Contoh: 1'
-        );
+        if ($isKamar) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Jenis kelas terpilih: *{$jenisKelas}*\n"
+                ."Tarif: Rp{$harga}/{$hargaLabel}\n"
+                ."Tersedia: {$tersedia} unit\n"
+                ."Fasilitas: {$fasilitas}\n\n"
+                ."Silakan kirim *Jumlah unit* yang ingin dipesan.\n"
+                .'Contoh: 1'
+            );
+        } else {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Jenis terpilih: *{$jenisKelas}*\n"
+                ."Tarif: Rp{$harga}/{$hargaLabel}\n"
+                ."Tersedia: {$tersedia} unit\n"
+                ."Fasilitas: {$fasilitas}\n\n"
+                ."Silakan kirim *Jumlah hari* yang ingin dipesan.\n"
+                .'Contoh: 3'
+            );
+        }
     }
 
     private function sendKamarPhotos(?Kamar $kamar, string $phoneNumber, KirimChatService $kirimChat): void
@@ -546,7 +573,39 @@ class KirimChatWebhookController extends Controller
     }
 
     /**
-     * Step: tanggal mulai. Format DD-MM-YYYY. State -> pesan_tanggal_keluar.
+     * Step: jumlah hari (non-kamar). Validasi integer >= 1. State -> pesan_tanggal_masuk.
+     */
+    private function inputJumlahHari(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
+    {
+        $hari = (int) trim($rawInput);
+
+        if ($hari < 1) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Mohon kirim *Jumlah hari* yang valid (angka minimal 1).\nContoh: 3"
+            );
+
+            return;
+        }
+
+        $session->update([
+            'state' => 'pesan_tanggal_masuk',
+            'context' => array_merge($session->context ?? [], [
+                'jumlah' => 1,
+                'jumlah_hari' => $hari,
+            ]),
+        ]);
+
+        $kirimChat->sendText(
+            $phoneNumber,
+            "Jumlah hari: *{$hari}*\n\n"
+            ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+            .'Contoh: 15-06-2026'
+        );
+    }
+
+    /**
+     * Step: tanggal mulai. Format DD-MM-YYYY. State -> pesan_tanggal_keluar (kamar) or pesan_nama (non-kamar).
      */
     private function inputTanggalMasuk(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
     {
@@ -573,18 +632,44 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
-        $session->update([
-            'state' => 'pesan_tanggal_keluar',
-            'context' => array_merge($session->context ?? [], ['tanggal_masuk' => $tanggal]),
-        ]);
+        $ctx = $session->context ?? [];
+        $jumlahHari = (int) ($ctx['jumlah_hari'] ?? 0);
 
-        $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
-        $kirimChat->sendText(
-            $phoneNumber,
-            "Tanggal mulai: *{$tanggalTeks}*\n\n"
-            ."Silakan kirim *Tanggal Selesai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-            .'Contoh: 17-06-2026'
-        );
+        if ($jumlahHari > 0) {
+            // Non-kamar: auto hitung tanggal_keluar dari jumlah_hari
+            $tanggalKeluar = Carbon::parse($tanggal)->addDays($jumlahHari)->format('Y-m-d');
+
+            $session->update([
+                'state' => 'pesan_nama',
+                'context' => array_merge($ctx, [
+                    'tanggal_masuk' => $tanggal,
+                    'tanggal_keluar' => $tanggalKeluar,
+                ]),
+            ]);
+
+            $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
+            $keluarTeks = Carbon::parse($tanggalKeluar)->format('d-m-Y');
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Tanggal: *{$tanggalTeks} s/d {$keluarTeks}* ({$jumlahHari} hari)\n\n"
+                ."Silakan kirim *Nama* pemesan.\n"
+                .'Contoh: Budi Santoso'
+            );
+        } else {
+            // Kamar: minta tanggal keluar
+            $session->update([
+                'state' => 'pesan_tanggal_keluar',
+                'context' => array_merge($ctx, ['tanggal_masuk' => $tanggal]),
+            ]);
+
+            $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Tanggal mulai: *{$tanggalTeks}*\n\n"
+                ."Silakan kirim *Tanggal Selesai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
+                .'Contoh: 17-06-2026'
+            );
+        }
     }
 
     /**

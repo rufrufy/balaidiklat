@@ -20,6 +20,7 @@ class AdminKamarController extends Controller
             'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
+            'is_kamar' => ['nullable', 'boolean'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
         ], [
@@ -63,6 +64,7 @@ class AdminKamarController extends Controller
             'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
             'fasilitas' => ['nullable', 'string'],
+            'is_kamar' => ['nullable', 'boolean'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
             'hapus_foto' => ['nullable', 'array'],

@@ -4,7 +4,7 @@
             <tr>
                 <th>Jenis Kelas</th>
                 <th>Tipe</th>
-                <th>Harga/Malam</th>
+                <th>Harga</th>
                 <th>Total Unit</th>
                 <th>Tersedia</th>
                 <th>Fasilitas</th>
@@ -16,7 +16,7 @@
                 <tr>
                     <td class="mono">{{ $kamar->jenis_kelas }}</td>
                     <td>{{ $kamar->tipeLabel() }}</td>
-                    <td>Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($kamar->harga_per_malam, 0, ',', '.') }} /{{ $kamar->is_kamar ? 'malam' : 'hari' }}</td>
                     <td>{{ $kamar->stok_total ?? $kamar->kuota_total ?? '-' }}</td>
                     <td>{{ $kamar->stok_total ?? '-' }}</td>
                     <td class="small">{{ \Illuminate\Support\Str::limit($kamar->fasilitas, 60) ?: '-' }}</td>

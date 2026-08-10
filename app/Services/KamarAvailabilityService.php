@@ -3,88 +3,111 @@
 namespace App\Services;
 
 use App\Models\Kamar;
-use App\Models\KamarReservasiItem;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class KamarAvailabilityService
 {
     /**
-     * Return all kamar (jenis_kelas) with sisa kuota for the given date range.
-     * Sisa kuota = kuota_total - sum(jumlah) dari reservasi items yang overlap
-     * dengan range tanggal dan berstatus pending/approved.
+     * Total unit terpakai (pending/approved) per jenis_kelas untuk rentang tanggal.
+     *
+     * @return array<string, int>
      */
-    public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
+    public function bookedUnitsByKamar(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): array
     {
-        $kamars = Kamar::orderBy('jenis_kelas')->get();
-
         if (! $tanggalMasuk || ! $tanggalKeluar) {
-            return $kamars->map(fn (Kamar $k) => $this->withAvailability($k, $k->kuota_total));
+            return [];
         }
 
-        $booked = $this->bookedCountPerJenis($tanggalMasuk, $tanggalKeluar);
+        $rows = DB::table('kamar_reservasi_items')
+            ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
+            ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
+            ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
+            ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
+            ->whereNotNull('kamar_reservasi_items.jenis_kelas')
+            ->selectRaw('kamar_reservasi_items.jenis_kelas, COALESCE(SUM(kamar_reservasi_items.jumlah), 0) AS terpakai')
+            ->groupBy('kamar_reservasi_items.jenis_kelas')
+            ->pluck('terpakai', 'jenis_kelas');
 
-        return $kamars->map(function (Kamar $k) use ($booked): Kamar {
-            $terpakai = $booked[$k->jenis_kelas] ?? 0;
-            $sisa = max(0, $k->kuota_total - $terpakai);
+        return $rows->all();
+    }
 
-            return $this->withAvailability($k, $sisa);
+    /**
+     * Daftar kamar + atribut tersedia/stok_total/terpakai untuk rentang tanggal.
+     */
+    public function availableRoomsWithStock(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
+    {
+        $rooms = Kamar::query()->orderBy('jenis_kelas')->get();
+
+        $booked = $this->bookedUnitsByKamar($tanggalMasuk, $tanggalKeluar);
+
+        return $rooms->map(function (Kamar $kamar) use ($booked): Kamar {
+            $terpakai = (int) ($booked[$kamar->jenis_kelas] ?? 0);
+            $stokTotal = (int) ($kamar->stok_total ?: ($kamar->kuota_total ?: 1));
+            $kamar->setAttribute('tersedia', max(0, $stokTotal - $terpakai));
+            $kamar->setAttribute('stok_total', $stokTotal);
+            $kamar->setAttribute('terpakai', $terpakai);
+
+            return $kamar;
         });
     }
 
     /**
-     * Whether a specific jenis_kelas has at least $jumlah unit available
-     * on the given date range.
+     * Legacy: daftar kamar tanpa info stok.
      */
-    public function isBookable(string $jenisKelas, int $jumlah, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
+    public function availableRooms(?string $tanggalMasuk = null, ?string $tanggalKeluar = null): Collection
     {
-        $kamar = Kamar::where('jenis_kelas', $jenisKelas)->first();
+        $query = Kamar::query();
 
-        if (! $kamar) {
-            return false;
+        if ($tanggalMasuk && $tanggalKeluar) {
+            $bookedJenis = DB::table('kamar_reservasi_items')
+                ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
+                ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
+                ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
+                ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
+                ->whereNotNull('kamar_reservasi_items.jenis_kelas')
+                ->pluck('kamar_reservasi_items.jenis_kelas')
+                ->unique();
+
+            if ($bookedJenis->isNotEmpty()) {
+                $query->whereNotIn('jenis_kelas', $bookedJenis);
+            }
         }
+
+        return $query->orderBy('jenis_kelas')->get();
+    }
+
+    /**
+     * Sisa unit Tersedia untuk satu kamar pada rentang tanggal.
+     */
+    public function availableStock(Kamar $kamar, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): int
+    {
+        $stokTotal = (int) ($kamar->stok_total ?: ($kamar->kuota_total ?: 1));
 
         if (! $tanggalMasuk || ! $tanggalKeluar) {
-            return $kamar->kuota_total >= $jumlah;
+            return $stokTotal;
         }
 
-        $booked = $this->bookedCountPerJenis($tanggalMasuk, $tanggalKeluar);
-        $terpakai = $booked[$jenisKelas] ?? 0;
-        $sisa = max(0, $kamar->kuota_total - $terpakai);
+        $terpakai = (int) DB::table('kamar_reservasi_items')
+            ->join('kamar_reservasis', 'kamar_reservasi_items.kamar_reservasi_id', '=', 'kamar_reservasis.id')
+            ->whereIn('kamar_reservasis.status', ['pending', 'approved'])
+            ->where('kamar_reservasi_items.tanggal_masuk', '<', $tanggalKeluar)
+            ->where('kamar_reservasi_items.tanggal_keluar', '>', $tanggalMasuk)
+            ->where('kamar_reservasi_items.jenis_kelas', $kamar->jenis_kelas)
+            ->sum('kamar_reservasi_items.jumlah');
 
-        return $sisa >= $jumlah;
+        return max(0, $stokTotal - $terpakai);
+    }
+
+    public function isBookable(Kamar $kamar, int $jumlahUnit = 1, ?string $tanggalMasuk = null, ?string $tanggalKeluar = null): bool
+    {
+        return $this->availableStock($kamar, $tanggalMasuk, $tanggalKeluar) >= $jumlahUnit;
     }
 
     /**
-     * Sum of reserved units per jenis_kelas for overlapping date range.
-     *
-     * @return array<string,int>
-     */
-    private function bookedCountPerJenis(string $tanggalMasuk, string $tanggalKeluar): array
-    {
-        $rows = KamarReservasiItem::query()
-            ->selectRaw('jenis_kelas, COALESCE(SUM(jumlah), 0) as total')
-            ->whereHas('reservasi', function ($q) {
-                $q->whereIn('status', ['pending', 'approved']);
-            })
-            ->where('tanggal_masuk', '<', $tanggalKeluar)
-            ->where('tanggal_keluar', '>', $tanggalMasuk)
-            ->groupBy('jenis_kelas')
-            ->pluck('total', 'jenis_kelas');
-
-        return $rows->map(fn ($v) => (int) $v)->all();
-    }
-
-    private function withAvailability(Kamar $kamar, int $sisa): Kamar
-    {
-        $kamar->setAttribute('sisa_kuota', $sisa);
-
-        return $kamar;
-    }
-
-    /**
-     * Parse free-form date input from WhatsApp (single date or range) into
-     * [tanggal_masuk, tanggal_keluar]. Returns null if no date is found.
+     * Parse free-form date input WhatsApp → [tanggal_masuk, tanggal_keluar].
+     * Pola: "12-06-2026", "12/06/2026", "2026-06-12", range " - "/" sampai "/" s/d ".
      *
      * @return array{0:string,1:string}|null
      */

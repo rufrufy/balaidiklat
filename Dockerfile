@@ -15,6 +15,7 @@ RUN npm install --no-audit --no-fund
 COPY vite.config.js ./
 COPY resources ./resources
 COPY public ./public
+ENV VITE_SKIP_FONTS=true
 RUN npm run build
 
 

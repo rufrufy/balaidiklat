@@ -40,4 +40,18 @@ class AdminAuthController extends Controller
 
         return redirect()->route('admin.login');
     }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'current_password' => ['required', 'string', 'current_password'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($data['password']),
+        ]);
+
+        return redirect()->route('admin.dashboard', ['section' => 'password'])->with('status', 'Password berhasil diubah.');
+    }
 }

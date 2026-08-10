@@ -16,6 +16,9 @@ class ChatbotRule extends Model
         'next_state',
         'priority',
         'is_active',
+        'menu_label',
+        'menu_description',
+        'menu_order',
     ];
 
     protected function casts(): array
@@ -23,6 +26,7 @@ class ChatbotRule extends Model
         return [
             'is_active' => 'boolean',
             'priority' => 'integer',
+            'menu_order' => 'integer',
         ];
     }
 

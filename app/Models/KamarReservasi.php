@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class KamarReservasi extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'kode',
         'nama_pemesan',
@@ -16,6 +20,7 @@ class KamarReservasi extends Model
         'phone_number',
         'jenis_kelas',
         'jumlah',
+        'kamar_id',
         'multiple_kamar',
         'tanggal_masuk',
         'tanggal_keluar',
@@ -39,6 +44,26 @@ class KamarReservasi extends Model
             'jumlah_peserta' => 'integer',
             'total_harga' => 'integer',
         ];
+    }
+
+    public function kamar(): BelongsTo
+    {
+        return $this->belongsTo(Kamar::class, 'kamar_id');
+    }
+
+    // DB produksi tidak punya kamar_id; fallback via jenis_kelas.
+    public function getKamarAttribute(): ?Kamar
+    {
+        if (isset($this->attributes['kamar_id']) && $this->attributes['kamar_id']) {
+            return Kamar::find($this->attributes['kamar_id']);
+        }
+
+        $jenis = $this->getAttributeValue('jenis_kelas') ?? ($this->attributes['jenis_kelas'] ?? null);
+        if (! $jenis) {
+            return null;
+        }
+
+        return Kamar::where('jenis_kelas', $jenis)->first();
     }
 
     public function items(): HasMany

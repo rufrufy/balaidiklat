@@ -16,15 +16,28 @@ class AdminKamarController extends Controller
     {
         $data = $request->validate([
             'jenis_kelas' => ['required', 'string', 'max:255', 'unique:kamars,jenis_kelas'],
-            'kuota_total' => ['required', 'integer', 'min:0'],
-            'fasilitas' => ['nullable', 'string'],
+            'kuota_total' => ['nullable', 'integer', 'min:1'],
+            'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'fasilitas' => ['nullable', 'string'],
+            'is_kamar' => ['nullable', 'boolean'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
         ], [
             'foto.*.max' => 'Ukuran foto maksimal 2MB.',
             'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
+
+        if (empty($data['kuota_total'])) {
+            $data['kuota_total'] = $data['stok_total'] ?? 1;
+        }
+        if (empty($data['stok_total'])) {
+            $data['stok_total'] = $data['kuota_total'];
+        }
+
+        if ($request->hasFile('foto') && isset($request->file('foto')[0]) && $request->file('foto')[0]->isValid()) {
+            $data['foto_path'] = $this->storeFoto($request->file('foto')[0]);
+        }
 
         $kamar = Kamar::create($data);
 
@@ -47,9 +60,11 @@ class AdminKamarController extends Controller
     {
         $data = $request->validate([
             'jenis_kelas' => ['required', 'string', 'max:255', 'unique:kamars,jenis_kelas,'.$kamar->id],
-            'kuota_total' => ['required', 'integer', 'min:0'],
-            'fasilitas' => ['nullable', 'string'],
+            'kuota_total' => ['nullable', 'integer', 'min:1'],
+            'stok_total' => ['nullable', 'integer', 'min:1'],
             'harga_per_malam' => ['required', 'integer', 'min:0'],
+            'fasilitas' => ['nullable', 'string'],
+            'is_kamar' => ['nullable', 'boolean'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['image', 'max:2048'],
             'hapus_foto' => ['nullable', 'array'],
@@ -58,6 +73,13 @@ class AdminKamarController extends Controller
             'foto.*.max' => 'Ukuran foto maksimal 2MB.',
             'foto.*.image' => 'File harus berupa gambar (jpg, png, dll).',
         ]);
+
+        if (empty($data['kuota_total'])) {
+            $data['kuota_total'] = $data['stok_total'] ?? 1;
+        }
+        if (empty($data['stok_total'])) {
+            $data['stok_total'] = $data['kuota_total'];
+        }
 
         if ($request->filled('hapus_foto')) {
             $fotosToDelete = KamarFoto::where('kamar_id', $kamar->id)
@@ -109,6 +131,7 @@ class AdminKamarController extends Controller
         Kamar::create([
             'jenis_kelas' => $data['jenis_kelas'],
             'kuota_total' => $kamar->kuota_total,
+            'stok_total' => $kamar->stok_total ?: $kamar->kuota_total,
             'fasilitas' => $kamar->fasilitas,
             'harga_per_malam' => $kamar->harga_per_malam,
         ]);

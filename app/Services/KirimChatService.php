@@ -126,16 +126,34 @@ class KirimChatService
 
     private function post(string $path, array $payload, string $phoneNumber, string $messageType, string $messageText): array
     {
-        $response = Http::withToken(config('services.kirimchat.api_key'))
-            ->acceptJson()
-            ->asJson()
-            ->post(rtrim((string) config('services.kirimchat.base_url'), '/') . $path, $payload);
+        try {
+            $response = Http::timeout(30)
+                ->withToken(config('services.kirimchat.api_key'))
+                ->acceptJson()
+                ->asJson()
+                ->post(rtrim((string) config('services.kirimchat.base_url'), '/') . $path, $payload);
+        } catch (\Throwable $e) {
+            Log::error('KirimChat API connection error', [
+                'error' => $e->getMessage(),
+                'path' => $path,
+                'phone' => $phoneNumber,
+                'message_type' => $messageType,
+            ]);
+
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
 
         if ($response->failed()) {
             Log::error('KirimChat API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
                 'payload' => $payload,
+            ]);
+        } else {
+            Log::info('KirimChat API success', [
+                'phone' => $phoneNumber,
+                'message_type' => $messageType,
+                'status' => $response->status(),
             ]);
         }
 

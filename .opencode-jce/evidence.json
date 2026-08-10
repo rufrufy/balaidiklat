@@ -18,5 +18,35 @@
     "area": "auto-capture",
     "id": "ev-1786345223991-2",
     "timestamp": "2026-08-10T07:00:23.991Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "if (Test-Path .env) { Select-String -Path .env -Pattern \"KIRIMCHAT_API_KEY|KIRIMCHAT_PHONE_NUMBER_ID\" | ForEach-Object { \"$($_.LineNumber): $($_.Line.Substring(0,[Math]::Min($_.Line.Length,30)))...\" } }",
+    "status": "unknown",
+    "summary": "if (Test-Path .env) { Select-String -Path .env -Pattern \"KIRIMCHAT_API_KEY|KIRIMCHAT_PHONE_NUMBER_ID\" | ForEach-Object { \"$($_.LineNumber): $($_.Line.Substring(0,[Math]::Min($_.Line.Length,30)))...\" } } -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1786348853732-3",
+    "timestamp": "2026-08-10T08:00:53.732Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "php -l app\\Console\\Commands\\TestKirimdevSend.php 2>&1; php artisan list kirimdev 2>&1",
+    "status": "fail",
+    "summary": "php -l app\\Console\\Commands\\TestKirimdevSend.php 2>&1; php artisan list kirimdev 2>&1 -> fail",
+    "area": "auto-capture",
+    "id": "ev-1786350230020-4",
+    "timestamp": "2026-08-10T08:23:50.020Z"
+  },
+  {
+    "taskId": "auto-capture",
+    "type": "command",
+    "command": "php artisan kirimdev:test 2>&1",
+    "status": "unknown",
+    "summary": "php artisan kirimdev:test 2>&1 -> unknown",
+    "area": "auto-capture",
+    "id": "ev-1786350253788-5",
+    "timestamp": "2026-08-10T08:24:13.788Z"
   }
 ]

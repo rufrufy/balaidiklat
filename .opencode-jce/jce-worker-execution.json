@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-10T07:21:37.710Z",
+  "updatedAt": "2026-08-10T08:25:58.757Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -1032,24 +1032,25 @@
     "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\dashboard.blade.php",
     "C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7",
     "C:\\laragon\\www\\balaidiklat\\.env",
-    "C:\\laragon\\www\\balaidiklat\\docker-compose.yml"
+    "C:\\laragon\\www\\balaidiklat\\docker-compose.yml",
+    "C:\\laragon\\www\\balaidiklat\\app\\Console\\Commands\\TestKirimdevSend.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 0,
-    "compressedChars": 0,
+    "originalChars": 7328,
+    "compressedChars": 7328,
     "estimatedTokensSaved": 0,
     "estimatedSavingsPercent": 0,
-    "tasks": 126,
+    "tasks": 84938750,
     "byTool": {
       "dispatch": {
-        "originalChars": 227168,
-        "compressedChars": 227168,
+        "originalChars": 461664,
+        "compressedChars": 461664,
         "estimatedTokensSaved": 0,
-        "tasks": 62
+        "tasks": 33554430
       },
       "grep": {
         "originalChars": 0,
@@ -1058,8 +1059,8 @@
         "tasks": 0
       },
       "bash": {
-        "originalChars": 0,
-        "compressedChars": 0,
+        "originalChars": 1036288,
+        "compressedChars": 1003520,
         "estimatedTokensSaved": 0,
         "tasks": 0
       },

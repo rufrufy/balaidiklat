@@ -36,11 +36,12 @@ return [
     ],
 
     'kirimchat' => [
-        'base_url' => env('KIRIMCHAT_BASE_URL', 'https://api-prod.kirim.chat/api/v1/public'),
+        'base_url' => env('KIRIMCHAT_BASE_URL', 'https://api.kirimdev.com/v1'),
         'api_key' => env('KIRIMCHAT_API_KEY'),
         'webhook_secret' => env('KIRIMCHAT_WEBHOOK_SECRET'),
         'require_webhook_secret' => env('KIRIMCHAT_REQUIRE_WEBHOOK_SECRET', false),
         'human_timeout_minutes' => (int) env('KIRIMCHAT_HUMAN_TIMEOUT_MINUTES', 30),
+        'phone_number_id' => env('KIRIMCHAT_PHONE_NUMBER_ID'),
     ],
 
     'eretribusi' => [

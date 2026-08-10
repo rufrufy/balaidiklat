@@ -8,33 +8,41 @@ use Illuminate\Support\Facades\Log;
 
 class KirimChatService
 {
+    /**
+     * Kirimdev (Meta WhatsApp Cloud API style).
+     * Endpoint: POST {base_url}/{phone_number_id}/messages
+     * Body: { messaging_product, recipient_type, to, type, text/interactive/image }
+     */
     public function sendText(string $phoneNumber, string $content): array
     {
         $content = mb_substr($content, 0, 4096);
         $payload = [
-            'phone_number' => $phoneNumber,
-            'channel' => 'whatsapp',
-            'message_type' => 'text',
-            'content' => $content,
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $this->normalizePhone($phoneNumber),
+            'type' => 'text',
+            'text' => ['body' => $content, 'preview_url' => true],
         ];
 
-        return $this->post('/messages/send', $payload, $phoneNumber, 'text', $content);
+        return $this->post($payload, $phoneNumber, 'text', $content);
     }
 
     public function sendImage(string $phoneNumber, string $mediaUrl, ?string $caption = null): array
     {
-        $payload = [
-            'phone_number' => $phoneNumber,
-            'channel' => 'whatsapp',
-            'message_type' => 'image',
-            'media_url' => $mediaUrl,
-        ];
-
+        $image = ['link' => $mediaUrl];
         if ($caption) {
-            $payload['caption'] = mb_substr($caption, 0, 1024);
+            $image['caption'] = mb_substr($caption, 0, 1024);
         }
 
-        return $this->post('/messages/send', $payload, $phoneNumber, 'image', $caption ?: $mediaUrl);
+        $payload = [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $this->normalizePhone($phoneNumber),
+            'type' => 'image',
+            'image' => $image,
+        ];
+
+        return $this->post($payload, $phoneNumber, 'image', $caption ?: $mediaUrl);
     }
 
     /**
@@ -51,18 +59,21 @@ class KirimChatService
             'reply' => ['id' => $button['id'], 'title' => mb_substr($button['title'], 0, 20)],
         ], array_slice($buttons, 0, 3));
 
-        $payload = [
-            'phone_number' => $phoneNumber,
-            'channel' => 'whatsapp',
-            'message_type' => 'interactive',
-            'interactive' => [
-                'type' => 'button',
-                'body' => ['text' => $bodyText],
-                'action' => ['buttons' => $replyButtons],
-            ],
+        $interactive = [
+            'type' => 'reply_buttons',
+            'body' => ['text' => $bodyText],
+            'action' => ['buttons' => $replyButtons],
         ];
 
-        return $this->post('/messages/send', $payload, $phoneNumber, 'interactive', $bodyText);
+        $payload = [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $this->normalizePhone($phoneNumber),
+            'type' => 'interactive',
+            'interactive' => $interactive,
+        ];
+
+        return $this->post($payload, $phoneNumber, 'interactive', $bodyText);
     }
 
     /**
@@ -115,27 +126,39 @@ class KirimChatService
         }
 
         $payload = [
-            'phone_number' => $phoneNumber,
-            'channel' => 'whatsapp',
-            'message_type' => 'interactive',
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $this->normalizePhone($phoneNumber),
+            'type' => 'interactive',
             'interactive' => $interactive,
         ];
 
-        return $this->post('/messages/send', $payload, $phoneNumber, 'interactive', $bodyText);
+        return $this->post($payload, $phoneNumber, 'interactive', $bodyText);
     }
 
-    private function post(string $path, array $payload, string $phoneNumber, string $messageType, string $messageText): array
+    private function post(array $payload, string $phoneNumber, string $messageType, string $messageText): array
     {
+        $phoneNumberId = (string) config('services.kirimchat.phone_number_id');
+        if ($phoneNumberId === '') {
+            Log::error('Kirimdev API error: KIRIMCHAT_PHONE_NUMBER_ID kosong', [
+                'phone' => $phoneNumber,
+            ]);
+
+            return ['success' => false, 'error' => 'phone_number_id_not_configured'];
+        }
+
+        $url = rtrim((string) config('services.kirimchat.base_url'), '/') . '/' . $phoneNumberId . '/messages';
+
         try {
             $response = Http::timeout(30)
                 ->withToken(config('services.kirimchat.api_key'))
                 ->acceptJson()
                 ->asJson()
-                ->post(rtrim((string) config('services.kirimchat.base_url'), '/') . $path, $payload);
+                ->post($url, $payload);
         } catch (\Throwable $e) {
-            Log::error('KirimChat API connection error', [
+            Log::error('Kirimdev API connection error', [
                 'error' => $e->getMessage(),
-                'path' => $path,
+                'url' => $url,
                 'phone' => $phoneNumber,
                 'message_type' => $messageType,
             ]);
@@ -144,13 +167,13 @@ class KirimChatService
         }
 
         if ($response->failed()) {
-            Log::error('KirimChat API error', [
+            Log::error('Kirimdev API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
                 'payload' => $payload,
             ]);
         } else {
-            Log::info('KirimChat API success', [
+            Log::info('Kirimdev API success', [
                 'phone' => $phoneNumber,
                 'message_type' => $messageType,
                 'status' => $response->status(),
@@ -172,5 +195,20 @@ class KirimChatService
         ]);
 
         return $result;
+    }
+
+    /**
+     * Normalize phone ke E.164 (628xxx) tanpa + prefix.
+     */
+    private function normalizePhone(string $phone): string
+    {
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        if (str_starts_with($phone, '0')) {
+            $phone = '62' . substr($phone, 1);
+        } elseif (! str_starts_with($phone, '62')) {
+            $phone = '62' . $phone;
+        }
+
+        return $phone;
     }
 }

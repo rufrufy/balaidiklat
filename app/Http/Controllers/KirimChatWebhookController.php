@@ -2105,7 +2105,10 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
-        $signature = (string) $request->header('X-KirimChat-Signature');
+        // Kirimdev kirim signature via X-Kirimdev-Signature (fallback X-KirimChat-Signature lama).
+        $signature = (string) ($request->header('X-Kirimdev-Signature')
+            ?? $request->header('X-KirimChat-Signature')
+            ?? '');
         $expected = 'sha256='.hash_hmac('sha256', $request->getContent(), (string) $secret);
 
         if (! hash_equals($expected, $signature)) {
@@ -2141,6 +2144,21 @@ class KirimChatWebhookController extends Controller
 
     private function shouldProcessChatbot(array $payload): bool
     {
+        // Kirimdev / Meta Cloud API shape: entry[0].changes[0].value.messages[0] ada
+        // dan kirim.message_id (wrapper normalisasi kirimdev) ada.
+        $kirimdevInbound = Arr::get($payload, 'kirim.message_id') !== null
+            || Arr::get($payload, 'entry.0.changes.0.value.messages.0') !== null;
+
+        if ($kirimdevInbound) {
+            $channel = Arr::get($payload, 'entry.0.changes.0.value.messaging_product');
+            if ($channel && $channel !== 'whatsapp') {
+                return false;
+            }
+
+            return true;
+        }
+
+        // Legacy kirim.chat shape.
         $eventType = Arr::get($payload, 'event_type');
         $channel = Arr::get($payload, 'data.channel');
         $direction = $this->extractDirection($payload);
@@ -2158,6 +2176,13 @@ class KirimChatWebhookController extends Controller
 
     private function isInboundMessageEvent(array $payload): bool
     {
+        // Kirimdev inbound.
+        if (Arr::get($payload, 'kirim.message_id') !== null
+            || Arr::get($payload, 'entry.0.changes.0.value.messages.0') !== null) {
+            return true;
+        }
+
+        // Legacy kirim.chat.
         $eventType = Arr::get($payload, 'event_type');
 
         if ($eventType && $eventType !== 'message.received') {
@@ -2169,17 +2194,48 @@ class KirimChatWebhookController extends Controller
 
     private function extractPhoneNumber(array $payload): ?string
     {
-        return Arr::get($payload, 'phone_number')
+        $phone = Arr::get($payload, 'kirim.contact.phone_number')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.from')
+            ?? Arr::get($payload, 'phone_number')
             ?? Arr::get($payload, 'from')
             ?? Arr::get($payload, 'customer.phone_number')
             ?? Arr::get($payload, 'data.phone_number')
             ?? Arr::get($payload, 'data.customer_phone')
             ?? Arr::get($payload, 'data.customer.phone_number');
+
+        return $this->normalizePhone($phone);
+    }
+
+    /**
+     * Normalize phone ke 628xxx (E.164 tanpa +) supaya konsisten sebagai
+     * key session antara inbound (bisa +628 atau 628) dan outbound.
+     */
+    private function normalizePhone(?string $phone): ?string
+    {
+        if (! $phone) {
+            return null;
+        }
+
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        if ($phone === '') {
+            return null;
+        }
+
+        if (str_starts_with($phone, '0')) {
+            $phone = '62' . substr($phone, 1);
+        } elseif (! str_starts_with($phone, '62')) {
+            $phone = '62' . $phone;
+        }
+
+        return $phone;
     }
 
     private function extractCustomerName(array $payload): ?string
     {
-        return Arr::get($payload, 'customer.name')
+        return Arr::get($payload, 'kirim.contact.name')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.contacts.0.profile.name')
+            ?? Arr::get($payload, 'customer.name')
             ?? Arr::get($payload, 'data.customer_name')
             ?? Arr::get($payload, 'data.customer.name')
             ?? Arr::get($payload, 'data.profile.name')
@@ -2188,7 +2244,9 @@ class KirimChatWebhookController extends Controller
 
     private function extractMessageText(array $payload): ?string
     {
-        return Arr::get($payload, 'message')
+        return Arr::get($payload, 'entry.0.changes.0.value.messages.0.text.body')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.caption')
+            ?? Arr::get($payload, 'message')
             ?? Arr::get($payload, 'text')
             ?? Arr::get($payload, 'content')
             ?? Arr::get($payload, 'data.message')
@@ -2213,7 +2271,13 @@ class KirimChatWebhookController extends Controller
 
     private function extractInteractiveId(array $payload): ?string
     {
-        return Arr::get($payload, 'interactive.id')
+        // Kirimdev / Meta Cloud API shape (entry[0].changes[0].value.messages[0].interactive.*)
+        return Arr::get($payload, 'entry.0.changes.0.value.messages.0.interactive.list_reply.id')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.interactive.button_reply.id')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.button_reply.id')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.list_reply.id')
+            // Legacy kirim.chat shapes
+            ?? Arr::get($payload, 'interactive.id')
             ?? Arr::get($payload, 'interactive.reply.id')
             ?? Arr::get($payload, 'data.interactive.id')
             ?? Arr::get($payload, 'data.interactive.reply.id')
@@ -2233,7 +2297,11 @@ class KirimChatWebhookController extends Controller
      */
     private function extractImageUrl(array $payload): ?string
     {
-        $url = Arr::get($payload, 'data.media_url')
+        // Kirimdev wrapper (media_url langsung) + Meta shape (image.id perlu fetch media endpoint)
+        $url = Arr::get($payload, 'kirim.media_url')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.image.url')
+            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.image.link')
+            ?? Arr::get($payload, 'data.media_url')
             ?? Arr::get($payload, 'data.image.url')
             ?? Arr::get($payload, 'data.image.link')
             ?? Arr::get($payload, 'data.media.url')

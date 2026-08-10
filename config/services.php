@@ -40,6 +40,7 @@ return [
         'api_key' => env('KIRIMCHAT_API_KEY'),
         'webhook_secret' => env('KIRIMCHAT_WEBHOOK_SECRET'),
         'require_webhook_secret' => env('KIRIMCHAT_REQUIRE_WEBHOOK_SECRET', false),
+        'human_timeout_minutes' => (int) env('KIRIMCHAT_HUMAN_TIMEOUT_MINUTES', 30),
     ],
 
     'eretribusi' => [

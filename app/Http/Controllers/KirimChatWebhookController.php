@@ -82,6 +82,15 @@ class KirimChatWebhookController extends Controller
 
         $session->update(['last_message_at' => now()]);
 
+        // Mode human: bot di-pause, percakapan ditangani admin/operator.
+        // Inbound tetap tersimpan (di atas) agar admin bisa membaca.
+        // Auto-resume ke bot bila idle melebihi timeout.
+        $session = $this->maybeAutoResume($session);
+
+        if ($session->mode === 'human') {
+            return response()->json(['success' => true]);
+        }
+
         $customerName = $this->extractCustomerName($payload);
 
         // Jika user sedang diminta upload bukti pembayaran dan mengirim gambar,
@@ -252,6 +261,19 @@ class KirimChatWebhookController extends Controller
                     $rule->reply_text ? $this->personalize($rule->reply_text, $customerName) : 'Terima kasih.',
                     $kirimChat
                 );
+
+                return;
+
+            case 'customer_care':
+                $session->update([
+                    'mode' => 'human',
+                    'human_taken_at' => now(),
+                ]);
+                $reply = $rule->reply_text
+                    ? $this->personalize($rule->reply_text, $customerName)
+                    : "Percakapan Anda akan diteruskan ke tim *Customer Care* kami.\n"
+                      ."Mohon tunggu, tim kami akan segera membalas pesan Anda.";
+                $kirimChat->sendText($phoneNumber, $reply);
 
                 return;
 
@@ -1065,6 +1087,32 @@ class KirimChatWebhookController extends Controller
         if (! hash_equals($expected, $signature)) {
             abort(401, 'Invalid webhook secret');
         }
+    }
+
+    /**
+     * Auto-resume ke mode bot bila sesi human idle melebihi timeout.
+     * Dipanggil saat inbound baru tiba. Lazy auto-resume (tanpa scheduler).
+     */
+    private function maybeAutoResume(WhatsappSession $session): WhatsappSession
+    {
+        if ($session->mode !== 'human') {
+            return $session;
+        }
+
+        $takenAt = $session->human_taken_at;
+        $timeoutMinutes = (int) config('services.kirimchat.human_timeout_minutes', 30);
+
+        if ($takenAt && $takenAt->lt(now()->subMinutes($timeoutMinutes))) {
+            $session->update([
+                'mode' => 'bot',
+                'state' => 'main_menu',
+                'context' => [],
+                'human_taken_at' => null,
+            ]);
+            $session->refresh();
+        }
+
+        return $session;
     }
 
     private function shouldProcessChatbot(array $payload): bool

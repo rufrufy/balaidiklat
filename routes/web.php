@@ -91,6 +91,8 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'destroy'])->name('admin.chatbot-rules.destroy');
     Route::get('/admin/whatsapp/messages', [AdminWhatsappChatController::class, 'index'])->name('admin.whatsapp.messages');
     Route::post('/admin/whatsapp/send', [AdminWhatsappChatController::class, 'send'])->name('admin.whatsapp.send');
+    Route::post('/admin/whatsapp/takeover', [AdminWhatsappChatController::class, 'takeover'])->name('admin.whatsapp.takeover');
+    Route::post('/admin/whatsapp/release', [AdminWhatsappChatController::class, 'release'])->name('admin.whatsapp.release');
     Route::get('/admin/rekap-bulanan', [AdminRekapController::class, 'index'])->name('admin.rekap.bulanan');
     Route::patch('/admin/pengaduan/{pengaduan}', [AdminPengaduanController::class, 'update'])->name('admin.pengaduan.update');
     Route::delete('/admin/pengaduan/{pengaduan}', [AdminPengaduanController::class, 'destroy'])->name('admin.pengaduan.destroy');

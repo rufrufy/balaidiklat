@@ -9,8 +9,10 @@ class WhatsappSession extends Model
     protected $fillable = [
         'phone_number',
         'state',
+        'mode',
         'context',
         'last_message_at',
+        'human_taken_at',
     ];
 
     protected function casts(): array
@@ -18,6 +20,7 @@ class WhatsappSession extends Model
         return [
             'context' => 'array',
             'last_message_at' => 'datetime',
+            'human_taken_at' => 'datetime',
         ];
     }
 }

@@ -1,0 +1,344 @@
+{
+  "version": 2,
+  "updatedAt": "2026-08-10T06:15:46.102Z",
+  "memoryTiers": {
+    "session": {
+      "currentTask": "# Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+      "blockers": [],
+      "pendingPlan": "# Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r (executing)"
+    },
+    "project": {
+      "conventions": [],
+      "releaseFiles": [],
+      "standardVerification": [],
+      "dangerousAreas": []
+    },
+    "failure": {
+      "knownErrors": [],
+      "badFixes": [],
+      "successfulFixes": []
+    },
+    "operator": {
+      "preferTerseReports": false,
+      "preferAutonomousCompletion": false,
+      "preferBroadVerification": true
+    }
+  },
+  "facts": [],
+  "decisions": [
+    {
+      "id": "dec-1786334973526-hponsa",
+      "description": "Plan created for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+      "reasoning": "Intent: feature (confidence: 0.5), 5 nodes",
+      "alternatives": [],
+      "status": "active",
+      "madeAt": "2026-08-10T04:09:33.526Z"
+    }
+  ],
+  "artifacts": [],
+  "evidence": [],
+  "wisdom": [],
+  "taskLearnings": [],
+  "sessionHistory": [
+    {
+      "id": "session-1786334870710-dmz7",
+      "startedAt": "2026-08-10T04:07:50.710Z",
+      "nodesCompleted": 0,
+      "nodesFailed": 0,
+      "endedAt": "2026-08-10T06:15:46.102Z"
+    }
+  ],
+  "graph": {
+    "id": "graph-1786334973501-urav",
+    "goal": "# Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+    "status": "executing",
+    "nodes": [
+      {
+        "id": "node-feature-0-tlv0",
+        "type": "research",
+        "title": "Understand requirements and codebase",
+        "description": "Understand requirements and codebase for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+        "agent": "explorer",
+        "status": "ready",
+        "dependencies": [],
+        "input": {
+          "prompt": "Explore the codebase to understand where # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r should be implemented. Identify relevant files, patterns, and integration points.",
+          "context": [],
+          "constraints": [
+            {
+              "id": "con-1786334973467-t9nt40",
+              "description": "Do not modify unrelated files",
+              "origin": "user",
+              "active": true,
+              "createdAt": "2026-08-10T04:09:33.467Z"
+            }
+          ],
+          "skills": [
+            "codebase-intelligence"
+          ]
+        },
+        "evidence": [],
+        "retryPolicy": {
+          "maxRetries": 2,
+          "strategy": [
+            "same",
+            "different_approach",
+            "escalate_user"
+          ],
+          "currentRetry": 0
+        },
+        "priority": 10,
+        "createdAt": "2026-08-10T04:09:33.501Z",
+        "transitionHistory": [],
+        "metadata": {
+          "plannerMode": "fast",
+          "plannerReason": "Speed-weighted objective dominates",
+          "parallelization": "linear-fallback",
+          "parallelFallbackReason": "Sequential dependency signals detected; keep linear plan."
+        }
+      },
+      {
+        "id": "node-feature-1-qpvd",
+        "type": "plan",
+        "title": "Design implementation approach",
+        "description": "Design implementation approach for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+        "agent": "self",
+        "status": "pending",
+        "dependencies": [
+          "node-feature-0-tlv0"
+        ],
+        "input": {
+          "prompt": "Design the implementation for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r. Consider the codebase patterns discovered, define the API surface, and identify edge cases.",
+          "context": [],
+          "constraints": [
+            {
+              "id": "con-1786334973467-t9nt40",
+              "description": "Do not modify unrelated files",
+              "origin": "user",
+              "active": true,
+              "createdAt": "2026-08-10T04:09:33.467Z"
+            }
+          ],
+          "skills": [
+            "software-engineering",
+            "codebase-intelligence",
+            "laravel",
+            "ai-optimization"
+          ]
+        },
+        "evidence": [],
+        "retryPolicy": {
+          "maxRetries": 2,
+          "strategy": [
+            "same",
+            "different_approach",
+            "escalate_user"
+          ],
+          "currentRetry": 0
+        },
+        "priority": 9,
+        "createdAt": "2026-08-10T04:09:33.514Z",
+        "transitionHistory": [],
+        "metadata": {
+          "plannerMode": "fast",
+          "plannerReason": "Speed-weighted objective dominates",
+          "parallelization": "linear-fallback",
+          "parallelFallbackReason": "Sequential dependency signals detected; keep linear plan."
+        }
+      },
+      {
+        "id": "node-feature-2-61qk",
+        "type": "code",
+        "title": "Implement feature",
+        "description": "Implement feature for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+        "agent": "self",
+        "status": "pending",
+        "dependencies": [
+          "node-feature-1-qpvd"
+        ],
+        "input": {
+          "prompt": "Implement: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r. Follow the design from the planning step. Write clean, tested code.",
+          "context": [],
+          "constraints": [
+            {
+              "id": "con-1786334973467-t9nt40",
+              "description": "Do not modify unrelated files",
+              "origin": "user",
+              "active": true,
+              "createdAt": "2026-08-10T04:09:33.467Z"
+            }
+          ],
+          "skills": [
+            "software-engineering"
+          ]
+        },
+        "evidence": [],
+        "retryPolicy": {
+          "maxRetries": 2,
+          "strategy": [
+            "same",
+            "different_approach",
+            "escalate_user"
+          ],
+          "currentRetry": 0
+        },
+        "priority": 8,
+        "createdAt": "2026-08-10T04:09:33.514Z",
+        "transitionHistory": [],
+        "metadata": {
+          "plannerMode": "fast",
+          "plannerReason": "Speed-weighted objective dominates",
+          "parallelization": "linear-fallback",
+          "parallelFallbackReason": "Sequential dependency signals detected; keep linear plan."
+        }
+      },
+      {
+        "id": "node-feature-3-5qfh",
+        "type": "code",
+        "title": "Write tests",
+        "description": "Write tests for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+        "agent": "self",
+        "status": "pending",
+        "dependencies": [
+          "node-feature-2-61qk"
+        ],
+        "input": {
+          "prompt": "Write comprehensive tests for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r. Cover happy path, edge cases, and error scenarios.",
+          "context": [],
+          "constraints": [
+            {
+              "id": "con-1786334973467-t9nt40",
+              "description": "Do not modify unrelated files",
+              "origin": "user",
+              "active": true,
+              "createdAt": "2026-08-10T04:09:33.467Z"
+            }
+          ],
+          "skills": [
+            "software-engineering"
+          ]
+        },
+        "evidence": [],
+        "retryPolicy": {
+          "maxRetries": 2,
+          "strategy": [
+            "same",
+            "different_approach",
+            "escalate_user"
+          ],
+          "currentRetry": 0
+        },
+        "priority": 7,
+        "createdAt": "2026-08-10T04:09:33.514Z",
+        "transitionHistory": [],
+        "metadata": {
+          "plannerMode": "fast",
+          "plannerReason": "Speed-weighted objective dominates",
+          "parallelization": "linear-fallback",
+          "parallelFallbackReason": "Sequential dependency signals detected; keep linear plan."
+        }
+      },
+      {
+        "id": "node-feature-4-msmp",
+        "type": "verify",
+        "title": "Verify implementation",
+        "description": "Verify implementation for: # Delegated Task Envelope\n\n## 1. TASK\nMap WhatsApp bot webhook flow\n\n## 2. EXPECTED OUTCOME\nComplete the task and return Summary, Files, Verification, and Risks.\n\n## 3. REQUIRED TOOLS\n- Read\n- Grep\n- Glob\n- Bash\n- Edit\n- Write\n\n## 4. MUST DO\n- Preserve existing user changes\n- Verify results before r",
+        "agent": "self",
+        "status": "pending",
+        "dependencies": [
+          "node-feature-3-5qfh"
+        ],
+        "input": {
+          "prompt": "Run tests, type checker, and linter. Verify the feature works end-to-end.",
+          "context": [],
+          "constraints": [
+            {
+              "id": "con-1786334973467-t9nt40",
+              "description": "Do not modify unrelated files",
+              "origin": "user",
+              "active": true,
+              "createdAt": "2026-08-10T04:09:33.467Z"
+            }
+          ],
+          "skills": [
+            "software-engineering",
+            "codebase-intelligence",
+            "laravel",
+            "ai-optimization"
+          ]
+        },
+        "evidence": [],
+        "retryPolicy": {
+          "maxRetries": 2,
+          "strategy": [
+            "same",
+            "different_approach",
+            "escalate_user"
+          ],
+          "currentRetry": 0
+        },
+        "priority": 6,
+        "createdAt": "2026-08-10T04:09:33.514Z",
+        "transitionHistory": [],
+        "metadata": {
+          "plannerMode": "fast",
+          "plannerReason": "Speed-weighted objective dominates",
+          "parallelization": "linear-fallback",
+          "parallelFallbackReason": "Sequential dependency signals detected; keep linear plan."
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "node-feature-0-tlv0",
+        "to": "node-feature-1-qpvd",
+        "type": "blocks"
+      },
+      {
+        "from": "node-feature-1-qpvd",
+        "to": "node-feature-2-61qk",
+        "type": "blocks"
+      },
+      {
+        "from": "node-feature-2-61qk",
+        "to": "node-feature-3-5qfh",
+        "type": "blocks"
+      },
+      {
+        "from": "node-feature-3-5qfh",
+        "to": "node-feature-4-msmp",
+        "type": "blocks"
+      }
+    ],
+    "createdAt": "2026-08-10T04:09:33.501Z",
+    "updatedAt": "2026-08-10T04:09:33.526Z",
+    "metadata": {
+      "executionStrategy": "plan-then-exec",
+      "strategySource": "rule",
+      "plannedIntent": "feature"
+    }
+  },
+  "orchestration": {
+    "constraints": [
+      {
+        "id": "con-1786334973467-t9nt40",
+        "description": "Do not modify unrelated files",
+        "origin": "user",
+        "active": true,
+        "createdAt": "2026-08-10T04:09:33.467Z"
+      }
+    ],
+    "signals": []
+  },
+  "autonomyLevel": "balanced",
+  "operatorPreferences": {
+    "preferAutonomousCompletion": false,
+    "askBeforeArchitectureChange": true,
+    "preferBroadVerification": true,
+    "preferTerseReports": false,
+    "defaultReleaseStrictness": "medium"
+  },
+  "agentPerformanceLog": [],
+  "calibrationLog": [],
+  "recoveryLog": []
+}

@@ -23,7 +23,7 @@ services:
       APP_ENV: "${APP_ENV:-production}"
       APP_KEY: "${APP_KEY}"
       APP_DEBUG: "${APP_DEBUG:-false}"
-      APP_URL: "https://balaidiklat.bkpp.dev"
+      APP_URL: "https://balaidiklat.web.id"
       APP_LOCALE: "${APP_LOCALE:-id}"
       APP_FALLBACK_LOCALE: "${APP_FALLBACK_LOCALE:-en}"
 

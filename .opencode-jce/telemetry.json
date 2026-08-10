@@ -1,0 +1,486 @@
+[
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-08-10T04:08:52.987Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T04:08:52.997Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-08-10T04:08:53.006Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T04:08:53.139Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "ai-optimization"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "astro-remix",
+        "auth-identity",
+        "sql-database",
+        "verification-discipline",
+        "typescript",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-08-10T04:09:33.434Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T04:09:33.442Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T04:09:33.451Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T04:09:33.460Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "ai-optimization",
+    "metadata": {
+      "skill": "ai-optimization",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T04:09:33.466Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-08-10T04:09:33.474Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "planner",
+    "metadata": {
+      "plannerMode": "linear-fallback",
+      "detectedUnits": [],
+      "fallbackReason": "Sequential dependency signals detected; keep linear plan."
+    },
+    "at": "2026-08-10T04:09:33.527Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T04:09:34.692Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T04:09:34.698Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "ai-optimization",
+    "metadata": {
+      "skill": "ai-optimization",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T04:09:34.705Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-08-10T04:16:52.174Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T04:16:52.187Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-08-10T04:16:52.194Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-08-10T04:55:59.704Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T04:55:59.722Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-08-10T04:55:59.729Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-08-10T05:08:13.679Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T05:08:13.692Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.85,
+      "reason": "direct action instruction",
+      "signals": [
+        "action_verb"
+      ]
+    },
+    "at": "2026-08-10T05:08:13.701Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T05:08:14.963Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering"
+      ],
+      "suppressedSkills": [],
+      "confidence": 20
+    },
+    "at": "2026-08-10T05:17:07.525Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T05:17:07.535Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.1,
+      "reason": "no concrete action verb",
+      "signals": []
+    },
+    "at": "2026-08-10T05:17:07.544Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "general",
+    "metadata": {
+      "intent": "general",
+      "selectedSkills": [
+        "software-engineering",
+        "api-design-patterns"
+      ],
+      "suppressedSkills": [
+        "architecture",
+        "security"
+      ],
+      "confidence": 20
+    },
+    "at": "2026-08-10T05:56:10.804Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "general"
+    },
+    "at": "2026-08-10T05:56:10.825Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "api-design-patterns",
+    "metadata": {
+      "skill": "api-design-patterns",
+      "intent": "general"
+    },
+    "at": "2026-08-10T05:56:10.833Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": true,
+      "confidence": 0.75,
+      "reason": "action request phrased as question",
+      "signals": [
+        "action_verb",
+        "question_mark",
+        "action_request_frame"
+      ]
+    },
+    "at": "2026-08-10T05:56:10.841Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "api-design-patterns",
+    "metadata": {
+      "skill": "api-design-patterns",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T05:56:11.655Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "feature",
+    "metadata": {
+      "intent": "feature",
+      "selectedSkills": [
+        "software-engineering",
+        "laravel",
+        "codebase-intelligence",
+        "human-ui-design"
+      ],
+      "suppressedSkills": [
+        "ui-pattern-library",
+        "architecture",
+        "security",
+        "verification-discipline",
+        "astro-remix",
+        "sql-database",
+        "typescript",
+        "api-design-patterns",
+        "context-preservation"
+      ],
+      "confidence": 100
+    },
+    "at": "2026-08-10T05:56:53.462Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "software-engineering",
+    "metadata": {
+      "skill": "software-engineering",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T05:56:53.470Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T05:56:53.479Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T05:56:53.487Z"
+  },
+  {
+    "kind": "skill_selected",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "intent": "feature"
+    },
+    "at": "2026-08-10T05:56:53.495Z"
+  },
+  {
+    "kind": "routing_decision",
+    "name": "auto_activation",
+    "metadata": {
+      "activate": false,
+      "confidence": 0.35,
+      "reason": "question lacks explicit action-request framing",
+      "signals": [
+        "action_verb",
+        "question_mark"
+      ]
+    },
+    "at": "2026-08-10T05:56:53.503Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "laravel",
+    "metadata": {
+      "skill": "laravel",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T05:56:54.658Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "codebase-intelligence",
+    "metadata": {
+      "skill": "codebase-intelligence",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T05:56:54.667Z"
+  },
+  {
+    "kind": "skill_final_used",
+    "name": "human-ui-design",
+    "metadata": {
+      "skill": "human-ui-design",
+      "source": "system_injection"
+    },
+    "at": "2026-08-10T05:56:54.676Z"
+  },
+  {
+    "kind": "verification_used",
+    "name": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+    "metadata": {
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail"
+    },
+    "at": "2026-08-10T06:00:55.180Z"
+  },
+  {
+    "kind": "verification_result",
+    "name": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+    "metadata": {
+      "skill": "software-engineering",
+      "passed": false,
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}"
+    },
+    "at": "2026-08-10T06:00:55.195Z"
+  }
+]

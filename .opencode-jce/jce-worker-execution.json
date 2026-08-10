@@ -1,0 +1,1072 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-10T06:15:46.099Z",
+  "activeTasks": [],
+  "completedSummaries": [
+    {
+      "id": "bg-1786341413199-9un2eu",
+      "description": "Kirimdev OpenAPI detail extraction",
+      "result": "Task completed",
+      "completedAt": "2026-08-10T06:04:48.907Z",
+      "reviewStatus": "pending_review",
+      "reviewNotes": [],
+      "retryCount": 0,
+      "maxRetries": 1
+    }
+  ],
+  "blockers": [
+    {
+      "id": "bg-1786334973279-vj5p80",
+      "description": "Map WhatsApp bot webhook flow",
+      "failureReason": "Session prompt for agent explorer timed out after 720000ms"
+    }
+  ],
+  "verificationEvidence": [
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    },
+    {
+      "taskId": "auto-capture",
+      "type": "command",
+      "command": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n}",
+      "status": "fail",
+      "summary": "$spec = Get-Content -LiteralPath \"C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7\" -Raw | ConvertFrom-Json\nWrite-Host \"=== SCHEMA KEYS (delivery-related) ===\"\n$spec.components.schemas.PSObject.Properties.Name | Where-Object { $_ -match \"Delivery|Webhook|Event|Inbound|Message|Payload\" }\nWrite-Host \"=== WebhookDelivery / ListWebhookDeliveriesResponse schemas ===\"\nforeach ($name in @(\"ListWebhookDeliveriesResponse\",\"WebhookDelivery\",\"WebhookDeliveryEnvelope\",\"RetrieveWebhookDeliveryResponse\")) {\n  if ($spec.components.schemas.$name) {\n    Write-Host \"--- $name ---\"\n    $spec.components.schemas.$name | ConvertTo-Json -Depth 10\n  }\n} -> fail",
+      "area": "auto-capture",
+      "captured": "auto"
+    }
+  ],
+  "retryHistory": [],
+  "traceEvents": [
+    {
+      "type": "task.created",
+      "taskId": "bg-1786334973279-vj5p80",
+      "message": "Created task: Map WhatsApp bot webhook flow",
+      "at": "2026-08-10T04:09:33.279Z"
+    },
+    {
+      "type": "task.running",
+      "taskId": "bg-1786334973279-vj5p80",
+      "message": "Task running",
+      "at": "2026-08-10T04:09:33.349Z",
+      "metadata": {
+        "sessionId": "ses_01623726dffe1OZIRFF4y1bNGD"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "taskId": "bg-1786334973279-vj5p80",
+      "message": "Context budget applied",
+      "at": "2026-08-10T04:09:33.349Z",
+      "metadata": {
+        "originalChars": 3218,
+        "compressedChars": 3218,
+        "estimatedTokensSaved": 0,
+        "estimatedSavingsPercent": 0,
+        "changed": false,
+        "source": "dispatch"
+      }
+    },
+    {
+      "type": "task.failed",
+      "taskId": "bg-1786334973279-vj5p80",
+      "message": "Session prompt for agent explorer timed out after 720000ms",
+      "at": "2026-08-10T04:21:33.377Z"
+    },
+    {
+      "type": "task.created",
+      "taskId": "bg-1786341413199-9un2eu",
+      "message": "Created task: Kirimdev OpenAPI detail extraction",
+      "at": "2026-08-10T05:56:53.200Z"
+    },
+    {
+      "type": "task.running",
+      "taskId": "bg-1786341413199-9un2eu",
+      "message": "Task running",
+      "at": "2026-08-10T05:56:53.396Z",
+      "metadata": {
+        "sessionId": "ses_015c12e59ffesfKvyVu4cw1WFB"
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "taskId": "bg-1786341413199-9un2eu",
+      "message": "Context budget applied",
+      "at": "2026-08-10T05:56:53.396Z",
+      "metadata": {
+        "originalChars": 4110,
+        "compressedChars": 4110,
+        "estimatedTokensSaved": 0,
+        "estimatedSavingsPercent": 0,
+        "changed": false,
+        "source": "dispatch"
+      }
+    },
+    {
+      "type": "task.completed",
+      "taskId": "bg-1786341413199-9un2eu",
+      "message": "Task completed",
+      "at": "2026-08-10T06:04:48.907Z"
+    }
+  ],
+  "changedFiles": [
+    "C:\\laragon\\www\\balaidiklat",
+    "C:\\laragon\\www\\balaidiklat\\routes",
+    "docker-compose.yml",
+    ".opencode-context.md",
+    ".opencode-jce/",
+    "C:\\laragon\\www\\balaidiklat\\routes\\web.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers",
+    "C:\\laragon\\www\\balaidiklat\\app",
+    "C:\\laragon\\www\\balaidiklat\\routes\\api.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\KirimChatWebhookController.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Services",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminWhatsappChatController.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Services\\KirimChatService.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models",
+    "C:\\laragon\\www\\balaidiklat\\config\\services.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\ChatbotRule.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\WhatsappSession.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Models\\WhatsappMessage.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000000_create_whatsapp_sessions_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000001_create_whatsapp_messages_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000004_create_chatbot_rules_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_11_000008_add_action_to_chatbot_rules_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_11_000009_make_chatbot_rule_reply_nullable.php",
+    "C:\\laragon\\www\\balaidiklat\\.env.example",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\ChatbotRuleSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\UpdateChatbotRulesSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\app\\Http\\Controllers\\AdminChatbotRuleController.php",
+    "C:\\laragon\\www\\balaidiklat\\tests\\Feature\\ExampleTest.php",
+    "C:\\laragon\\www\\balaidiklat\\config",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_08_10_000000_add_human_handoff_to_whatsapp_sessions.php",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views",
+    "C:\\laragon\\www\\balaidiklat\\resources\\views\\admin\\dashboard.blade.php",
+    "C:\\Users\\ACER\\.local\\share\\opencode\\tool-output\\tool_fea3e608f0014CUWuC2qTbLhN7"
+  ],
+  "workflowRuns": [],
+  "wisdom": [],
+  "taskLearnings": [],
+  "failureMemories": [],
+  "contextBudgetSummary": {
+    "originalChars": 21984,
+    "compressedChars": 21984,
+    "estimatedTokensSaved": 466944,
+    "estimatedSavingsPercent": 0,
+    "tasks": 16781310,
+    "byTool": {
+      "dispatch": {
+        "originalChars": 461664,
+        "compressedChars": 461664,
+        "estimatedTokensSaved": 0,
+        "tasks": 8388606
+      },
+      "grep": {
+        "originalChars": 0,
+        "compressedChars": 0,
+        "estimatedTokensSaved": 0,
+        "tasks": 0
+      },
+      "bash": {
+        "originalChars": 0,
+        "compressedChars": 0,
+        "estimatedTokensSaved": 0,
+        "tasks": 0
+      },
+      "webfetch": {
+        "originalChars": 54898688,
+        "compressedChars": 53035008,
+        "estimatedTokensSaved": 466944,
+        "tasks": 4096
+      }
+    }
+  }
+}

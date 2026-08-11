@@ -455,7 +455,7 @@ class KirimChatWebhookController extends Controller
      */
     private function sendKamarList(WhatsappSession $session, string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $kamars = Kamar::orderBy('jenis_kelas')->get();
+        $kamars = Kamar::orderBy('id')->get();
 
         if ($kamars->isEmpty()) {
             $this->sendReturnButtons($phoneNumber, 'Mohon maaf, belum ada data jenis kelas yang tersedia saat ini.', $kirimChat);

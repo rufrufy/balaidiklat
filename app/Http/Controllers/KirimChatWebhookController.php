@@ -1718,6 +1718,7 @@ class KirimChatWebhookController extends Controller
 
         $templateKey = $jenis === 'saran' ? 'success_saran_saved' : 'success_laporan_saved';
         $this->templates->send($kirimChat, $phoneNumber, $templateKey);
+        $this->sendReturnButtons($phoneNumber, '', $kirimChat);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -1766,6 +1767,7 @@ class KirimChatWebhookController extends Controller
         $session->update(['state' => 'main_menu', 'context' => []]);
 
         $this->templates->send($kirimChat, $phoneNumber, 'success_survey_saved');
+        $this->sendReturnButtons($phoneNumber, '', $kirimChat);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -1860,6 +1862,7 @@ class KirimChatWebhookController extends Controller
                 'tanggal_bayar' => $tglBayar,
                 'kode' => $reservasi->kode,
             ]);
+            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
 
                 return;
             }
@@ -1867,6 +1870,10 @@ class KirimChatWebhookController extends Controller
 
         $this->templates->send($kirimChat, $phoneNumber, 'payment_status_belum', [
             'kode' => $reservasi->kode,
+        ]);
+        $kirimChat->sendButtons($phoneNumber, '', [
+            ['id' => 'menu', 'title' => 'Menu Utama'],
+            ['id' => 'bayar', 'title' => 'Bayar'],
         ]);
     }
 

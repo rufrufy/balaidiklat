@@ -360,24 +360,36 @@ class KirimChatWebhookController extends Controller
 
     private function sendCustomerCareMenu(string $phoneNumber, KirimChatService $kirimChat): void
     {
-        $kirimChat->sendButtons(
+        $result = $kirimChat->sendButtons(
             $phoneNumber,
             "Customer Care\n\nSilakan pilih layanan:",
             [
                 ['id' => 'admin', 'title' => 'Chat dengan Admin'],
-                ['id' => 'doni', 'title' => 'Hubungi Bapak Doni'],
+                ['id' => 'doni', 'title' => 'Hubungi Bpk Doni'],
                 ['id' => 'menu', 'title' => 'Menu Utama'],
             ]
         );
+
+        // Fallback: kalau interactive button gagal, kirim teks
+        if (! ($result['success'] ?? true)) {
+            $kirimChat->sendText(
+                $phoneNumber,
+                "Silakan pilih:\n- Ketik *admin* untuk chat dengan admin\n- Ketik *doni* untuk nomor Bapak Doni\n- Ketik *menu* untuk kembali"
+            );
+        }
     }
 
     private function sendReturnButtons(string $phoneNumber, string $bodyText, KirimChatService $kirimChat): void
     {
-        // WhatsApp Cloud API tidak menerima body kosong untuk interactive buttons
         $body = $bodyText ?: 'Ketik *menu* untuk kembali ke menu utama.';
-        $kirimChat->sendButtons($phoneNumber, $body, [
+        $result = $kirimChat->sendButtons($phoneNumber, $body, [
             ['id' => 'menu', 'title' => 'Menu Utama'],
         ]);
+
+        // Fallback: kalau interactive gagal, sudah di-handle oleh sendButtons
+        if (! ($result['success'] ?? true)) {
+            $kirimChat->sendText($phoneNumber, $body . "\n\nBalas *menu* untuk kembali.");
+        }
     }
 
     private function sendAvailability(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void

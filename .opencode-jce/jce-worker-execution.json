@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-11T06:14:37.227Z",
+  "updatedAt": "2026-08-11T06:46:08.717Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -1932,6 +1932,17 @@
         "tool": "bash",
         "originalChars": 248,
         "compressedChars": 242,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:41:10.259Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 110,
+        "compressedChars": 108,
         "estimatedTokensSaved": 1
       }
     }

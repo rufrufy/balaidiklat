@@ -64,7 +64,7 @@ class KirimChatService
         }
 
         $interactive = [
-            'type' => 'reply_buttons',
+            'type' => 'button',
             'body' => ['text' => $bodyText],
             'action' => ['buttons' => $replyButtons],
         ];
@@ -77,7 +77,18 @@ class KirimChatService
             'interactive' => $interactive,
         ];
 
-        return $this->post($payload, $phoneNumber, 'interactive', $bodyText);
+        $result = $this->post($payload, $phoneNumber, 'interactive', $bodyText);
+
+        // Fallback: kalau interactive gagal, kirim sebagai teks biasa
+        if (! ($result['success'] ?? true)) {
+            $text = $bodyText . "\n\n";
+            foreach ($replyButtons as $i => $btn) {
+                $text .= ($i + 1) . '. ' . $btn['reply']['title'] . ' (balas *' . $btn['reply']['id'] . '*)\n';
+            }
+            return $this->sendText($phoneNumber, $text);
+        }
+
+        return $result;
     }
 
     /**

@@ -64,7 +64,7 @@ class KirimChatService
         }
 
         $interactive = [
-            'type' => 'button',
+            'type' => 'reply_buttons',
             'body' => ['text' => $bodyText],
             'action' => ['buttons' => $replyButtons],
         ];

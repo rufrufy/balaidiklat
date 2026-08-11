@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-11T06:46:08.717Z",
+  "updatedAt": "2026-08-11T06:59:16.466Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -1945,6 +1945,39 @@
         "compressedChars": 108,
         "estimatedTokensSaved": 1
       }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to webfetch output",
+      "at": "2026-08-11T06:57:16.248Z",
+      "metadata": {
+        "tool": "webfetch",
+        "originalChars": 8880,
+        "compressedChars": 8891,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to webfetch output",
+      "at": "2026-08-11T06:57:27.541Z",
+      "metadata": {
+        "tool": "webfetch",
+        "originalChars": 9046,
+        "compressedChars": 9014,
+        "estimatedTokensSaved": 8
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:58:26.665Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 120,
+        "compressedChars": 117,
+        "estimatedTokensSaved": 0
+      }
     }
   ],
   "changedFiles": [
@@ -2021,7 +2054,8 @@
     "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\debug2.php",
     "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_final.php",
     "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\check_session.php",
-    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_cc.php"
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_cc.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\final_check.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
@@ -2050,7 +2084,7 @@
         "originalChars": 0,
         "compressedChars": 0,
         "estimatedTokensSaved": 0,
-        "tasks": 0
+        "tasks": 2097152
       },
       "webfetch": {
         "originalChars": 0,

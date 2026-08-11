@@ -1430,6 +1430,7 @@ class KirimChatWebhookController extends Controller
                 .'Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
+            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         } else {
             $message = "Pembayaran via QRIS\n\n"
                 ."Reservasi: {$reservasi->kode}\n"
@@ -1447,6 +1448,7 @@ class KirimChatWebhookController extends Controller
             $message .= 'Setelah membayar via QRIS, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendText($phoneNumber, $message);
+            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         }
     }
 
@@ -1507,6 +1509,7 @@ class KirimChatWebhookController extends Controller
             ."\n\nSetelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Sistem akan menyimpan bukti dan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Terima kasih.";
 
         $kirimChat->sendText($phoneNumber, $message);
+        $this->sendReturnButtons($phoneNumber, '', $kirimChat);
     }
 
     private function handlePaymentMethodInput(WhatsappSession $session, string $phoneNumber, string $input, string $rawInput, KirimChatService $kirimChat): bool
@@ -1970,10 +1973,12 @@ class KirimChatWebhookController extends Controller
                 $this->templates->send($kirimChat, $phoneNumber, 'bukti_verified_lunas', [
                     'kode' => $reservasi->kode,
                 ]);
+                $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         } else {
                 $this->templates->send($kirimChat, $phoneNumber, 'bukti_diterima_pending', [
                     'kode' => $reservasi->kode,
                 ]);
+                $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         }
     }
 

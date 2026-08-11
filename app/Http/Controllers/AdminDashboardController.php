@@ -28,6 +28,7 @@ class AdminDashboardController extends Controller
             'messages' => $messages,
             'rules' => $rules,
             'pengaduans' => $pengaduans,
+            'ruleActionOptions' => AdminChatbotRuleController::actionOptions(),
             'stats' => [
                 'kamar' => $kamars->count(),
                 'ruang_kelas' => $kamars->filter(fn ($k) => $k->tipe === 'ruang_kelas')->count(),

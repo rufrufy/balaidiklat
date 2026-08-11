@@ -9,6 +9,42 @@ use Illuminate\Validation\Rule;
 
 class AdminChatbotRuleController extends Controller
 {
+    /**
+     * Single source of truth for chatbot action options.
+     * Label bersifat dinamis, value action wajib sync dengan ChatbotService.
+     */
+    public static function actionOptions(): array
+    {
+        return [
+            '' => 'Balasan teks biasa',
+            'main_menu' => 'Kirim menu utama',
+            'check_availability' => 'Cek ketersediaan tanggal',
+            'list_kamar' => 'Tampilkan daftar kamar (DB)',
+            'pilih_jenis' => 'Pilih jenis kamar (DB)',
+            'input_jumlah' => 'Input jumlah unit kamar',
+            'input_jumlah_hari' => 'Input jumlah hari (non-kamar)',
+            'input_tanggal_masuk' => 'Input tanggal masuk',
+            'input_tanggal_keluar' => 'Input tanggal keluar',
+            'input_nama' => 'Input nama pemesan',
+            'input_no_hp' => 'Input nomor HP',
+            'simpan_reservasi' => 'Simpan reservasi (DB)',
+            'bayar_pilihan' => 'Tampilkan pilihan bayar',
+            'bayar_qris' => 'Kirim QRIS e-Retribusi',
+            'bayar_transfer' => 'Kirim info transfer bank',
+            'cek_status' => 'Cek status pembayaran/reservasi',
+            'input_nomor_kamar_gangguan' => 'Input nomor kamar (gangguan)',
+            'simpan_laporan' => 'Simpan laporan gangguan (DB)',
+            'simpan_saran' => 'Simpan saran (DB)',
+            'input_rating_survey' => 'Input rating survey (1-5)',
+            'simpan_survey' => 'Simpan survey kepuasan (DB)',
+            'cek_booking' => 'Cek kode booking (DB)',
+            'form_pemesanan_landing' => 'Form pemesanan di landing page',
+            'konfirmasi_pesan_landing' => 'Konfirmasi pesan dari landing',
+            'kembali_menu' => 'Kembali ke menu utama',
+            'selesai' => 'Balasan + tombol Menu Utama',
+        ];
+    }
+
     public function store(Request $request): RedirectResponse
     {
         ChatbotRule::create($this->validatedData($request));
@@ -45,7 +81,7 @@ class AdminChatbotRuleController extends Controller
             'match_type' => ['required', Rule::in(['contains', 'exact', 'starts_with', 'any'])],
             'state' => ['nullable', 'string', 'max:100'],
             'reply_text' => ['nullable', 'string'],
-            'action' => ['nullable', Rule::in(['main_menu', 'check_availability', 'list_kamar', 'pilih_jenis', 'input_jumlah', 'input_jumlah_hari', 'input_tanggal_masuk', 'input_tanggal_keluar', 'input_nama', 'input_no_hp', 'simpan_reservasi', 'bayar_pilihan', 'bayar_qris', 'bayar_transfer', 'cek_status', 'input_nomor_kamar_gangguan', 'simpan_laporan', 'simpan_saran', 'input_rating_survey', 'simpan_survey', 'cek_booking', 'form_pemesanan_landing', 'konfirmasi_pesan_landing', 'kembali_menu', 'selesai'])],
+            'action' => ['nullable', Rule::in(array_keys(self::actionOptions()))],
             'next_state' => ['nullable', 'string', 'max:100'],
             'priority' => ['required', 'integer', 'min:1'],
             'is_active' => ['nullable', 'boolean'],

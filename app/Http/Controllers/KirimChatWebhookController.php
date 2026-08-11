@@ -458,7 +458,7 @@ class KirimChatWebhookController extends Controller
             ."Balai Diklat menyediakan layanan sewa kamar dan ruang kelas untuk kegiatan diklat, rapat, maupun kegiatan resmi lainnya.\n\n"
             ."Ketersediaan hari ini ({$todayTeks}):\n\n"
             .implode("\n", $lines)
-            ."\n\nKetik nomor jenis kelas yang ingin dipesan, atau ketik *menu* untuk kembali."
+            ."\n\nKetik nomor jenis layanan yang ingin dipesan, atau ketik *menu* untuk kembali."
         );
     }
 
@@ -590,7 +590,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Jumlah unit: *{$jumlah}*\n\n"
             ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-            .'Contoh: 15-06-2026'
+            .'Contoh: 17-08-2026'
         );
     }
 
@@ -622,7 +622,7 @@ class KirimChatWebhookController extends Controller
             $phoneNumber,
             "Jumlah hari: *{$hari}*\n\n"
             ."Silakan kirim *Tanggal Mulai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-            .'Contoh: 15-06-2026'
+            .'Contoh: 17-08-2026'
         );
     }
 
@@ -637,7 +637,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Format tanggal tidak sesuai. Silakan kirim *Tanggal Mulai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-                .'Contoh: 15-06-2026'
+                .'Contoh: 17-08-2026'
             );
 
             return;
@@ -690,7 +690,7 @@ class KirimChatWebhookController extends Controller
                 $phoneNumber,
                 "Tanggal mulai: *{$tanggalTeks}*\n\n"
                 ."Silakan kirim *Tanggal Selesai* sewa dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-                .'Contoh: 17-06-2026'
+                .'Contoh: 18-08-2026'
             );
         }
     }
@@ -706,7 +706,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Format tanggal tidak sesuai. Silakan kirim *Tanggal Selesai* dengan format DD-MM-YYYY (tanggal-bulan-tahun).\n"
-                .'Contoh: 17-06-2026'
+                .'Contoh: 18-08-2026'
             );
 
             return;
@@ -718,7 +718,7 @@ class KirimChatWebhookController extends Controller
             $kirimChat->sendText(
                 $phoneNumber,
                 "Tanggal selesai harus setelah tanggal mulai ({$masukTeks}). Silakan kirim *Tanggal Selesai* yang benar.\n"
-                .'Contoh: 17-06-2026'
+                .'Contoh: 18-08-2026'
             );
 
             return;

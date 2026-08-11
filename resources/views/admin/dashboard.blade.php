@@ -705,7 +705,7 @@
                                         <td class="small">{{ $pengaduan->isi }}</td>
                                         <td>
                                             @if ($pengaduan->rating)
-                                                <span class="stars">{{ str_repeat('⭐', $pengaduan->rating) }}</span>
+                                                <span class="stars">{{ str_repeat('⭐', $pengaduan->rating) }}</span>
                                                 <span
                                                 class="small text-muted">({{ $pengaduan->rating }}/5)</span>@else<span
                                                     class="text-muted">-</span>
@@ -806,24 +806,6 @@
     @php
         $reservationStatusOptions = ['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected'];
         $paymentStatusOptions = ['unpaid' => 'Belum dibayar', 'partial' => 'DP / sebagian', 'paid' => 'Lunas'];
-        $ruleActionOptions = [
-            '' => 'Balasan teks biasa',
-            'main_menu' => 'Kirim menu utama',
-            'check_availability' => 'Cek ketersediaan tanggal',
-            'list_kamar' => 'Tampilkan daftar kamar (DB)',
-            'pilih_kamar' => 'Detail kamar terpilih (DB)',
-            'simpan_reservasi' => 'Simpan reservasi (DB)',
-            'bayar_pilihan' => 'Tampilkan pilihan bayar',
-            'bayar_qris' => 'Kirim QRIS e-Retribusi',
-            'bayar_transfer' => 'Kirim info transfer bank',
-            'input_nomor_kamar_gangguan' => 'Input nomor kamar (gangguan)',
-            'simpan_laporan' => 'Simpan laporan gangguan (DB)',
-            'simpan_saran' => 'Simpan saran (DB)',
-            'input_rating_survey' => 'Input rating survey (1-5)',
-            'simpan_survey' => 'Simpan survey kepuasan (DB)',
-            'cek_booking' => 'Cek kode booking (DB)',
-            'selesai' => 'Balasan + tombol Menu Utama',
-        ];
     @endphp
 
     <div class="modal fade" id="roomModal" tabindex="-1" aria-hidden="true">
@@ -1142,20 +1124,13 @@
             </div>
         </div>
     @endforeach
-
-<<<<<<< HEAD
-        <section id="whatsapp" class="page-section">
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4"><div><div class="eyebrow">WhatsApp Chat realtime</div><h2 class="display-5 mb-0">Klik nomor untuk membalas tanpa input nomor manual.</h2></div><button class="btn btn-ghost" id="copyWebhook">Salin Webhook URL</button></div>
-            <div class="chat-layout">
-                <div class="card-enterprise p-3"><h3 class="h4 mb-3">Session chat</h3><div id="chatSessions" class="chat-list"></div></div>
-                <div class="card-enterprise"><div class="p-3 border-bottom d-flex justify-content-between align-items-center"><div><h3 class="mb-1">Log pesan</h3><div id="selectedPhoneLabel" class="text-muted small">Pilih nomor di kiri untuk melihat dan membalas chat.</div></div><div class="d-flex align-items-center gap-2"><span id="chatModeBadge" class="badge bg-secondary">BOT</span><button type="button" id="chatModeBtn" class="btn btn-sm btn-outline-primary d-none" disabled>Ambil Alih</button></div></div><div id="chatMessages" class="chat-body"></div><form id="sendChatForm" class="p-3 border-top"><input type="hidden" name="phone_number" id="selectedPhoneInput"><div class="row g-2"><div class="col-md-10"><input class="form-control" name="message" placeholder="Tulis balasan manual" required disabled></div><div class="col-md-2"><button class="btn btn-primary-enterprise w-100" type="submit" disabled>Kirim</button></div></div></form></div>
-=======
     @foreach ($reservasis as $reservasi)
         @php $itemRows = $reservasi->items->isNotEmpty() ? $reservasi->items : collect([(object)['kamar_id' => $reservasi->kamar_id, 'tanggal_masuk' => $reservasi->tanggal_masuk, 'tanggal_keluar' => $reservasi->tanggal_keluar]]); @endphp
         <div class="modal fade" id="editReservation{{ $reservasi->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">
                 <form method="POST" action="{{ route('admin.reservasi.update', $reservasi) }}"
-                    class="modal-content reservation-form">@csrf @method('PATCH')<div class="modal-header">
+                    class="modal-content reservation-form">@csrf @method('PATCH')<div
+                        class="modal-header">
                         <h2 class="modal-title h4">Edit Reservasi</h2><button type="button" class="btn-close"
                             data-bs-dismiss="modal"></button>
                     </div>
@@ -1269,7 +1244,6 @@
                             data-bs-dismiss="modal">Batal</button><button class="btn btn-primary-enterprise"
                             type="submit">Simpan Perubahan</button></div>
                 </form>
->>>>>>> ac396d04008246e01948adc19a549e1a06db29d2
             </div>
         </div>
     @endforeach
@@ -1331,46 +1305,6 @@
             form.querySelectorAll('.instansi-field').forEach((field) => field.classList.toggle('d-none', !isInstansi));
         }
 
-<<<<<<< HEAD
-@foreach ($reservasis as $reservasi)
-@php $itemRows = $reservasi->items->isNotEmpty() ? $reservasi->items : collect([(object)['jenis_kelas' => $reservasi->jenis_kelas, 'jumlah' => $reservasi->jumlah, 'tanggal_masuk' => $reservasi->tanggal_masuk, 'tanggal_keluar' => $reservasi->tanggal_keluar]]); @endphp
-<div class="modal fade" id="editReservation{{ $reservasi->id }}" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><form method="POST" action="{{ route('admin.reservasi.update', $reservasi) }}" class="modal-content reservation-form">@csrf @method('PATCH')<div class="modal-header"><h2 class="modal-title h4">Edit Reservasi</h2><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-4"><label class="form-label fw-bold">Kode</label><input class="form-control bg-light text-muted" value="{{ $reservasi->kode }}" readonly></div><div class="col-md-4"><label class="form-label fw-bold">Nama pemesan</label><input class="form-control" name="nama_pemesan" value="{{ $reservasi->nama_pemesan }}" required></div><div class="col-md-4"><label class="form-label fw-bold">No WhatsApp</label><input class="form-control" name="phone_number" value="{{ $reservasi->phone_number }}"></div><div class="col-12"><div class="form-check"><input type="hidden" name="tipe_penyewa" value="perorangan"><input class="form-check-input penyewa-toggle" type="checkbox" name="tipe_penyewa" value="instansi" id="penyewa{{ $reservasi->id }}" @checked($reservasi->tipe_penyewa === 'instansi')><label class="form-check-label fw-bold" for="penyewa{{ $reservasi->id }}">Penyewa adalah instansi</label></div></div><div class="col-md-6 instansi-field"><label class="form-label fw-bold">Instansi</label><input class="form-control" name="instansi" value="{{ $reservasi->instansi }}"></div><div class="col-md-6 instansi-field"><label class="form-label fw-bold">Kegiatan</label><input class="form-control" name="kegiatan" value="{{ $reservasi->kegiatan }}"></div><div class="col-md-4 single-field"><label class="form-label fw-bold">Tanggal masuk</label><input type="date" class="form-control" name="tanggal_masuk" value="{{ optional($reservasi->tanggal_masuk)->format('Y-m-d') }}"></div><div class="col-md-4 single-field"><label class="form-label fw-bold">Tanggal keluar</label><input type="date" class="form-control" name="tanggal_keluar" value="{{ optional($reservasi->tanggal_keluar)->format('Y-m-d') }}"></div><div class="col-md-4 instansi-field"><label class="form-label fw-bold">Jumlah peserta</label><input type="number" min="1" class="form-control" name="jumlah_peserta" value="{{ $reservasi->jumlah_peserta }}"></div><div class="col-md-6 single-field"><label class="form-label fw-bold">Jenis Kelas</label><select class="form-select" name="jenis_kelas"><option value="">Belum dialokasikan</option>@foreach ($kamars as $kamar)<option value="{{ $kamar->jenis_kelas }}" @selected($reservasi->jenis_kelas === $kamar->jenis_kelas)>{{ $kamar->jenis_kelas }} (kuota {{ $kamar->kuota_total }})</option>@endforeach</select></div><div class="col-md-3 single-field"><label class="form-label fw-bold">Jumlah unit</label><input type="number" min="1" class="form-control" name="jumlah" value="{{ $reservasi->jumlah ?? 1 }}"></div><div class="col-md-3"><label class="form-label fw-bold">Status reservasi</label><select class="form-select" name="status">@foreach($reservationStatusOptions as $value => $label)<option value="{{ $value }}" @selected($reservasi->status === $value)>{{ $label }}</option>@endforeach</select></div><div class="col-md-3"><label class="form-label fw-bold">Status payment</label><select class="form-select" name="payment_status">@foreach($paymentStatusOptions as $value => $label)<option value="{{ $value }}" @selected($reservasi->payment_status === $value)>{{ $label }}</option>@endforeach</select></div><div class="col-12"><div class="form-check"><input class="form-check-input multi-toggle" type="checkbox" name="multiple_kamar" value="1" id="multi{{ $reservasi->id }}" @checked($reservasi->multiple_kamar)><label class="form-check-label fw-bold" for="multi{{ $reservasi->id }}">Pesan beberapa jenis / beberapa tanggal</label></div></div><div class="col-12 multi-items"><label class="form-label fw-bold">Daftar kamar</label><div class="multi-item-list">@foreach($itemRows as $index => $item)<div class="row g-2 mb-2 multi-row"><div class="col-md-4"><select class="form-select" name="items[{{ $index }}][jenis_kelas]"><option value="">Pilih jenis</option>@foreach ($kamars as $kamar)<option value="{{ $kamar->jenis_kelas }}" @selected(($item->jenis_kelas ?? null) === $kamar->jenis_kelas)>{{ $kamar->jenis_kelas }}</option>@endforeach</select></div><div class="col-md-2"><input type="number" min="1" class="form-control" name="items[{{ $index }}][jumlah]" value="{{ $item->jumlah ?? 1 }}" placeholder="Jumlah"></div><div class="col-md-2"><input type="date" class="form-control" name="items[{{ $index }}][tanggal_masuk]" value="{{ optional($item->tanggal_masuk)->format('Y-m-d') }}"></div><div class="col-md-2"><input type="date" class="form-control" name="items[{{ $index }}][tanggal_keluar]" value="{{ optional($item->tanggal_keluar)->format('Y-m-d') }}"></div><div class="col-md-2"><button class="btn btn-outline-danger w-100 remove-multi-row" type="button">Hapus</button></div></div>@endforeach</div><button class="btn btn-sm btn-ghost add-multi-row" type="button">Tambah Baris</button></div><div class="col-12"><label class="form-label fw-bold">Catatan</label><textarea class="form-control" name="catatan" rows="3">{{ $reservasi->catatan }}</textarea></div></div></div><div class="modal-footer"><button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary-enterprise" type="submit">Simpan Perubahan</button></div></form></div></div>
-@endforeach
-
-<template id="multiRoomTemplate"><div class="row g-2 mb-2 multi-row"><div class="col-md-4"><select class="form-select" data-name="jenis_kelas"><option value="">Pilih jenis</option>@foreach ($kamars as $kamar)<option value="{{ $kamar->jenis_kelas }}">{{ $kamar->jenis_kelas }}</option>@endforeach</select></div><div class="col-md-2"><input type="number" min="1" class="form-control" data-name="jumlah" value="1" placeholder="Jumlah"></div><div class="col-md-2"><input type="date" class="form-control" data-name="tanggal_masuk"></div><div class="col-md-2"><input type="date" class="form-control" data-name="tanggal_keluar"></div><div class="col-md-2"><button class="btn btn-outline-danger w-100 remove-multi-row" type="button">Hapus</button></div></div></template>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-const initialSection = new URLSearchParams(location.search).get('section') || 'dashboard';
-function activateSection(name){document.querySelectorAll('[data-section]').forEach((item)=>item.classList.toggle('active',item.dataset.section===name));document.querySelectorAll('.page-section').forEach((section)=>section.classList.toggle('active',section.id===name));}
-document.querySelectorAll('[data-section]').forEach((button)=>button.addEventListener('click',()=>{activateSection(button.dataset.section);history.replaceState(null,'',`?section=${button.dataset.section}`);}));
-if(document.getElementById(initialSection)){activateSection(initialSection)}
-document.getElementById('copyWebhook')?.addEventListener('click',()=>navigator.clipboard.writeText(`${location.origin}/api/webhooks/kirimchat`));
-const csrf=document.querySelector('meta[name="csrf-token"]').content;
-function escapeHtml(value){return String(value ?? '').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[char]));}
-
-function updateMultiForm(form){const enabled=form.querySelector('.multi-toggle')?.checked;form.querySelector('.multi-items')?.classList.toggle('active',enabled);form.querySelectorAll('.single-field').forEach((field)=>field.classList.toggle('d-none',enabled));}
-function updatePenyewaForm(form){const isInstansi=form.querySelector('.penyewa-toggle')?.checked;form.querySelectorAll('.instansi-field').forEach((field)=>field.classList.toggle('d-none',!isInstansi));}
-function reindexRows(list){list.querySelectorAll('.multi-row').forEach((row,index)=>row.querySelectorAll('[data-name]').forEach((input)=>input.name=`items[${index}][${input.dataset.name}]`));}
-document.querySelectorAll('.reservation-form').forEach((form)=>{updateMultiForm(form);updatePenyewaForm(form);form.querySelector('.multi-toggle')?.addEventListener('change',()=>updateMultiForm(form));form.querySelector('.penyewa-toggle')?.addEventListener('change',()=>updatePenyewaForm(form));form.addEventListener('click',(event)=>{if(event.target.classList.contains('add-multi-row')){const list=form.querySelector('.multi-item-list');const clone=document.getElementById('multiRoomTemplate').content.cloneNode(true);list.appendChild(clone);reindexRows(list)}if(event.target.classList.contains('remove-multi-row')){const list=form.querySelector('.multi-item-list');if(list.querySelectorAll('.multi-row').length>1){event.target.closest('.multi-row').remove();reindexRows(list)}}});});
-
-let selectedPhone=null;
-async function refreshChat(){const url=new URL('{{ route('admin.whatsapp.messages') }}',location.origin);if(selectedPhone){url.searchParams.set('phone_number',selectedPhone)}const response=await fetch(url,{headers:{Accept:'application/json'}});if(!response.ok)return;const data=await response.json();document.getElementById('chatSessions').innerHTML=data.sessions.length?data.sessions.map((session)=>`<button type="button" class="chat-item ${session.phone_number===selectedPhone?'active':''}" data-phone="${escapeHtml(session.phone_number)}"><strong>${escapeHtml(session.phone_number)}</strong><div class="small text-muted">${escapeHtml(session.state)} - ${escapeHtml(session.last_message_at || '-')}</div></button>`).join(''):'<div class="empty-state">Belum ada session.</div>';document.getElementById('chatMessages').innerHTML=data.messages.length?data.messages.map((message)=>`<div class="bubble ${message.direction==='outbound'?'outbound':''}"><div class="small mono">${escapeHtml(message.phone_number)} - ${escapeHtml(message.direction)} - ${escapeHtml(message.created_at)}</div><div>${escapeHtml(message.message_text)}</div></div>`).join(''):(selectedPhone?'<div class="empty-state">Belum ada pesan untuk nomor ini.</div>':'<div class="empty-state">Pilih nomor session untuk melihat pesan.</div>');const body=document.getElementById('chatMessages');body.scrollTop=body.scrollHeight;updateChatMode(data.sessions);}
-document.getElementById('chatSessions')?.addEventListener('click',(event)=>{const item=event.target.closest('[data-phone]');if(!item)return;selectedPhone=item.dataset.phone;document.getElementById('selectedPhoneInput').value=selectedPhone;document.getElementById('selectedPhoneLabel').textContent=`Membalas nomor ${selectedPhone}`;document.querySelector('#sendChatForm input[name="message"]').disabled=false;document.querySelector('#sendChatForm button[type="submit"]').disabled=false;refreshChat();});
-function updateChatMode(sessions){const badge=document.getElementById('chatModeBadge');const btn=document.getElementById('chatModeBtn');if(!badge||!btn)return;const current=sessions.find((s)=>s.phone_number===selectedPhone);if(!current){badge.className='badge bg-secondary';badge.textContent='BOT';btn.classList.add('d-none');btn.disabled=true;btn.textContent='Ambil Alih';btn.onclick=null;return;}const isHuman=current.mode==='human';badge.className=`badge ${isHuman?'bg-warning text-dark':'bg-secondary'}`;badge.textContent=isHuman?'HUMAN':'BOT';btn.classList.remove('d-none');btn.disabled=false;if(isHuman){btn.textContent='Lepaskan ke Bot';btn.className='btn btn-sm btn-outline-success';btn.onclick=()=>switchChatMode('{{ route('admin.whatsapp.release') }}','release');}else{btn.textContent='Ambil Alih';btn.className='btn btn-sm btn-outline-primary';btn.onclick=()=>switchChatMode('{{ route('admin.whatsapp.takeover') }}','takeover');}}
-async function switchChatMode(url,action){if(!selectedPhone)return;const form=new FormData();form.append('phone_number',selectedPhone);try{const response=await fetch(url,{method:'POST',headers:{'X-CSRF-TOKEN':csrf,Accept:'application/json'},body:form});if(response.ok){refreshChat();}}catch(e){console.error('Gagal '+action+' mode',e);}}
-document.getElementById('sendChatForm')?.addEventListener('submit',async(event)=>{event.preventDefault();if(!selectedPhone)return;const form=event.currentTarget;const response=await fetch('{{ route('admin.whatsapp.send') }}',{method:'POST',headers:{'X-CSRF-TOKEN':csrf,Accept:'application/json'},body:new FormData(form)});if(response.ok){form.querySelector('input[name="message"]').value='';refreshChat();}});
-refreshChat();setInterval(refreshChat,5000);
-
-// ═══ Pengaduan filter tabs ═══
-document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-tabs [data-filter]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        document.querySelectorAll('#pengaduanTable tbody tr[data-jenis]').forEach(row => {
-            row.style.display = (filter === 'semua' || row.dataset.jenis === filter) ? '' : 'none';
-=======
         function reindexRows(list) {
             list.querySelectorAll('.multi-row').forEach((row, index) => row.querySelectorAll('[data-name]').forEach((
                 input) => input.name = `items[${index}][${input.dataset.name}]`));
@@ -1395,7 +1329,6 @@ document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {
                     }
                 }
             });
->>>>>>> ac396d04008246e01948adc19a549e1a06db29d2
         });
 
         let selectedPhone = null;
@@ -1451,7 +1384,7 @@ document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {
         refreshChat();
         setInterval(refreshChat, 30000);
 
-        // ═══ Pengaduan filter tabs ═══
+        // â•â•â• Pengaduan filter tabs â•â•â•
         document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tabs [data-filter]').forEach(b => b.classList.remove(
@@ -1488,7 +1421,7 @@ document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {
             container.appendChild(wrapper);
         }
 
-        // ═══ Rules: filter + search ═══
+        // â•â•â• Rules: filter + search â•â•â•
         (function () {
             const filterBtns = document.querySelectorAll('#ruleFilters [data-rule-filter]');
             const searchInput = document.getElementById('ruleSearch');

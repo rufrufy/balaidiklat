@@ -41,6 +41,7 @@ class AdminChatbotRuleController extends Controller
             'form_pemesanan_landing' => 'Form pemesanan di landing page',
             'konfirmasi_pesan_landing' => 'Konfirmasi pesan dari landing',
             'kembali_menu' => 'Kembali ke menu utama',
+            'customer_care_menu' => 'Tampilkan menu Customer Care',
             'selesai' => 'Balasan + tombol Menu Utama',
         ];
     }

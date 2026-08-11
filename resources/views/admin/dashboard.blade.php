@@ -756,10 +756,15 @@
                         <div id="chatSessions" class="chat-list"></div>
                     </div>
                     <div class="card-enterprise">
-                        <div class="p-3 border-bottom">
-                            <h3 class="mb-1">Log pesan</h3>
-                            <div id="selectedPhoneLabel" class="text-muted small">Pilih nomor di kiri untuk melihat
-                                dan membalas chat.</div>
+                        <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="mb-1">Log pesan</h3>
+                                <div id="selectedPhoneLabel" class="text-muted small">Pilih nomor di kiri untuk melihat dan membalas chat.</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span id="chatModeBadge" class="badge bg-secondary">BOT</span>
+                                <button type="button" id="chatModeBtn" class="btn btn-sm btn-outline-primary d-none" disabled>Ambil Alih</button>
+                            </div>
                         </div>
                         <div id="chatMessages" class="chat-body"></div>
                         <form id="sendChatForm" class="p-3 border-top"><input type="hidden" name="phone_number"
@@ -1346,7 +1351,7 @@
             if (!response.ok) return;
             const data = await response.json();
             document.getElementById('chatSessions').innerHTML = data.sessions.length ? data.sessions.map((session) =>
-                `<button type="button" class="chat-item ${session.phone_number===selectedPhone?'active':''}" data-phone="${escapeHtml(session.phone_number)}"><strong>${escapeHtml(session.phone_number)}</strong><div class="small text-muted">${escapeHtml(session.state)} - ${escapeHtml(session.last_message_at || '-')}</div></button>`
+                `<button type="button" class="chat-item ${session.phone_number===selectedPhone?'active':''}" data-phone="${escapeHtml(session.phone_number)}"><strong>${escapeHtml(session.customer_name || session.phone_number)}</strong><div class="small mono">${escapeHtml(session.phone_number)}</div><div class="small text-muted">${escapeHtml(session.state)} - ${escapeHtml(session.last_message_at || '-')}</div></button>`
                 ).join('') : '<div class="empty-state">Belum ada session.</div>';
             document.getElementById('chatMessages').innerHTML = data.messages.length ? data.messages.map((message) =>
                 `<div class="bubble ${message.direction==='outbound'?'outbound':''}"><div class="small mono">${escapeHtml(message.phone_number)} - ${escapeHtml(message.direction)} - ${escapeHtml(message.created_at)}</div><div>${escapeHtml(message.message_text)}</div></div>`
@@ -1354,6 +1359,7 @@
                 '<div class="empty-state">Pilih nomor session untuk melihat pesan.</div>');
             const body = document.getElementById('chatMessages');
             body.scrollTop = body.scrollHeight;
+            updateChatMode(data.sessions);
         }
         document.getElementById('chatSessions')?.addEventListener('click', (event) => {
             const item = event.target.closest('[data-phone]');
@@ -1384,6 +1390,50 @@
         });
         refreshChat();
         setInterval(refreshChat, 30000);
+
+        function updateChatMode(sessions) {
+            const badge = document.getElementById('chatModeBadge');
+            const btn = document.getElementById('chatModeBtn');
+            if (!badge || !btn) return;
+            const current = sessions.find(s => s.phone_number === selectedPhone);
+            if (!current) {
+                badge.className = 'badge bg-secondary';
+                badge.textContent = 'BOT';
+                btn.classList.add('d-none');
+                btn.disabled = true;
+                return;
+            }
+            const isHuman = current.mode === 'human';
+            badge.className = 'badge ' + (isHuman ? 'bg-warning text-dark' : 'bg-secondary');
+            badge.textContent = isHuman ? 'HUMAN' : 'BOT';
+            btn.classList.remove('d-none');
+            btn.disabled = false;
+            if (isHuman) {
+                btn.textContent = 'Lepaskan ke Bot';
+                btn.className = 'btn btn-sm btn-outline-success';
+                btn.onclick = () => switchChatMode('{{ route("admin.whatsapp.release") }}', 'release');
+            } else {
+                btn.textContent = 'Ambil Alih';
+                btn.className = 'btn btn-sm btn-outline-primary';
+                btn.onclick = () => switchChatMode('{{ route("admin.whatsapp.takeover") }}', 'takeover');
+            }
+        }
+
+        async function switchChatMode(url, action) {
+            if (!selectedPhone) return;
+            const form = new FormData();
+            form.append('phone_number', selectedPhone);
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: form
+                });
+                if (response.ok) refreshChat();
+            } catch (e) {
+                console.error('Gagal ' + action + ' mode', e);
+            }
+        }
 
         // â•â•â• Pengaduan filter tabs â•â•â•
         document.querySelectorAll('.filter-tabs [data-filter]').forEach(btn => {

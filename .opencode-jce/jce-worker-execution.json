@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-11T05:13:53.272Z",
+  "updatedAt": "2026-08-11T06:14:37.227Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -1813,6 +1813,127 @@
         "compressedChars": 1,
         "estimatedTokensSaved": 0
       }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T05:48:23.638Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 32,
+        "compressedChars": 28,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T05:51:39.960Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 30,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T05:57:34.431Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 934,
+        "compressedChars": 931,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T05:57:53.573Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 366,
+        "compressedChars": 358,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T05:58:49.909Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 30,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-11T06:02:16.643Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 139,
+        "compressedChars": 138,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:02:59.627Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 100,
+        "compressedChars": 98,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:06:00.781Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 463,
+        "compressedChars": 462,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-11T06:06:32.462Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 218,
+        "compressedChars": 217,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:06:57.237Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 198,
+        "compressedChars": 196,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-11T06:12:57.039Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 248,
+        "compressedChars": 242,
+        "estimatedTokensSaved": 1
+      }
     }
   ],
   "changedFiles": [
@@ -1883,18 +2004,24 @@
     "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\test_flow.php",
     "resources/views/admin",
     "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\test_flow_trace.php",
-    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\fix_next_state.php"
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\fix_next_state.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_seed.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\debug_cc.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\debug2.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_final.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\check_session.php",
+    "C:\\Users\\ACER\\AppData\\Local\\Temp\\opencode\\verify_cc.php"
   ],
   "workflowRuns": [],
   "wisdom": [],
   "taskLearnings": [],
   "failureMemories": [],
   "contextBudgetSummary": {
-    "originalChars": 131072,
-    "compressedChars": 65536,
+    "originalChars": 0,
+    "compressedChars": 0,
     "estimatedTokensSaved": 0,
-    "estimatedSavingsPercent": 50,
-    "tasks": 65536,
+    "estimatedSavingsPercent": 0,
+    "tasks": 0,
     "byTool": {
       "dispatch": {
         "originalChars": 0,
@@ -1909,10 +2036,10 @@
         "tasks": 0
       },
       "bash": {
-        "originalChars": 131072,
-        "compressedChars": 65536,
+        "originalChars": 0,
+        "compressedChars": 0,
         "estimatedTokensSaved": 0,
-        "tasks": 65536
+        "tasks": 0
       },
       "webfetch": {
         "originalChars": 0,

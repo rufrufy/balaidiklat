@@ -293,6 +293,11 @@ class KirimChatWebhookController extends Controller
 
                 return;
 
+            case 'customer_care_menu':
+                $this->sendCustomerCareMenu($phoneNumber, $kirimChat);
+
+                return;
+
             case 'customer_care':
                 $session->update([
                     'mode' => 'human',
@@ -353,9 +358,24 @@ class KirimChatWebhookController extends Controller
         );
     }
 
+    private function sendCustomerCareMenu(string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $kirimChat->sendButtons(
+            $phoneNumber,
+            "Customer Care\n\nSilakan pilih layanan:",
+            [
+                ['id' => 'admin', 'title' => 'Chat dengan Admin'],
+                ['id' => 'doni', 'title' => 'Hubungi Bapak Doni'],
+                ['id' => 'menu', 'title' => 'Menu Utama'],
+            ]
+        );
+    }
+
     private function sendReturnButtons(string $phoneNumber, string $bodyText, KirimChatService $kirimChat): void
     {
-        $kirimChat->sendButtons($phoneNumber, $bodyText, [
+        // WhatsApp Cloud API tidak menerima body kosong untuk interactive buttons
+        $body = $bodyText ?: 'Ketik *menu* untuk kembali ke menu utama.';
+        $kirimChat->sendButtons($phoneNumber, $body, [
             ['id' => 'menu', 'title' => 'Menu Utama'],
         ]);
     }

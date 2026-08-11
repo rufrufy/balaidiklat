@@ -17,6 +17,7 @@ class AdminWhatsappChatController extends Controller
         return response()->json([
             'sessions' => WhatsappSession::latest('last_message_at')->limit(50)->get()->map(fn (WhatsappSession $session): array => [
                 'phone_number' => $session->phone_number,
+                'customer_name' => $session->customer_name,
                 'state' => $session->state,
                 'mode' => $session->mode,
                 'human_taken_at' => optional($session->human_taken_at)->format('d M Y H:i'),

@@ -27,7 +27,7 @@ class ChatbotRuleSeeder extends Seeder
             ['nama' => 'Main - 3 Laporan gangguan', 'keyword' => '3', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Laporan Gangguan.\nMohon kirim nomor kamar yang mengalami gangguan.\nContoh: A-101", 'action' => null, 'next_state' => 'gangguan_nomor_kamar', 'priority' => 12, 'menu_label' => 'Laporan Gangguan', 'menu_description' => 'Laporkan gangguan fasilitas', 'menu_order' => 2],
             ['nama' => 'Main - 4 Saran', 'keyword' => '4', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Saran.\nSilakan tuliskan saran Anda untuk pelayanan Balai Diklat.", 'action' => null, 'next_state' => 'saran', 'priority' => 13, 'menu_label' => 'Saran', 'menu_description' => 'Kirim saran dan masukan', 'menu_order' => 3],
             ['nama' => 'Main - 5 Survey kepuasan', 'keyword' => '5', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Survey Kepuasan.\nSeberapa puas Anda dengan layanan kami? Balas dengan angka 1 (kurang) sampai 5 (sangat puas).", 'action' => null, 'next_state' => 'survey', 'priority' => 14, 'menu_label' => 'Survey Kepuasan', 'menu_description' => 'Isi survey kepuasan layanan', 'menu_order' => 4],
-            ['nama' => 'Main - 6 Cek Pemesanan', 'keyword' => '6', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => null, 'action' => 'customer_care_menu', 'next_state' => 'customer_care', 'priority' => 15, 'menu_label' => 'Cek Pemesanan', 'menu_description' => 'Periksa status booking Anda', 'menu_order' => 5],
+            ['nama' => 'Main - 6 Cek Pemesanan', 'keyword' => '6', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => "Cek Pemesanan.\nMasukkan kode booking Anda untuk melihat detail pemesanan.\nContoh: BKPP-20260611120000-123", 'action' => null, 'next_state' => 'customer_care', 'priority' => 15, 'menu_label' => 'Cek Pemesanan', 'menu_description' => 'Periksa status booking Anda', 'menu_order' => 5],
             ['nama' => 'Main - 7 Customer Care', 'keyword' => '7', 'match_type' => 'exact', 'state' => 'main_menu', 'reply_text' => null, 'action' => 'customer_care_menu', 'next_state' => 'customer_care', 'priority' => 16, 'menu_label' => 'Customer Care', 'menu_description' => 'Hubungi tim layanan pelanggan', 'menu_order' => 6],
 
             ['nama' => 'Pilih jenis - Pilih', 'keyword' => '', 'match_type' => 'any', 'state' => 'pilih_jenis', 'reply_text' => null, 'action' => 'pilih_jenis', 'next_state' => 'pesan_jumlah', 'priority' => 20],
@@ -40,6 +40,7 @@ class ChatbotRuleSeeder extends Seeder
             ['nama' => 'Pesan - Step No HP', 'keyword' => '', 'match_type' => 'any', 'state' => 'pesan_no_hp', 'reply_text' => null, 'action' => 'input_no_hp', 'next_state' => 'pesan_pembayaran', 'priority' => 35],
 
             ['nama' => 'Bayar - Pilihan', 'keyword' => 'bayar', 'match_type' => 'contains', 'state' => 'pesan_pembayaran', 'reply_text' => null, 'action' => 'bayar_pilihan', 'next_state' => 'pesan_metode_bayar', 'priority' => 40],
+            ['nama' => 'Bayar - Cek Status', 'keyword' => 'cek_status', 'match_type' => 'contains', 'state' => 'pesan_pembayaran', 'reply_text' => null, 'action' => 'cek_status', 'next_state' => 'pesan_pembayaran', 'priority' => 41],
             ['nama' => 'Bayar - QRIS', 'keyword' => 'qris', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_qris', 'next_state' => null, 'priority' => 41],
             ['nama' => 'Bayar - Bank Jateng', 'keyword' => 'jateng', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 42],
             ['nama' => 'Bayar - Bank BRI', 'keyword' => 'bri', 'match_type' => 'contains', 'state' => 'pesan_metode_bayar', 'reply_text' => null, 'action' => 'bayar_transfer', 'next_state' => null, 'priority' => 43],
@@ -57,6 +58,8 @@ class ChatbotRuleSeeder extends Seeder
             ['nama' => 'Survey - Simpan', 'keyword' => '', 'match_type' => 'any', 'state' => 'survey_komentar', 'reply_text' => null, 'action' => 'simpan_survey', 'next_state' => 'main_menu', 'priority' => 63],
 
             // Customer care: 2 pilihan — chat admin (human takeover) atau hubungi nomor Doni
+            // Cek booking: kalau input mengandung "BKPP-", proses sebagai kode booking
+            ['nama' => 'Customer care - Cek Booking', 'keyword' => 'BKPP-', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => null, 'action' => 'cek_booking', 'next_state' => 'main_menu', 'priority' => 63],
             ['nama' => 'Customer care - Chat Admin', 'keyword' => 'admin', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => null, 'action' => 'customer_care', 'next_state' => 'customer_care_chat', 'priority' => 64],
             ['nama' => 'Customer care - Hubungi Doni', 'keyword' => 'doni', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => "Silahkan Hubungi Nomor Bapak Doni 082322021166", 'action' => null, 'next_state' => 'main_menu', 'priority' => 65],
 

@@ -1808,7 +1808,7 @@ class KirimChatWebhookController extends Controller
 
             $kirimChat->sendButtons($phoneNumber, $detail."\n\nSilakan pilih tindakan:", [
                 ['id' => 'menu', 'title' => 'Menu Utama'],
-                ['id' => 'cek_status', 'title' => 'Cek Status Pembayaran'],
+                ['id' => 'cek_status', 'title' => 'Cek Status Bayar'],
                 ['id' => 'bayar', 'title' => 'Bayar'],
             ]);
 

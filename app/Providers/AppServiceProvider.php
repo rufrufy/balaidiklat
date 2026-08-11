@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ChatbotRule;
+use App\Observers\ChatbotRuleObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        ChatbotRule::observe(ChatbotRuleObserver::class);
+
         // Force HTTPS untuk semua URL yang di-generate Laravel ketika
         // request datang via HTTPS (di belakang reverse proxy nginx/docker).
         if (request()?->isSecure() || request()?->header('X-Forwarded-Proto') === 'https') {

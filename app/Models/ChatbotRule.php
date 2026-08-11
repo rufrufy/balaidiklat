@@ -19,6 +19,7 @@ class ChatbotRule extends Model
         'menu_label',
         'menu_description',
         'menu_order',
+        'sort_order',
     ];
 
     protected function casts(): array

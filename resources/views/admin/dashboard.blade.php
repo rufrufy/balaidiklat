@@ -405,6 +405,7 @@
                 <button class="nav-link" data-section="rules">Aturan Chatbot</button>
                 <button class="nav-link" data-section="pengaduan">Laporan & Saran</button>
                 <button class="nav-link" data-section="whatsapp">WhatsApp Chat</button>
+                <a class="nav-link" href="{{ route('admin.chatbot.flow') }}">Flow Builder</a>
                 <a class="nav-link" href="{{ route('admin.rekap.bulanan') }}">Rekap Bulanan</a>
             </nav>
             <div class="sidebar-foot">

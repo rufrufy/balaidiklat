@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminChatbotFlowController;
 use App\Http\Controllers\AdminChatbotRuleController;
+use App\Http\Controllers\AdminChatbotTemplateController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminKamarAvailabilityController;
@@ -186,6 +188,22 @@ Route::middleware('auth')->group(function (): void {
     Route::patch('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'update'])->name('admin.chatbot-rules.update');
     Route::post('/admin/chatbot-rules/{rule}/toggle', [AdminChatbotRuleController::class, 'toggle'])->name('admin.chatbot-rules.toggle');
     Route::delete('/admin/chatbot-rules/{rule}', [AdminChatbotRuleController::class, 'destroy'])->name('admin.chatbot-rules.destroy');
+
+    // Flow Kanban Editor
+    Route::get('/admin/chatbot/flow', [AdminChatbotFlowController::class, 'index'])->name('admin.chatbot.flow');
+    Route::get('/admin/chatbot/flow-data', [AdminChatbotFlowController::class, 'flowData'])->name('admin.chatbot.flow-data');
+    Route::post('/admin/chatbot/flow/move-rule', [AdminChatbotFlowController::class, 'moveRule'])->name('admin.chatbot.flow.move-rule');
+    Route::post('/admin/chatbot/flow/reorder-rule', [AdminChatbotFlowController::class, 'reorderRule'])->name('admin.chatbot.flow.reorder-rule');
+    Route::post('/admin/chatbot/flow/state', [AdminChatbotFlowController::class, 'storeState'])->name('admin.chatbot.flow.state.store');
+    Route::patch('/admin/chatbot/flow/state/{state}', [AdminChatbotFlowController::class, 'updateState'])->name('admin.chatbot.flow.state.update');
+    Route::delete('/admin/chatbot/flow/state/{state}', [AdminChatbotFlowController::class, 'destroyState'])->name('admin.chatbot.flow.state.destroy');
+
+    // Template Editor
+    Route::get('/admin/chatbot/templates', [AdminChatbotTemplateController::class, 'index'])->name('admin.chatbot.templates.index');
+    Route::get('/admin/chatbot/templates/{template}/edit', [AdminChatbotTemplateController::class, 'edit'])->name('admin.chatbot.templates.edit');
+    Route::put('/admin/chatbot/templates/{template}', [AdminChatbotTemplateController::class, 'update'])->name('admin.chatbot.templates.update');
+    Route::post('/admin/chatbot/templates/preview', [AdminChatbotTemplateController::class, 'preview'])->name('admin.chatbot.templates.preview');
+
     Route::get('/admin/whatsapp/messages', [AdminWhatsappChatController::class, 'index'])->name('admin.whatsapp.messages');
     Route::post('/admin/whatsapp/send', [AdminWhatsappChatController::class, 'send'])->name('admin.whatsapp.send');
     Route::post('/admin/whatsapp/takeover', [AdminWhatsappChatController::class, 'takeover'])->name('admin.whatsapp.takeover');

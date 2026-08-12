@@ -19,6 +19,7 @@ class AddSapaanKeywordsSeeder extends Seeder
             ['nama' => 'Global - Malam', 'keyword' => 'malam'],
             ['nama' => 'Global - Selamat', 'keyword' => 'selamat'],
             ['nama' => 'Global - Halo2', 'keyword' => 'halo'],
+            ['nama' => 'Global - Hallo', 'keyword' => 'hallo'],
             ['nama' => 'Global - Hello', 'keyword' => 'hello'],
             ['nama' => 'Global - Mulai', 'keyword' => 'mulai'],
             ['nama' => 'Global - Start', 'keyword' => 'start'],

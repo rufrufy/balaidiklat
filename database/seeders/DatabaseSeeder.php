@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminUserSeeder::class);
         $this->call(ChatbotRuleSeeder::class);
+        $this->call(FormPemesananLandingRuleSeeder::class);
     }
 }

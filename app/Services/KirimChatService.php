@@ -92,6 +92,59 @@ class KirimChatService
     }
 
     /**
+     * Send an interactive reply-buttons message with an image header.
+     *
+     * Gambar QRIS/payment + tombol dikirim dalam SATU pesan sehingga urutan
+     * kedatangannya di WhatsApp selalu benar (image global rate-limits /
+     * processing lambat tidak lagi menyebabkan tombol mendahului media).
+     *
+     * @param string $mediaUrl URL gambar (disimpan via image header).
+     * @param array<int, array{id:string,title:string}> $buttons
+     */
+    public function sendImageWithButtons(string $phoneNumber, string $mediaUrl, string $bodyText, array $buttons, ?string $footerText = null): array
+    {
+        $mediaUrl = (string) filter_var($mediaUrl, FILTER_VALIDATE_URL);
+        $bodyText = mb_substr($bodyText ?: 'Pilih opsi:', 0, 1024);
+        $replyButtons = array_map(static fn (array $button): array => [
+            'type' => 'reply',
+            'reply' => ['id' => $button['id'], 'title' => mb_substr($button['title'], 0, 20)],
+        ], array_slice($buttons, 0, 3));
+
+        if (! $mediaUrl || empty($replyButtons)) {
+            return ['success' => false, 'error' => 'media_or_buttons_missing'];
+        }
+
+        $interactive = [
+            'type' => 'reply_buttons',
+            'header' => ['type' => 'image', 'image' => ['link' => $mediaUrl]],
+            'body' => ['text' => $bodyText],
+            'action' => ['buttons' => $replyButtons],
+        ];
+
+        if ($footerText) {
+            $interactive['footer'] = ['text' => mb_substr($footerText, 0, 60)];
+        }
+
+        $payload = [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $this->normalizePhone($phoneNumber),
+            'type' => 'interactive',
+            'interactive' => $interactive,
+        ];
+
+        $result = $this->post($payload, $phoneNumber, 'interactive', $bodyText);
+
+        // Fallback: kalau interactive dengan header image gagal, kirim image + prompt terpisah
+        // agar QRIS tetap sampai (urutan tidak terjamin di fallback ini).
+        if (! ($result['success'] ?? true)) {
+            $this->sendImage($phoneNumber, $mediaUrl, mb_substr($bodyText, 0, 1024));
+        }
+
+        return $result;
+    }
+
+    /**
      * Send an interactive list message. WhatsApp allows up to 10 rows per section.
      * Each row is ['id' => string, 'title' => string, 'description' => ?string].
      *

@@ -1462,11 +1462,22 @@ class KirimChatWebhookController extends Controller
             $caption .= "Scan QR code di atas atau klik link untuk membayar.\n\n"
                 .'Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
-            $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
-            if ($linkQris || $imageUrl) {
+            // Kirim QRIS + tombol upload bukti dalam SATU pesan interactive (image header).
+            // WhatsApp memproses pesan media lebih lambat dari pesan teks/tombol, jadi
+            // memisah keduanya membuat tombol tiba duluan di HP user (flow terbalik).
+            $result = $kirimChat->sendImageWithButtons(
+                $phoneNumber,
+                $imageUrl,
+                $caption,
+                [
+                    ['id' => 'upload_bukti', 'title' => 'Upload Bukti Bayar'],
+                    ['id' => 'menu', 'title' => 'Menu Utama'],
+                ]
+            );
+
+            if (! ($result['success'] ?? true)) {
+                // Fallback service sudah mengirim image terpisah; tambahkan prompt tombol.
                 $this->sendPaymentProofButtons($phoneNumber, $kirimChat);
-            } else {
-                $this->sendReturnButtons($phoneNumber, 'Link QRIS belum tersedia. Silakan coba lagi beberapa saat lagi atau ketik *menu* untuk kembali.', $kirimChat);
             }
         } else {
             $message = "Pembayaran via QRIS\n\n"

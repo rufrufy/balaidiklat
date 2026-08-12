@@ -53,19 +53,21 @@ class AdminReservasiController extends Controller
 
         $reservasi->delete();
 
-        return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', 'Reservasi berhasil dihapus.');
+        return redirect()->route('admin.dashboard', ['section' => 'reservasi'])->with('status', 'Reservasi diarsipkan (soft-delete).');
     }
 
     private function deleteBillingsFromBapenda(KamarReservasi $reservasi): void
     {
-        $billings = $reservasi->retribusiBillings()
-            ->whereNotNull('id_billing')
-            ->whereIn('status', ['draft', 'sent', 'failed'])
-            ->where(function ($q): void {
-                $q->where('payment_callback_status', '!=', 'paid')
-                    ->orWhereNull('payment_callback_status');
-            })
-            ->get();
+        $billings = $reservasi->retribusiBillings()->get();
+
+        // Reservasi lunas: arsipkan billing lokal, jangan hapus di Bapenda.
+        if ($reservasi->payment_status === 'paid') {
+            $billings->each(function (RetribusiBilling $billing): void {
+                $billing->delete();
+            });
+
+            return;
+        }
 
         if ($billings->isEmpty()) {
             return;
@@ -74,11 +76,24 @@ class AdminReservasiController extends Controller
         $service = app(ERetribusiService::class);
 
         foreach ($billings as $billing) {
+            if ($billing->isPaid()) {
+                $billing->delete();
+
+                continue;
+            }
+
+            if (! $billing->id_billing) {
+                $billing->delete();
+
+                continue;
+            }
+
             try {
                 $result = $service->deleteBilling((string) $billing->id_billing);
 
                 if ($result['success']) {
                     $billing->update(['status' => 'deleted', 'payment_callback_status' => 'deleted']);
+                    $billing->delete();
                 } else {
                     Log::warning('Failed to delete billing from Bapenda during reservasi destroy', [
                         'reservasi_id' => $reservasi->id,
@@ -99,9 +114,15 @@ class AdminReservasiController extends Controller
 
     public function togglePayment(KamarReservasi $reservasi): RedirectResponse
     {
-        $reservasi->update([
-            'payment_status' => $reservasi->payment_status === 'paid' ? 'unpaid' : 'paid',
-        ]);
+        $isPaid = $reservasi->payment_status === 'paid';
+        $reservasi->update(['payment_status' => $isPaid ? 'unpaid' : 'paid']);
+
+        if (! $isPaid) {
+            $billing = $reservasi->retribusiBillings()->latest()->first();
+            if ($billing && ! $billing->isPaid()) {
+                $billing->markPaid();
+            }
+        }
 
         return redirect()->route('admin.dashboard', ['section' => 'reservasi'])
             ->with('status', 'Status pembayaran diperbarui menjadi '.($reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar').'.');

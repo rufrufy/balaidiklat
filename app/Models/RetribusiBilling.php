@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RetribusiBilling extends Model
 {
+    use SoftDeletes;
+
     protected $attributes = [
         'noskpd' => '1111',
         'periode' => '2026',

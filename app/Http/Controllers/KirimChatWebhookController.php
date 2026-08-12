@@ -9,8 +9,8 @@ use App\Models\LayananPengaduan;
 use App\Models\RetribusiBilling;
 use App\Models\WhatsappMessage;
 use App\Models\WhatsappSession;
-use App\Services\ERetribusiService;
 use App\Services\ChatbotTemplateService;
+use App\Services\ERetribusiService;
 use App\Services\KamarAvailabilityService;
 use App\Services\KirimChatService;
 use Carbon\Carbon;
@@ -111,6 +111,18 @@ class KirimChatWebhookController extends Controller
 
                 return response()->json(['success' => true]);
             }
+
+            if ($input === 'menu' || $input === 'menu utama') {
+                $session->update(['state' => 'main_menu', 'context' => []]);
+                $this->sendMainMenu($phoneNumber, $customerName, $kirimChat);
+
+                return response()->json(['success' => true]);
+            }
+
+            // Keep user in proof-upload state until valid image arrives.
+            $this->sendPaymentProofPrompt($phoneNumber, $kirimChat);
+
+            return response()->json(['success' => true]);
         }
 
         $this->runChatbot($session, $phoneNumber, $input, $rawInput, $customerName, $kirimChat);
@@ -306,7 +318,7 @@ class KirimChatWebhookController extends Controller
                 $reply = $rule->reply_text
                     ? $this->personalize($rule->reply_text, $customerName)
                     : "Percakapan Anda akan diteruskan ke tim *Customer Care* kami.\n"
-                      ."Mohon tunggu, tim kami akan segera membalas pesan Anda.";
+                      .'Mohon tunggu, tim kami akan segera membalas pesan Anda.';
                 $kirimChat->sendText($phoneNumber, $reply);
 
                 return;
@@ -388,8 +400,29 @@ class KirimChatWebhookController extends Controller
 
         // Fallback: kalau interactive gagal, sudah di-handle oleh sendButtons
         if (! ($result['success'] ?? true)) {
-            $kirimChat->sendText($phoneNumber, $body . "\n\nBalas *menu* untuk kembali.");
+            $kirimChat->sendText($phoneNumber, $body."\n\nBalas *menu* untuk kembali.");
         }
+    }
+
+    private function sendPaymentProofButtons(string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $body = 'Silakan upload foto bukti pembayaran kurang dari 2 MB. Sistem akan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Ketik *menu* untuk kembali.';
+        $result = $kirimChat->sendButtons($phoneNumber, $body, [
+            ['id' => 'upload_bukti', 'title' => 'Upload Bukti Bayar'],
+            ['id' => 'menu', 'title' => 'Menu Utama'],
+        ]);
+
+        if (! ($result['success'] ?? true)) {
+            $this->sendPaymentProofPrompt($phoneNumber, $kirimChat);
+        }
+    }
+
+    private function sendPaymentProofPrompt(string $phoneNumber, KirimChatService $kirimChat): void
+    {
+        $kirimChat->sendText(
+            $phoneNumber,
+            'Silakan upload foto bukti pembayaran kurang dari 2 MB. Sistem akan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Ketik *menu* untuk kembali.'
+        );
     }
 
     private function sendAvailability(WhatsappSession $session, string $phoneNumber, string $rawInput, KirimChatService $kirimChat): void
@@ -443,8 +476,8 @@ class KirimChatWebhookController extends Controller
     private function personalize(string $text, ?string $customerName): string
     {
         return str_replace(
-            ['{{customer_name}}', '{{nama}}'],
-            $customerName ?: 'Sahabat Balai',
+            ['{{customer_name}}', '{{nama}}', '082322021166'],
+            [$customerName ?: 'Sahabat Balai', $customerName ?: 'Sahabat Balai', preg_replace('/\D/', '', (string) config('app.whatsapp_customer_care_number'))],
             $text
         );
     }
@@ -536,20 +569,20 @@ class KirimChatWebhookController extends Controller
 
         if ($isKamar) {
             $this->templates->send($kirimChat, $phoneNumber, 'prompt_jumlah_unit', [
-            'jenis_kelas' => $jenisKelas,
-            'harga' => $harga,
-            'harga_label' => $hargaLabel,
-            'tersedia' => $tersedia,
-            'fasilitas' => $fasilitas,
-        ]);
+                'jenis_kelas' => $jenisKelas,
+                'harga' => $harga,
+                'harga_label' => $hargaLabel,
+                'tersedia' => $tersedia,
+                'fasilitas' => $fasilitas,
+            ]);
         } else {
             $this->templates->send($kirimChat, $phoneNumber, 'prompt_jumlah_hari', [
-            'jenis_kelas' => $jenisKelas,
-            'harga' => $harga,
-            'harga_label' => $hargaLabel,
-            'tersedia' => $tersedia,
-            'fasilitas' => $fasilitas,
-        ]);
+                'jenis_kelas' => $jenisKelas,
+                'harga' => $harga,
+                'harga_label' => $hargaLabel,
+                'tersedia' => $tersedia,
+                'fasilitas' => $fasilitas,
+            ]);
         }
     }
 
@@ -694,9 +727,9 @@ class KirimChatWebhookController extends Controller
             ]);
 
             $tanggalTeks = Carbon::parse($tanggal)->format('d-m-Y');
-        $this->templates->send($kirimChat, $phoneNumber, 'prompt_tanggal_keluar', [
-            'tanggal_masuk' => $tanggalTeks,
-        ]);
+            $this->templates->send($kirimChat, $phoneNumber, 'prompt_tanggal_keluar', [
+                'tanggal_masuk' => $tanggalTeks,
+            ]);
         }
     }
 
@@ -825,13 +858,13 @@ class KirimChatWebhookController extends Controller
         if ($kamar && $masuk && $keluar) {
             $tersedia = $this->availability->availableStock($kamar, $masuk, $keluar);
             if ($tersedia < $jumlah) {
-            $this->templates->send($kirimChat, $phoneNumber, 'error_stok_tidak_cukup', [
-                'jenis_kelas' => $jenisKelas,
-                'tanggal_masuk' => $masuk,
-                'tanggal_keluar' => $keluar,
-                'jumlah' => $jumlah,
-                'tersedia' => $tersedia,
-            ]);
+                $this->templates->send($kirimChat, $phoneNumber, 'error_stok_tidak_cukup', [
+                    'jenis_kelas' => $jenisKelas,
+                    'tanggal_masuk' => $masuk,
+                    'tanggal_keluar' => $keluar,
+                    'jumlah' => $jumlah,
+                    'tersedia' => $tersedia,
+                ]);
 
                 return;
             }
@@ -1430,7 +1463,11 @@ class KirimChatWebhookController extends Controller
                 .'Setelah membayar, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendImage($phoneNumber, $imageUrl, $caption);
-            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+            if ($linkQris || $imageUrl) {
+                $this->sendPaymentProofButtons($phoneNumber, $kirimChat);
+            } else {
+                $this->sendReturnButtons($phoneNumber, 'Link QRIS belum tersedia. Silakan coba lagi beberapa saat lagi atau ketik *menu* untuk kembali.', $kirimChat);
+            }
         } else {
             $message = "Pembayaran via QRIS\n\n"
                 ."Reservasi: {$reservasi->kode}\n"
@@ -1448,7 +1485,11 @@ class KirimChatWebhookController extends Controller
             $message .= 'Setelah membayar via QRIS, *kirim foto bukti pembayaran* langsung ke chat ini. Terima kasih.';
 
             $kirimChat->sendText($phoneNumber, $message);
-            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+            if ($linkQris || $imageUrl) {
+                $this->sendPaymentProofButtons($phoneNumber, $kirimChat);
+            } else {
+                $this->sendReturnButtons($phoneNumber, 'Link QRIS belum tersedia. Silakan coba lagi beberapa saat lagi atau ketik *menu* untuk kembali.', $kirimChat);
+            }
         }
     }
 
@@ -1509,7 +1550,7 @@ class KirimChatWebhookController extends Controller
             ."\n\nSetelah transfer, *kirim foto bukti pembayaran* langsung ke chat ini. Sistem akan menyimpan bukti dan cek status pembayaran ke e-Retribusi Bapenda secara otomatis. Terima kasih.";
 
         $kirimChat->sendText($phoneNumber, $message);
-        $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+        $this->sendPaymentProofButtons($phoneNumber, $kirimChat);
     }
 
     private function handlePaymentMethodInput(WhatsappSession $session, string $phoneNumber, string $input, string $rawInput, KirimChatService $kirimChat): bool
@@ -1688,6 +1729,7 @@ class KirimChatWebhookController extends Controller
 
         if (empty($nomorKamar)) {
             $this->templates->send($kirimChat, $phoneNumber, 'gangguan_empty_nomor');
+
             return;
         }
 
@@ -1737,6 +1779,7 @@ class KirimChatWebhookController extends Controller
 
         if ($rating < 1 || $rating > 5) {
             $this->templates->send($kirimChat, $phoneNumber, 'error_invalid_rating');
+
             return;
         }
 
@@ -1861,11 +1904,11 @@ class KirimChatWebhookController extends Controller
                     }
                 }
 
-            $this->templates->send($kirimChat, $phoneNumber, 'payment_status_lunas', [
-                'tanggal_bayar' => $tglBayar,
-                'kode' => $reservasi->kode,
-            ]);
-            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+                $this->templates->send($kirimChat, $phoneNumber, 'payment_status_lunas', [
+                    'tanggal_bayar' => $tglBayar,
+                    'kode' => $reservasi->kode,
+                ]);
+                $this->sendReturnButtons($phoneNumber, '', $kirimChat);
 
                 return;
             }
@@ -1970,15 +2013,15 @@ class KirimChatWebhookController extends Controller
         $session->update(['state' => 'main_menu']);
 
         if ($verifiedByBapenda) {
-                $this->templates->send($kirimChat, $phoneNumber, 'bukti_verified_lunas', [
-                    'kode' => $reservasi->kode,
-                ]);
-                $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+            $this->templates->send($kirimChat, $phoneNumber, 'bukti_verified_lunas', [
+                'kode' => $reservasi->kode,
+            ]);
+            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         } else {
-                $this->templates->send($kirimChat, $phoneNumber, 'bukti_diterima_pending', [
-                    'kode' => $reservasi->kode,
-                ]);
-                $this->sendReturnButtons($phoneNumber, '', $kirimChat);
+            $this->templates->send($kirimChat, $phoneNumber, 'bukti_diterima_pending', [
+                'kode' => $reservasi->kode,
+            ]);
+            $this->sendReturnButtons($phoneNumber, '', $kirimChat);
         }
     }
 
@@ -2183,9 +2226,9 @@ class KirimChatWebhookController extends Controller
         }
 
         if (str_starts_with($phone, '0')) {
-            $phone = '62' . substr($phone, 1);
+            $phone = '62'.substr($phone, 1);
         } elseif (! str_starts_with($phone, '62')) {
-            $phone = '62' . $phone;
+            $phone = '62'.$phone;
         }
 
         return $phone;

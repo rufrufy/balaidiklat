@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Asrama Balai Diklat BKPP Kota Semarang</title>
+    <link rel="icon" type="image/png" href="{{ asset('icon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Ubuntu+Mono:wght@400;700&family=Ubuntu:wght@400;500;700&display=swap"
@@ -64,9 +66,8 @@
             border: 1px solid var(--border);
             display: grid;
             place-items: center;
-            font-family: var(--font-display);
-            font-weight: 700;
-            color: var(--primary)
+            object-fit: contain;
+            padding: 4px
         }
 
         .brand-title {
@@ -330,13 +331,48 @@
             justify-content: center;
             padding: 40px
         }
+
+        .floating-whatsapp {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1030;
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #25D366;
+            color: #fff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            transition: transform .2s, box-shadow .2s
+        }
+
+        .floating-whatsapp:hover {
+            color: #fff;
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, .28)
+        }
+
+        .floating-whatsapp svg {
+            width: 31px;
+            height: 31px;
+            fill: currentColor
+        }
+
+        @media (max-width: 575.98px) {
+            .floating-whatsapp {
+                right: 14px;
+                bottom: 14px
+            }
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-public sticky-top">
         <div class="container py-2"><a class="navbar-brand d-flex align-items-center gap-3"
-                href="{{ route('landing') }}"><span class="brand-mark">BKPP</span><span><strong
+                href="{{ route('landing') }}"><img class="brand-mark" src="{{ asset('icon.png') }}" alt="Logo BKPP"><span><strong
                         class="brand-title d-block">Asrama Balai Diklat</strong><span class="brand-subtitle">BKPP Kota
                         Semarang</span></span></a><button class="navbar-toggler" data-bs-toggle="collapse"
                 data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
@@ -739,6 +775,12 @@
             <div class="mono">Laravel 13 - Bootstrap 5.x</div>
         </div>
     </footer>
+    <a id="floatingWaButton" class="floating-whatsapp" href="#" target="_blank" rel="noopener"
+        aria-label="Chat WhatsApp Bot">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3C8.82 3 3 8.66 3 15.64c0 2.5.75 4.83 2.04 6.78L3.1 29l6.78-1.9A13.1 13.1 0 0 0 16 28.3c7.18 0 13-5.66 13-12.66S23.18 3 16 3Zm0 22.98c-2.1 0-4.07-.62-5.72-1.68l-.4-.25-4.02 1.13 1.1-3.88-.26-.4a10.68 10.68 0 0 1-1.64-5.26C5.06 9.93 9.96 5.2 16 5.2s10.94 4.73 10.94 10.44S22.04 25.98 16 25.98Zm6-7.85c-.33-.16-1.93-.94-2.23-1.04-.3-.11-.52-.16-.74.16-.22.33-.85 1.04-1.04 1.25-.19.22-.38.25-.7.08-.33-.16-1.39-.5-2.65-1.6-.98-.85-1.64-1.9-1.83-2.23-.19-.33-.02-.5.14-.66.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.71s1.17 3.15 1.33 3.37c.16.22 2.3 3.48 5.58 4.75.78.3 1.39.48 1.87.61.79.2 1.5.17 2.06.1.63-.1 1.93-.79 2.2-1.55.27-.76.27-1.41.19-1.55-.08-.14-.3-.22-.63-.38Z" />
+        </svg>
+    </a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const WHATSAPP_BOT_NUMBER = "{{ $whatsappBotNumber }}";
@@ -746,12 +788,14 @@
         const URL_CEK_KETERSEDIAAN = "{!! route('cek.ketersediaan') !!}";
         const URL_KIRIM_PEMESANAN = "{!! route('kirim.pemesanan.whatsapp') !!}";
 
-        function updateFooterWaLink() {
+         function updateFooterWaLink() {
             const url =
                 `https://wa.me/${WHATSAPP_BOT_NUMBER}?text=${encodeURIComponent("Halo Admin Asrama Balai Diklat BKPP Kota Semarang. Saya ingin bertanya tentang reservasi.")}`;
             const btn = document.getElementById('footerWaButton');
-            if (btn) btn.href = url;
-        }
+             if (btn) btn.href = url;
+             const floating = document.getElementById('floatingWaButton');
+             if (floating) floating.href = url;
+         }
         updateFooterWaLink();
 
         // ═══ Cek Ketersediaan AJAX ═══

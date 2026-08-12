@@ -5,17 +5,19 @@ use App\Http\Controllers\AdminChatbotFlowController;
 use App\Http\Controllers\AdminChatbotRuleController;
 use App\Http\Controllers\AdminChatbotTemplateController;
 use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminKamarAvailabilityController;
+use App\Http\Controllers\AdminKamarController;
+use App\Http\Controllers\AdminPengaduanController;
 use App\Http\Controllers\AdminRekapController;
 use App\Http\Controllers\AdminReservasiController;
 use App\Http\Controllers\AdminWhatsappChatController;
 use App\Http\Controllers\KirimChatWebhookController;
-use App\Http\Controllers\AdminPengaduanController;
 use App\Http\Controllers\RetribusiBillingController;
 use App\Models\Kamar;
 use App\Models\KamarReservasi;
+use App\Services\KamarAvailabilityService;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,7 +27,7 @@ Route::get('/', function () {
     return view('landing', [
         'kamars' => $kamars,
         'availableKamars' => $availableKamars,
-        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641')),
+        'whatsappBotNumber' => preg_replace('/\D/', '', (string) config('app.whatsapp_bot_number')),
     ]);
 })->name('landing');
 
@@ -35,7 +37,7 @@ Route::match(['GET', 'POST'], '/cek-ketersediaan', function () {
         'tanggal_keluar' => ['required', 'date', 'after:tanggal_masuk'],
     ]);
 
-    $service = app(\App\Services\KamarAvailabilityService::class);
+    $service = app(KamarAvailabilityService::class);
     $rooms = $service->availableRoomsWithStock($data['tanggal_masuk'], $data['tanggal_keluar']);
 
     $rooms->load('fotos');
@@ -66,7 +68,7 @@ Route::match(['GET', 'POST'], '/cek-ketersediaan', function () {
     ]);
 })->name('cek.ketersediaan');
 
-Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $request) {
+Route::post('/kirim-pemesanan-whatsapp', function (Request $request) {
     $data = $request->validate([
         'nama_pemesan' => ['required', 'string', 'max:255'],
         'phone_number' => ['required', 'string', 'max:40'],
@@ -85,7 +87,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
         'items.*.jumlah_unit' => ['nullable', 'integer', 'min:1'],
     ]);
 
-    $kamar = \App\Models\Kamar::find($data['kamar_id']);
+    $kamar = Kamar::find($data['kamar_id']);
     $isKamar = $kamar->is_kamar;
     $hargaLabel = $isKamar ? 'malam' : 'hari';
 
@@ -113,7 +115,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
             if (empty($item['kamar_id'])) {
                 continue;
             }
-            $ik = \App\Models\Kamar::find($item['kamar_id']);
+            $ik = Kamar::find($item['kamar_id']);
             if (! $ik) {
                 continue;
             }
@@ -131,7 +133,7 @@ Route::post('/kirim-pemesanan-whatsapp', function (\Illuminate\Http\Request $req
     $lines[] = 'Mohon proses pemesanan ini. Terima kasih.';
 
     $text = implode("\n", $lines);
-    $waNumber = preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641'));
+    $waNumber = preg_replace('/\D/', '', (string) config('app.whatsapp_bot_number'));
     $url = 'https://wa.me/'.$waNumber.'?text='.rawurlencode($text);
 
     return response()->json(['success' => true, 'whatsapp_url' => $url, 'message' => $text]);
@@ -151,7 +153,7 @@ Route::post('/lacak-booking', function () {
     return view('landing', [
         'kamars' => Kamar::with('fotos')->latest()->get(),
         'availableKamars' => Kamar::orderBy('jenis_kelas')->get(),
-        'whatsappBotNumber' => preg_replace('/\D/', '', config('app.whatsapp_bot_number', '6287845351641')),
+        'whatsappBotNumber' => preg_replace('/\D/', '', (string) config('app.whatsapp_bot_number')),
         'trackingResult' => $reservasi,
         'trackingCode' => $data['kode'],
     ]);

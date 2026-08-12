@@ -125,4 +125,6 @@ return [
 
     'whatsapp_bot_number' => env('WHATSAPP_BOT_NUMBER', '6287845351641'),
 
+    'whatsapp_customer_care_number' => env('WHATSAPP_CUSTOMER_CARE_NUMBER', '6282322021166'),
+
 ];

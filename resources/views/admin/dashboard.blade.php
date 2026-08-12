@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard Admin - Asrama BKPP</title>
+    <link rel="icon" type="image/png" href="{{ asset('icon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Ubuntu+Mono:wght@400;700&family=Ubuntu:wght@400;500;700&display=swap"
@@ -77,8 +79,8 @@
             color: var(--primary);
             display: grid;
             place-items: center;
-            font-family: var(--font-display);
-            font-weight: 800
+            object-fit: contain;
+            padding: 4px
         }
 
         .brand-title {
@@ -394,7 +396,7 @@
 <body>
     <div class="admin-shell">
         <aside class="sidebar">
-            <div class="brand-row"><span class="brand-mark">BKPP</span>
+            <div class="brand-row"><img class="brand-mark" src="{{ asset('icon.png') }}" alt="Logo BKPP">
                 <div><strong class="brand-title d-block">Admin Asrama BKPP</strong><span
                         class="brand-subtitle">Dashboard pengelolaan</span></div>
             </div>

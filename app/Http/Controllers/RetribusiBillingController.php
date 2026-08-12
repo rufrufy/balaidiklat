@@ -8,10 +8,8 @@ use App\Services\ERetribusiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class RetribusiBillingController extends Controller
 {
@@ -147,7 +145,7 @@ class RetribusiBillingController extends Controller
 
             if (! empty($tglBayar)) {
                 if (! $billing->isPaid()) {
-                    $paidAt = \Illuminate\Support\Carbon::parse($tglBayar);
+                    $paidAt = Carbon::parse($tglBayar);
 
                     $billing->update([
                         'payment_callback_status' => 'paid',
@@ -171,6 +169,16 @@ class RetribusiBillingController extends Controller
 
     public function destroyBilling(RetribusiBilling $billing, ERetribusiService $service): JsonResponse
     {
+        if ($billing->isPaid() || $billing->reservasi?->payment_status === 'paid') {
+            $billing->update(['status' => 'deleted']);
+            $billing->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Billing lokal diarsipkan. Billing lunas tetap dipertahankan di e-Retribusi.',
+            ]);
+        }
+
         if (! $billing->id_billing) {
             return response()->json(['success' => false, 'message' => 'Billing belum memiliki id_billing.'], 422);
         }
@@ -182,6 +190,7 @@ class RetribusiBillingController extends Controller
                 'status' => 'deleted',
                 'payment_callback_status' => 'deleted',
             ]);
+            $billing->delete();
         }
 
         return response()->json($result, $result['success'] ? 200 : 400);

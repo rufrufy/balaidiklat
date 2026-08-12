@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rekap Bulanan Reservasi</title>
+    <link rel="icon" type="image/png" href="{{ asset('icon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>body{background:#F8F6EF;color:#111827}.sheet{max-width:1120px;margin:32px auto;background:#fff;border:1px solid rgba(7,44,44,.16);border-radius:20px;padding:28px}.brand{color:#072C2C}.stat{border:1px solid #ddd;border-radius:16px;padding:16px}.print-only{display:none}@media print{.no-print{display:none!important}.print-only{display:block}.sheet{margin:0;border:0;border-radius:0;max-width:none}body{background:#fff}}</style>
 </head>

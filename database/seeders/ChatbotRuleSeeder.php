@@ -61,7 +61,7 @@ class ChatbotRuleSeeder extends Seeder
             // Cek booking: kalau input mengandung "BKPP-", proses sebagai kode booking
             ['nama' => 'Customer care - Cek Booking', 'keyword' => 'BKPP-', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => null, 'action' => 'cek_booking', 'next_state' => 'main_menu', 'priority' => 63],
             ['nama' => 'Customer care - Chat Admin', 'keyword' => 'admin', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => null, 'action' => 'customer_care', 'next_state' => 'customer_care_chat', 'priority' => 64],
-            ['nama' => 'Customer care - Hubungi Doni', 'keyword' => 'doni', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => "Silahkan Hubungi Nomor Bapak Doni 082322021166", 'action' => null, 'next_state' => 'main_menu', 'priority' => 65],
+            ['nama' => 'Customer care - Hubungi Doni', 'keyword' => 'doni', 'match_type' => 'contains', 'state' => 'customer_care', 'reply_text' => 'Silahkan Hubungi Nomor Bapak Doni '.preg_replace('/\D/', '', (string) config('app.whatsapp_customer_care_number')), 'action' => null, 'next_state' => 'main_menu', 'priority' => 65],
 
             // Customer care fallback: kalau input tidak dikenali, tampilkan lagi pilihan
             ['nama' => 'Customer care - Fallback', 'keyword' => '', 'match_type' => 'any', 'state' => 'customer_care', 'reply_text' => "Silakan pilih:\n- Ketik *admin* untuk chat dengan admin\n- Ketik *doni* untuk nomor Bapak Doni", 'action' => null, 'next_state' => 'customer_care', 'priority' => 99],

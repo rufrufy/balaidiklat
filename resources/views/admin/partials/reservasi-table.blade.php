@@ -52,7 +52,7 @@
                             <form method="POST" action="{{ route('admin.reservasi.toggle-payment', $reservasi) }}"
                                 class="d-inline">@csrf
                                 <label class="form-check-label small">
-                                    <input type="checkbox" class="form-check-input me-1" onchange="this.form.submit()"
+                                    <input type="checkbox" class="form-check-input me-1" onchange="if (confirmPaymentChange(this)) this.form.submit(); else this.checked = !this.checked"
                                         @checked($reservasi->payment_status === 'paid')>
                                     {{ $reservasi->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar' }}
                                 </label>
@@ -151,7 +151,7 @@
                         <button class="btn btn-sm btn-ghost" data-bs-toggle="modal"
                             data-bs-target="#editReservation{{ $reservasi->id }}">Edit</button>
                         <form method="POST" action="{{ route('admin.reservasi.destroy', $reservasi) }}"
-                            class="d-inline" onsubmit="return confirm('Hapus reservasi ini? Billing di e-Retribusi juga akan dihapus.')">@csrf
+                            class="d-inline" onsubmit="return confirm('Arsipkan reservasi ini? Status billing e-Retribusi mengikuti status pembayaran.')">@csrf
                             @method('DELETE')<button class="btn btn-sm btn-outline-danger" type="submit">Hapus</button>
                         </form>
                     </td>
@@ -287,4 +287,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+</script>
+<script>
+function confirmPaymentChange(checkbox) {
+    if (checkbox && checkbox.checked) {
+        return window.confirm('Tandai reservasi ini sebagai LUNAS? Pastikan pembayaran sudah diterima.');
+    }
+
+    return true;
+}
 </script>

@@ -636,9 +636,14 @@ class KirimChatWebhookController extends Controller
             return;
         }
 
+        $context = array_merge($session->context ?? [], ['jumlah' => $jumlah]);
+        // Kamar: hapus sisa jumlah_hari dari flow sebelumnya agar tidak salah
+        // terdeteksi sebagai non-kamar di inputTanggalMasuk.
+        unset($context['jumlah_hari']);
+
         $session->update([
             'state' => 'pesan_tanggal_masuk',
-            'context' => array_merge($session->context ?? [], ['jumlah' => $jumlah]),
+            'context' => $context,
         ]);
 
         $this->templates->send($kirimChat, $phoneNumber, 'prompt_tanggal_masuk', [
@@ -697,9 +702,10 @@ class KirimChatWebhookController extends Controller
         }
 
         $ctx = $session->context ?? [];
+        $isKamar = (bool) ($ctx['is_kamar'] ?? true);
         $jumlahHari = (int) ($ctx['jumlah_hari'] ?? 0);
 
-        if ($jumlahHari > 0) {
+        if (! $isKamar) {
             // Non-kamar: auto hitung tanggal_keluar dari jumlah_hari.
             // 1 hari = tanggal yang sama, 2 hari = besok, dst.
             $tanggalKeluar = Carbon::parse($tanggal)->addDays($jumlahHari - 1)->format('Y-m-d');

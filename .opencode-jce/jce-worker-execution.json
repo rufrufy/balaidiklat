@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T01:53:43.828Z",
+  "updatedAt": "2026-08-18T03:55:47.146Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -2681,6 +2681,19 @@
         "originalChars": 609,
         "compressedChars": 519,
         "estimatedTokensSaved": 23
+      }
+    },
+    {
+      "type": "planner.explain",
+      "message": "Planner fan-out created 2 explicit unit(s).",
+      "at": "2026-08-18T03:53:26.216Z",
+      "metadata": {
+        "workflowId": "graph-1787025206207-8yu1",
+        "plannerMode": "fanout",
+        "detectedUnits": [
+          "Kamar - Rp200.000/malam (Tersedia: 20 unit)",
+          "Ruang"
+        ]
       }
     }
   ],

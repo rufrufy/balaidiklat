@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-12T02:23:52.764Z",
+  "updatedAt": "2026-08-18T01:53:43.828Z",
   "activeTasks": [],
   "completedSummaries": [
     {
@@ -2440,6 +2440,248 @@
         "compressedChars": 7,
         "estimatedTokensSaved": 0
       }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-12T03:02:54.729Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 651,
+        "compressedChars": 650,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-12T03:02:55.527Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 728,
+        "compressedChars": 727,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-12T03:03:39.395Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 1210,
+        "compressedChars": 1208,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-12T03:04:09.627Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 9505,
+        "compressedChars": 9499,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:04:16.866Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 587,
+        "compressedChars": 611,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:04:49.873Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 4,
+        "compressedChars": 3,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:04:57.563Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 700,
+        "compressedChars": 699,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:05:11.584Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 9,
+        "compressedChars": 8,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:05:18.149Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 9,
+        "compressedChars": 8,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:05:56.971Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 28,
+        "compressedChars": 27,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:06:04.135Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 156,
+        "compressedChars": 154,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:06:11.263Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 30,
+        "compressedChars": 28,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-12T03:08:11.840Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 401,
+        "compressedChars": 393,
+        "estimatedTokensSaved": 2
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-18T01:32:11.996Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 1194,
+        "compressedChars": 1193,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to grep output",
+      "at": "2026-08-18T01:32:12.820Z",
+      "metadata": {
+        "tool": "grep",
+        "originalChars": 2266,
+        "compressedChars": 2264,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:32:45.613Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 1922,
+        "compressedChars": 1904,
+        "estimatedTokensSaved": 5
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:32:58.120Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 491,
+        "compressedChars": 516,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:33:14.880Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 857,
+        "compressedChars": 871,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:51:54.955Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 141,
+        "compressedChars": 140,
+        "estimatedTokensSaved": 1
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:52:06.577Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 52,
+        "compressedChars": 51,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:52:16.568Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 52,
+        "compressedChars": 51,
+        "estimatedTokensSaved": 0
+      }
+    },
+    {
+      "type": "verification.recorded",
+      "message": "Context budget applied to bash output",
+      "at": "2026-08-18T01:52:32.871Z",
+      "metadata": {
+        "tool": "bash",
+        "originalChars": 609,
+        "compressedChars": 519,
+        "estimatedTokensSaved": 23
+      }
     }
   ],
   "changedFiles": [
@@ -2591,7 +2833,17 @@
     "C:\\laragon\\www\\balaidiklat\\config\\queue.php",
     "app/Services/KirimChatService.php",
     "$caption .= \"Scan QR code di atas atau klik link untuk membayar.\\n\\n",
-    "/**"
+    "/**",
+    "C:\\laragon\\www\\balaidiklat\\database",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\FormPemesananLandingRuleSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_10_000002_create_kamars_table.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_07_23_000001_add_is_kamar_to_kamars.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_24_155933_restructure_kamar_to_jenis_dan_kuota.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\migrations\\2026_06_25_102050_add_fasilitas_harga_foto_to_kamars.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\DatabaseSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddSapaanKeywordsSeeder.php",
+    "C:\\laragon\\www\\balaidiklat\\database\\seeders\\AddIsKamarFlowRulesSeeder.php",
+    "C:\\Users\\Maruf\\AppData\\Local\\Temp\\opencode\\test_extract.php"
   ],
   "workflowRuns": [],
   "wisdom": [],

@@ -2258,15 +2258,25 @@ class KirimChatWebhookController extends Controller
 
     private function extractMessageText(array $payload): ?string
     {
-        return Arr::get($payload, 'entry.0.changes.0.value.messages.0.text.body')
-            ?? Arr::get($payload, 'entry.0.changes.0.value.messages.0.caption')
-            ?? Arr::get($payload, 'message')
-            ?? Arr::get($payload, 'text')
-            ?? Arr::get($payload, 'content')
-            ?? Arr::get($payload, 'data.message')
-            ?? Arr::get($payload, 'data.text')
-            ?? Arr::get($payload, 'data.content')
-            ?? Arr::get($payload, 'data.caption');
+        foreach ([
+            'entry.0.changes.0.value.messages.0.text.body',
+            'entry.0.changes.0.value.messages.0.caption',
+            'message',
+            'text',
+            'content',
+            'data.message',
+            'data.message.body',
+            'data.text',
+            'data.content',
+            'data.caption',
+        ] as $path) {
+            $value = Arr::get($payload, $path);
+            if (is_string($value)) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     private function extractDirection(array $payload): string
